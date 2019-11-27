@@ -13,6 +13,7 @@ public class Controller {
 
     public void runProg() throws SQLException {
         MainMenuView menu = new MainMenuView();
+        
         String name = "";
         int age = 0;
         String email = "";
@@ -22,31 +23,22 @@ public class Controller {
         String address = "";
         boolean competitiveSwimmer = false;
         boolean active = false;
-
         boolean keepRunning = true;
-
-        System.out.println("Velkommen til svømmeklubben - Delfinen.");
-        while (keepRunning) {
-
-            menu.showMainMenu();
-            int number = IntScanner();
-
-            switch (number) {
-                case 1:
-                    MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
-                    medlemsType.addMemberProcess();
-                    break;
-                    
-                case 8:
-                    keepRunning = false;
-                    break;
-            }
-
+        
+        menu.defaultShowMainMenu();
+        int number = IntScanner();
+       
+                
+        
+        if(number == 1) {
+            ControllerFormand formand = new ControllerFormand();
+            formand.runFormandProg();
+            
         }
     }
     // Vi har to forskellige scannere. Én til Int som eksempelvis bruges til at nagivere rundt i menuen.
     // Og én til String som bl.a. bruges til afhentningstidspunkt. 
-
+    
     public int IntScanner() {
         Scanner myScan = new Scanner(System.in);
         int number = myScan.nextInt();

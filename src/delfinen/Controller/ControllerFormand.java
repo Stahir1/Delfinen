@@ -1,0 +1,48 @@
+package delfinen.Controller;
+
+import delfinen.Model.Medlemmer.MedlemMedlemstype;
+import delfinen.View.MainMenuView;
+import java.sql.SQLException;
+
+/**
+ *
+ * @author Jimmy
+ */
+public class ControllerFormand {
+
+    MainMenuView menu = new MainMenuView();
+    Controller scanners = new Controller();
+    String name = "";
+    int age = 0;
+    String email = "";
+    int phoneNumber = 0;
+    String city = "";
+    int zipCode = 0;
+    String address = "";
+    boolean competitiveSwimmer = false;
+    boolean active = false;
+    boolean keepRunning = true;
+    
+
+    public void runFormandProg() throws SQLException {
+        
+
+        while (keepRunning) {
+
+            menu.showMainMenuFormand();
+            int number = scanners.IntScanner();
+
+            switch (number) {
+                case 1:
+                    MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+                    medlemsType.addMemberProcess();
+                    break;
+
+                case 0:
+                    keepRunning = false;
+                    break;
+            }
+
+        }
+    }
+}
