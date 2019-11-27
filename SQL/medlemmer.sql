@@ -17,7 +17,9 @@ CREATE DATABASE IF NOT EXISTS `delfinen` /*!40100 DEFAULT CHARACTER SET utf8mb4 
 USE `delfinen`;
 
 -- Dumping structure for tabel delfinen.medlemmer
+DROP TABLE IF EXISTS `medlemmer`;
 CREATE TABLE IF NOT EXISTS `medlemmer` (
+  `ID` INT(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `age` int(11) NOT NULL DEFAULT '0',
   `email` varchar(255) DEFAULT NULL,
@@ -26,8 +28,9 @@ CREATE TABLE IF NOT EXISTS `medlemmer` (
   `zipCode` int(11) NOT NULL DEFAULT '0',
   `address` varchar(255) DEFAULT NULL,
   `competitiveSwimmer` bit(1) DEFAULT NULL,
-  `active` bit(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `active` bit(1) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=INNODB AUTO_INCREMENT = 0 DEFAULT CHARSET=UTF8;
 
 -- Dumping data for table delfinen.medlemmer: ~0 rows (approximately)
 /*!40000 ALTER TABLE `medlemmer` DISABLE KEYS */;
