@@ -12,7 +12,7 @@ public class Info {
     private int phoneNumber;
     private String city;
     private int zipCode;
-    private String adress;
+    private String address;
 
     public Info(String name, int age, String email, int phoneNumber, String city, int zipCode, String adress) {
         this.name = name;
@@ -21,7 +21,7 @@ public class Info {
         this.phoneNumber = phoneNumber;
         this.city = city;
         this.zipCode = zipCode;
-        this.adress = adress;
+        this.address = adress;
     }
 
     public String getName() {
@@ -73,11 +73,11 @@ public class Info {
     }
 
     public String getAdress() {
-        return adress;
+        return address;
     }
 
     public void setAdress(String adress) {
-        this.adress = adress;
+        this.address = adress;
     }
 
     

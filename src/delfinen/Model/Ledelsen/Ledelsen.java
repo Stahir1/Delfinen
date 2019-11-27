@@ -13,8 +13,8 @@ import delfinen.Model.Info;
  */
 public class Ledelsen extends Info {
    
-    public Ledelsen(String name, int age, String email, int phoneNumber, String city, int zipCode, String adress) {
-        super(name, age, email, phoneNumber, city, zipCode, adress);
+    public Ledelsen(String name, int age, String email, int phoneNumber, String city, int zipCode, String address) {
+        super(name, age, email, phoneNumber, city, zipCode, address);
     }
    
 }

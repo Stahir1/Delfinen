@@ -1,14 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package delfinen.Util;
 
-/**
- *
- * @author Danie
+import java.sql.*;
+
+
+/* 
+ * @author Emil, Sohaib, Jimmy, Daniel.
  */
+
 public class DBConnector {
-    
+
+    // Bruges til at gøre kommunikation med databasen mulig.
+    // OBS: Husk at logge ind med eget login.
+    public static Connection getConnector() {
+        Connection connector = null;
+        String url = "jdbc:mysql://localhost:3306/delfinen?";
+        url += "serverTimezone=UTC&allowPublicKeyRetrieval=true&";
+        url += "useSSL=false";
+        String user = "root";
+        String password = "ascent";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Kan ikke finde stien.");
+
+        }
+        try {
+            connector = DriverManager.getConnection(url, user, password);
+        } catch (SQLException ex) {
+            System.out.println("Kan ikke kommunikere korrekt med databasen.");
+        }
+
+        return connector;
+    }
 }

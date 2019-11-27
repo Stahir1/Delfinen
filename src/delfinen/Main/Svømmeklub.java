@@ -5,10 +5,16 @@
  */
 package delfinen.Main;
 
+import delfinen.Controller.Controller;
+
 /**
  *
  * @author Danie
  */
 public class Svømmeklub {
     
+    public static void main(String[] args) {
+        Controller program = new Controller();
+        program.runProg();
+    }
 }
