@@ -4,7 +4,7 @@ package delfinen.Model;
  *
  * @author Jimmy
  */
-public class Info {
+public class PeopleInfo {
 
     private String name;
     private int age;
@@ -14,7 +14,7 @@ public class Info {
     private int zipCode;
     private String address;
 
-    public Info(String name, int age, String email, int phoneNumber, String city, int zipCode, String adress) {
+    public PeopleInfo(String name, int age, String email, int phoneNumber, String city, int zipCode, String adress) {
         this.name = name;
         this.age = age;
         this.email = email;
@@ -79,6 +79,5 @@ public class Info {
     public void setAdress(String adress) {
         this.address = adress;
     }
-
     
 }

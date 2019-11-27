@@ -6,14 +6,15 @@
 package delfinen.Main;
 
 import delfinen.Controller.Controller;
+import java.sql.SQLException;
 
 /**
  *
- * @author Danie
+ * @author Jimmy
  */
 public class Svømmeklub {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         Controller program = new Controller();
         program.runProg();
     }

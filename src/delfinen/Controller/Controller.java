@@ -2,6 +2,7 @@ package delfinen.Controller;
 
 import delfinen.Model.Medlemmer.MedlemMedlemstype;
 import delfinen.View.MainMenuView;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 /**
@@ -10,10 +11,18 @@ import java.util.Scanner;
  */
 public class Controller {
 
-    public void runProg() {
+    public void runProg() throws SQLException {
         MainMenuView menu = new MainMenuView();
-        
-        
+        String name = "";
+        int age = 0;
+        String email = "";
+        int phoneNumber = 0;
+        String city = "";
+        int zipCode = 0;
+        String address = "";
+        boolean competitiveSwimmer = false;
+        boolean active = false;
+
         boolean keepRunning = true;
 
         System.out.println("Velkommen til svømmeklubben - Delfinen.");
@@ -24,9 +33,13 @@ public class Controller {
 
             switch (number) {
                 case 1:
-                    System.out.println("");
-                    MedlemMedlemstype medlemsType = new MedlemMedlemstype();
-                    medlemsType.addMedlemToDB(name, number, email, number, city, number, address, competitiveSwimmer, active);
+                    MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+                    medlemsType.addMemberProcess();
+                    break;
+                    
+                case 8:
+                    keepRunning = false;
+                    break;
             }
 
         }
@@ -47,4 +60,12 @@ public class Controller {
 
         return bogstaver;
     }
+
+    public boolean BoolScanner() {
+        Scanner myScan = new Scanner(System.in);
+        boolean bool = myScan.nextBoolean();
+
+        return bool;
+    }
+
 }

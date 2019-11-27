@@ -5,13 +5,13 @@
  */
 package delfinen.Model.Ledelsen;
 
-import delfinen.Model.Info;
+import delfinen.Model.PeopleInfo;
 
 /**
  *
  * @author Danie
  */
-public class Ledelsen extends Info {
+public class Ledelsen extends PeopleInfo {
    
     public Ledelsen(String name, int age, String email, int phoneNumber, String city, int zipCode, String address) {
         super(name, age, email, phoneNumber, city, zipCode, address);
