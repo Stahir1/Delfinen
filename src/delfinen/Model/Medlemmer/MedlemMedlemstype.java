@@ -139,7 +139,7 @@ public class MedlemMedlemstype extends Medlem {
         boolean active = true;
 
         System.out.println("Hvilket medlem vil du ændre? (Søg på medlems-ID)");
-        int choiceSubject = scanners.IntScanner();
+        int choiceID = scanners.IntScanner();
         
         System.out.println("Hvad vil du ændre?");
         System.out.println("Tast 1 for navn.");
@@ -153,9 +153,9 @@ public class MedlemMedlemstype extends Medlem {
         System.out.println("Tast 9 for aktiv/passiv tilstand.");
         System.out.println("Tast 0 for at afslutte.");
         
-        int choiceID = scanners.IntScanner();
+        int choiceSubject = scanners.IntScanner();
         
-        switch(choiceID) {
+        switch(choiceSubject) {
             case 1:
                 System.out.println("Hvad skal navnet ændres til?");
                 name = scanners.StringScanner();
@@ -185,11 +185,11 @@ public class MedlemMedlemstype extends Medlem {
                 address = scanners.StringScanner();
                 break;
             case 8:
-                System.out.println("Hvad skal svømmer-tilstanden ændres til?");
+                System.out.println("Hvad skal svømmer-tilstanden ændres til? (1 = JA, 2 = NEJ)");
                 competitiveSwimmer = scanners.BoolScanner();
                 break;
             case 9:
-                System.out.println("Hvad skal aktiv/passiv-tilstanden ændres til?");
+                System.out.println("Hvad skal aktiv/passiv-tilstanden ændres til? (1 = JA, 2 = NEJ)");
                 active = scanners.BoolScanner();
                 break;
         }
