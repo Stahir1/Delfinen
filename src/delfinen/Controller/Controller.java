@@ -11,19 +11,19 @@ import java.util.Scanner;
  */
 public class Controller {
 
-    public void runProg() throws SQLException {
-        MainMenuView menu = new MainMenuView();
+    MainMenuView menu = new MainMenuView();
+    String name = "";
+    int age = 0;
+    String email = "";
+    int phoneNumber = 0;
+    String city = "";
+    int zipCode = 0;
+    String address = "";
+    boolean competitiveSwimmer = false;
+    boolean active = false;
+    boolean keepRunning = true;
 
-        String name = "";
-        int age = 0;
-        String email = "";
-        int phoneNumber = 0;
-        String city = "";
-        int zipCode = 0;
-        String address = "";
-        boolean competitiveSwimmer = false;
-        boolean active = false;
-        boolean keepRunning = true;
+    public void runProg() throws SQLException {
 
         menu.defaultShowMainMenu();
         int number = IntScanner();
@@ -34,9 +34,9 @@ public class Controller {
                 ControllerFormand formand = new ControllerFormand();
                 formand.runFormandProg();
                 break;
-            
+
             case 2:
-                
+
                 break;
         }
 

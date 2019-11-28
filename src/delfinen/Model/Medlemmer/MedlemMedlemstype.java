@@ -137,6 +137,7 @@ public class MedlemMedlemstype extends Medlem {
         String address = "";
         boolean competitiveSwimmer = true;
         boolean active = true;
+        int number;
 
         System.out.println("Hvilket medlem vil du ændre? (Søg på medlems-ID)");
         int choiceID = scanners.IntScanner();
@@ -186,11 +187,25 @@ public class MedlemMedlemstype extends Medlem {
                 break;
             case 8:
                 System.out.println("Hvad skal svømmer-tilstanden ændres til? (1 = JA, 2 = NEJ)");
-                competitiveSwimmer = scanners.BoolScanner();
+                number = scanners.IntScanner();
+                if(number == 1) {
+                    competitiveSwimmer = true;
+                } else if(number == 2) {
+                    competitiveSwimmer = false;
+                } else {
+                    System.out.println("Du har hverken tastet \"1\" eller \"2\"");
+                }
                 break;
             case 9:
                 System.out.println("Hvad skal aktiv/passiv-tilstanden ændres til? (1 = JA, 2 = NEJ)");
-                active = scanners.BoolScanner();
+                number = scanners.IntScanner();
+                if(number == 1) {
+                    active = true;
+                } else if(number == 2) {
+                    active = false;
+                } else {
+                    System.out.println("Du har hverken tastet \"1\" eller \"2\"");
+                }
                 break;
         }
         
