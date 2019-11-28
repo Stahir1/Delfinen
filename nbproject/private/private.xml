@@ -3,9 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Jimmy/Desktop/Ny%20mappe/Delfinen/src/delfinen/Main/Svømmeklub.java</file>
+            <file>file:/C:/Users/Jimmy/Desktop/Ny%20mappe/Delfinen/src/delfinen/Controller/Controller.java</file>
+            <file>file:/C:/Users/Jimmy/Desktop/Ny%20mappe/Delfinen/src/delfinen/View/MainMenuView.java</file>
             <file>file:/C:/Users/Jimmy/Desktop/Ny%20mappe/Delfinen/src/delfinen/Model/Ledelsen/Ledelsen.java</file>
             <file>file:/C:/Users/Jimmy/Desktop/Ny%20mappe/Delfinen/src/delfinen/Model/Medlemmer/Medlem.java</file>
-            <file>file:/C:/Users/Jimmy/Desktop/Ny%20mappe/Delfinen/src/delfinen/Model/Info.java</file>
+            <file>file:/C:/Users/Jimmy/Desktop/Ny%20mappe/Delfinen/src/delfinen/Controller/ControllerKasserer.java</file>
+            <file>file:/C:/Users/Jimmy/Desktop/Ny%20mappe/Delfinen/src/delfinen/Controller/ControllerFormand.java</file>
+            <file>file:/C:/Users/Jimmy/Desktop/Ny%20mappe/Delfinen/src/delfinen/Controller/ControllerTræner.java</file>
+            <file>file:/C:/Users/Jimmy/Desktop/Ny%20mappe/Delfinen/src/delfinen/Model/Medlemmer/MedlemMedlemstype.java</file>
         </group>
     </open-files>
 </project-private>

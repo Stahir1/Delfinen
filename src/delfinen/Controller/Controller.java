@@ -13,7 +13,7 @@ public class Controller {
 
     public void runProg() throws SQLException {
         MainMenuView menu = new MainMenuView();
-        
+
         String name = "";
         int age = 0;
         String email = "";
@@ -24,21 +24,26 @@ public class Controller {
         boolean competitiveSwimmer = false;
         boolean active = false;
         boolean keepRunning = true;
-        
+
         menu.defaultShowMainMenu();
         int number = IntScanner();
-       
-                
-        
-        if(number == 1) {
-            ControllerFormand formand = new ControllerFormand();
-            formand.runFormandProg();
+
+        switch (number) {
+
+            case 1:
+                ControllerFormand formand = new ControllerFormand();
+                formand.runFormandProg();
+                break;
             
+            case 2:
+                
+                break;
         }
+
     }
     // Vi har to forskellige scannere. Én til Int som eksempelvis bruges til at nagivere rundt i menuen.
     // Og én til String som bl.a. bruges til afhentningstidspunkt. 
-    
+
     public int IntScanner() {
         Scanner myScan = new Scanner(System.in);
         int number = myScan.nextInt();

@@ -53,6 +53,32 @@ public class MedlemMedlemstype extends Medlem {
         pstmt.close();
         myConnector.close();
     }
+    
+     public void updateDataInDB(String name, int age, String email, int phoneNumber, String city, int zipCode, String address, boolean competitiveSwimmer, boolean active) throws SQLException {
+        String query = "UPDATE delfinen.medlemmer  SET name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active WHERE ID = ?)";
+
+        Connection myConnector = null;
+        PreparedStatement pstmt = null;
+        ResultSet resultSet = null;
+        myConnector = DBConnector.getConnector();
+
+        pstmt = myConnector.prepareStatement(query);
+
+        pstmt.setString(1, name);
+        pstmt.setInt(2, age); // for at lave ordering kolennen i order table starte på 1 i stedet for 0.
+        pstmt.setString(3, email);
+        pstmt.setInt(4, phoneNumber);
+        pstmt.setString(5, city);
+        pstmt.setInt(6, zipCode);
+        pstmt.setString(7, address);
+        pstmt.setBoolean(8, competitiveSwimmer);
+        pstmt.setBoolean(9, active);
+
+        pstmt.executeUpdate();
+
+        pstmt.close();
+        myConnector.close();
+    }
 
     public void addMemberProcess() throws SQLException {
         Controller scanners = new Controller();
@@ -119,6 +145,8 @@ public class MedlemMedlemstype extends Medlem {
 
     }
 
+    
+    
     @Override
     public String toString() {
         String n = "\n";

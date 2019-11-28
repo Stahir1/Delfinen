@@ -25,7 +25,7 @@ public class ControllerFormand {
     
 
     public void runFormandProg() throws SQLException {
-        
+        MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
 
         while (keepRunning) {
 
@@ -34,10 +34,11 @@ public class ControllerFormand {
 
             switch (number) {
                 case 1:
-                    MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
                     medlemsType.addMemberProcess();
                     break;
-
+                    
+                case 2: 
+                    medlemsType.updateMemberProcess();
                 case 0:
                     keepRunning = false;
                     break;
