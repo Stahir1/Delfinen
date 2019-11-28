@@ -22,7 +22,8 @@ public class MainMenuView {
     public void showMainMenuFormand() {
         System.out.println("**************************************");
         System.out.println("Tast 1 for at tilføje medlemmer");
-        System.out.println("Tast 2 for at redigere et medlem.");
+        System.out.println("Tast 2 for at se nuværende medlemmer");
+        System.out.println("Tast 3 for at redigere et medlem.");
         System.out.println("Tast 0 for at lukke programmet.");
         System.out.println("**************************************");
         System.out.println("Tast herunder...");

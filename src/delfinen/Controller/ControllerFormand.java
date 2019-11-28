@@ -39,8 +39,14 @@ public class ControllerFormand {
                     medlemsType.addMemberProcess();
                     break;
                     
-                case 2:
+                case 2: 
+                    medlemsType.getMembersFromDB();
+                    break;
+                case 3:
+                    medlemsType.getMembersFromDB();
+                    System.out.print("\n");
                     medlemsType.updateMemberProcess();
+                    
                 case 0:
                     keepRunning = false;
                     break;
