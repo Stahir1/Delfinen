@@ -213,7 +213,8 @@ public class MedlemMedlemstype extends Medlem {
         } else {
             MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
             medlemsType.updateMemberInDB(choiceSubject, choiceID, name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
-            System.out.println("Info om det redigerede medlem: \n" + medlemsType.toString());
+            System.out.println("Info om det redigerede medlem: \n");
+                    medlemsType.getMembersFromDBByID(choiceID);
         }
 
     }
@@ -279,9 +280,41 @@ public class MedlemMedlemstype extends Medlem {
         MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
         medlemsType.addMemberToDB(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
 
-        System.out.println("Info om det nyoprettede medlem: \n" + medlemsType.toString());
+        System.out.println("Info om det nyoprettede medlem: " + medlemsType.toString());
 
     }
+    
+    public void getMembersFromDBByID(int choiceID) throws SQLException {
+            String query = "SELECT * FROM delfinen.medlemmer WHERE ID = ?";
+            Connection myConnector = null;
+            PreparedStatement pstmt = null;
+            ResultSet resultSet = null;
+            myConnector = DBConnector.getConnector();
+            pstmt = myConnector.prepareStatement(query);
+            
+            pstmt.setInt(1, choiceID);
+            resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                // Nedenfor deklarerer vi vores kolonne-navne, så vi ikke behøver at
+                // tilføje det inde i vores printline for hver pizza (dvs. 30+ gange)
+                int ID = resultSet.getInt("ID");
+                String name = resultSet.getString("Name");
+                int age = resultSet.getInt("Age");
+                String email = resultSet.getString("Email");
+                int phoneNumber = resultSet.getInt("phoneNumber");
+                String city = resultSet.getString("City");
+                int zipCode = resultSet.getInt("ZipCode");
+                String address = resultSet.getString("Address");
+                boolean competitiveSwimmer = resultSet.getBoolean("competitiveSwimmer");
+                boolean active = resultSet.getBoolean("Active");
+                System.out.println("ID: " + ID + ", " + name + ": " + age + ", " + email + " " 
+                        + phoneNumber + ", " + city + ", " + zipCode + ", " + address + ", " + competitiveSwimmer + " " + active + " ");
+            }
+
+            resultSet.close();
+            pstmt.close();
+            myConnector.close();
+        } 
     
        public void getMembersFromDB() throws SQLException {
             String query = "SELECT * FROM delfinen.medlemmer";
