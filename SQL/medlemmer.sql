@@ -71,6 +71,8 @@ CREATE TABLE IF NOT EXISTS `medlemmer` (
   `address` varchar(255) DEFAULT NULL,
   `competitiveSwimmer` bit(1) DEFAULT NULL,
   `active` bit(1) DEFAULT NULL,
+  `senior` VARCHAR(255),
+  `junior` VARCHAR(255),
   PRIMARY KEY (`ID`)
 ) ENGINE=INNODB AUTO_INCREMENT = 0 DEFAULT CHARSET=UTF8;
 
@@ -92,5 +94,6 @@ CREATE TABLE IF NOT EXISTS `kontingentbetaling` (
   `amount` int(11) DEFAULT NULL,
   `hasPaid` bit(1) DEFAULT NULL,
   `date` VARCHAR(255),
+  
   PRIMARY KEY (`ID`)
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8;
