@@ -10,20 +10,20 @@ import java.sql.SQLException;
  */
 public class ControllerFormand {
 
-    MainMenuView menu = new MainMenuView();
-    Controller scanners = new Controller();
-    String name = "";
-    int age = 0;
-    String email = "";
-    int phoneNumber = 0;
-    String city = "";
-    int zipCode = 0;
-    String address = "";
-    boolean competitiveSwimmer = false;
-    boolean active = false;
-    boolean keepRunning = true;
-    int choiceSubject = 0;
-    int choiceID = 0;
+    private MainMenuView menu = new MainMenuView();
+    private Controller scanners = new Controller();
+    private String name = "";
+    private int age = 0;
+    private String email = "";
+    private int phoneNumber = 0;
+    private String city = "";
+    private int zipCode = 0;
+    private String address = "";
+    private boolean competitiveSwimmer = false;
+    private boolean active = false;
+    private boolean keepRunning = true;
+    private int choiceSubject = 0;
+    private int choiceID = 0;
     
 
     public void runFormandProg() throws SQLException {

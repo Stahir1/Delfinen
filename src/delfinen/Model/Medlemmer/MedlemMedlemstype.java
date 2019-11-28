@@ -30,13 +30,16 @@ public class MedlemMedlemstype extends Medlem {
 
     public void addMemberToDB(String name, int age, String email, int phoneNumber, String city, int zipCode, String address, boolean competitiveSwimmer, boolean active) throws SQLException {
         String query = "INSERT INTO delfinen.medlemmer (name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query2 = "INSERT INTO delfinen.kontingentbetaling (ID, name, age, active) SELECT ID, name, age, active FROM delfinen.medlemmer";
 
         Connection myConnector = null;
         PreparedStatement pstmt = null;
+        PreparedStatement pstmt2 = null;
         ResultSet resultSet = null;
         myConnector = DBConnector.getConnector();
 
         pstmt = myConnector.prepareStatement(query);
+        pstmt2 = myConnector.prepareStatement(query2);
 
         pstmt.setString(1, name);
         pstmt.setInt(2, age); // for at lave ordering kolennen i order table starte på 1 i stedet for 0.
@@ -47,10 +50,12 @@ public class MedlemMedlemstype extends Medlem {
         pstmt.setString(7, address);
         pstmt.setBoolean(8, competitiveSwimmer);
         pstmt.setBoolean(9, active);
-
+        
         pstmt.executeUpdate();
+        pstmt2.executeUpdate();
 
         pstmt.close();
+        pstmt2.close();
         myConnector.close();
     }
 

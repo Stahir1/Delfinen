@@ -36,7 +36,8 @@ public class Controller {
                 break;
 
             case 2:
-
+                ControllerKasserer kasserer = new ControllerKasserer();
+                kasserer.runKassererProg();
                 break;
         }
 
