@@ -22,6 +22,8 @@ public class ControllerFormand {
     boolean competitiveSwimmer = false;
     boolean active = false;
     boolean keepRunning = true;
+    int choiceSubject = 0;
+    int choiceID = 0;
     
 
     public void runFormandProg() throws SQLException {
@@ -37,7 +39,7 @@ public class ControllerFormand {
                     medlemsType.addMemberProcess();
                     break;
                     
-                case 2: 
+                case 2:
                     medlemsType.updateMemberProcess();
                 case 0:
                     keepRunning = false;

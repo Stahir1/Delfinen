@@ -28,7 +28,7 @@ public class MedlemMedlemstype extends Medlem {
         this.active = active;
     }
 
-    public void addMedlemToDB(String name, int age, String email, int phoneNumber, String city, int zipCode, String address, boolean competitiveSwimmer, boolean active) throws SQLException {
+    public void addMemberToDB(String name, int age, String email, int phoneNumber, String city, int zipCode, String address, boolean competitiveSwimmer, boolean active) throws SQLException {
         String query = "INSERT INTO delfinen.medlemmer (name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection myConnector = null;
@@ -53,31 +53,154 @@ public class MedlemMedlemstype extends Medlem {
         pstmt.close();
         myConnector.close();
     }
-    
-     public void updateDataInDB(String name, int age, String email, int phoneNumber, String city, int zipCode, String address, boolean competitiveSwimmer, boolean active) throws SQLException {
-        String query = "UPDATE delfinen.medlemmer  SET name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active WHERE ID = ?)";
 
+    public void updateMemberInDB(int choiceSubject, int choiceID, String name, int age, String email, int phoneNumber, String city, int zipCode, String address, boolean competitiveSwimmer, boolean active) throws SQLException {
+        String query = "";
         Connection myConnector = null;
         PreparedStatement pstmt = null;
         ResultSet resultSet = null;
         myConnector = DBConnector.getConnector();
 
-        pstmt = myConnector.prepareStatement(query);
-
-        pstmt.setString(1, name);
-        pstmt.setInt(2, age); // for at lave ordering kolennen i order table starte på 1 i stedet for 0.
-        pstmt.setString(3, email);
-        pstmt.setInt(4, phoneNumber);
-        pstmt.setString(5, city);
-        pstmt.setInt(6, zipCode);
-        pstmt.setString(7, address);
-        pstmt.setBoolean(8, competitiveSwimmer);
-        pstmt.setBoolean(9, active);
+        //UPDATE delfinen.medlemmer  SET name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active WHERE ID = ?)"
+        switch (choiceSubject) {
+            case 1:
+                query = "UPDATE delfinen.medlemmer SET name = ? WHERE ID = ?";
+                pstmt = myConnector.prepareStatement(query);
+                pstmt.setString(1, name);
+                pstmt.setInt(2, choiceID);
+                break;
+            case 2:
+                query = "UPDATE delfinen.medlemmer SET age = ? WHERE ID = ?)";
+                pstmt = myConnector.prepareStatement(query);
+                pstmt.setInt(1, age);
+                pstmt.setInt(2, choiceID);
+                break;
+            case 3:
+                query = "UPDATE delfinen.medlemmer SET email = ? WHERE ID = ?)";
+                pstmt = myConnector.prepareStatement(query);
+                pstmt.setString(1, email);
+                pstmt.setInt(2, choiceID);
+                break;
+            case 4:
+                query = "UPDATE delfinen.medlemmer SET phoneNumber = ? WHERE ID = ?)";
+                pstmt = myConnector.prepareStatement(query);
+                pstmt.setInt(1, phoneNumber);
+                pstmt.setInt(2, choiceID);
+                break;
+            case 5:
+                query = "UPDATE delfinen.medlemmer SET city = ? WHERE ID = ?)";
+                pstmt = myConnector.prepareStatement(query);
+                pstmt.setString(1, city);
+                pstmt.setInt(2, choiceID);
+                break;
+            case 6:
+                query = "UPDATE delfinen.medlemmer SET zipCode = ? WHERE ID = ?)";
+                pstmt = myConnector.prepareStatement(query);
+                pstmt.setInt(1, zipCode);
+                pstmt.setInt(2, choiceID);
+                break;
+            case 7:
+                query = "UPDATE delfinen.medlemmer SET address = ? WHERE ID = ?)";
+                pstmt = myConnector.prepareStatement(query);
+                pstmt.setString(1, address);
+                pstmt.setInt(2, choiceID);
+                break;
+            case 8:
+                query = "UPDATE delfinen.medlemmer SET competitiveSwimmer = ? WHERE ID = ?)";
+                pstmt = myConnector.prepareStatement(query);
+                pstmt.setBoolean(1, competitiveSwimmer);
+                pstmt.setInt(2, choiceID);
+                break;
+            case 9:
+                query = "UPDATE delfinen.medlemmer SET active = ? WHERE ID = ?)";
+                pstmt = myConnector.prepareStatement(query);
+                pstmt.setBoolean(1, active);
+                pstmt.setInt(2, choiceID);
+                break;
+        }
 
         pstmt.executeUpdate();
 
         pstmt.close();
         myConnector.close();
+    }
+
+    public void updateMemberProcess() throws SQLException {
+        Controller scanners = new Controller();
+        boolean untilRight = true;
+        String name = "";
+        int age = 0;
+        String email = "";
+        int phoneNumber = 0;
+        String city = "";
+        int zipCode = 0;
+        String address = "";
+        boolean competitiveSwimmer = true;
+        boolean active = true;
+
+        System.out.println("Hvilket medlem vil du ændre? (Søg på medlems-ID)");
+        int choiceSubject = scanners.IntScanner();
+        
+        System.out.println("Hvad vil du ændre?");
+        System.out.println("Tast 1 for navn.");
+        System.out.println("Tast 2 for alder.");
+        System.out.println("Tast 3 for email.");
+        System.out.println("Tast 4 for tlf.");
+        System.out.println("Tast 5 for by.");
+        System.out.println("Tast 6 for postnr.");
+        System.out.println("Tast 7 for adresse.");
+        System.out.println("Tast 8 for konkurrencesvømmer tilstand.");
+        System.out.println("Tast 9 for aktiv/passiv tilstand.");
+        System.out.println("Tast 0 for at afslutte.");
+        
+        int choiceID = scanners.IntScanner();
+        
+        switch(choiceID) {
+            case 1:
+                System.out.println("Hvad skal navnet ændres til?");
+                name = scanners.StringScanner();
+                break;
+            case 2:
+                System.out.println("Hvad skal alderen ændres til?");
+                age = scanners.IntScanner();
+                break;
+            case 3:
+                System.out.println("Hvad skal emailen ændres til?");
+                email = scanners.StringScanner();
+                break;
+            case 4:
+                System.out.println("Hvad skal tlf. ændres til?");
+                phoneNumber = scanners.IntScanner();
+                break;
+            case 5:
+                System.out.println("Hvad skal byen ændres til?");
+                city = scanners.StringScanner();
+                break;
+            case 6:
+                System.out.println("Hvad skal postnr. ændres til?");
+                zipCode = scanners.IntScanner();
+                break;
+            case 7:
+                System.out.println("Hvad skal adressen ændres til?");
+                address = scanners.StringScanner();
+                break;
+            case 8:
+                System.out.println("Hvad skal svømmer-tilstanden ændres til?");
+                competitiveSwimmer = scanners.BoolScanner();
+                break;
+            case 9:
+                System.out.println("Hvad skal aktiv/passiv-tilstanden ændres til?");
+                active = scanners.BoolScanner();
+                break;
+        }
+        
+        if(choiceID == 0) { 
+        } else {
+            MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+            medlemsType.updateMemberInDB(choiceSubject, choiceID, name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+            System.out.println("Info om det redigerede medlem: \n" + medlemsType.toString());
+        }
+
     }
 
     public void addMemberProcess() throws SQLException {
@@ -125,7 +248,7 @@ public class MedlemMedlemstype extends Medlem {
         } else {
             System.out.println("Du har hverken tastet \"1\" eller \"2\".");
         }
-        
+
         System.out.println("Aktivt medlemskab? 1 = JA, 2 = NEJ");
         booNum = scanners.IntScanner();
         if (booNum == 1) {
@@ -139,14 +262,12 @@ public class MedlemMedlemstype extends Medlem {
         }
 
         MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
-        medlemsType.addMedlemToDB(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+        medlemsType.addMemberToDB(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
 
         System.out.println("Info om det nyoprettede medlem: \n" + medlemsType.toString());
 
     }
 
-    
-    
     @Override
     public String toString() {
         String n = "\n";
@@ -157,8 +278,8 @@ public class MedlemMedlemstype extends Medlem {
         } else {
             compSwimWord = "Nej";
         }
-        
-        if(active == true) {
+
+        if (active == true) {
             activeWord = "Ja";
         } else {
             activeWord = "Nej";
