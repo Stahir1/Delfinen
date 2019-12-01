@@ -32,8 +32,9 @@ public class MedlemMedlemstype extends Medlem {
         String senior = "";
         String junior = "";
         String query = "INSERT INTO delfinen.medlemmer (name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active, senior, junior) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        String query2 = "INSERT INTO delfinen.kontingentbetaling (ID, name, age, active) SELECT ID, name, age, active FROM delfinen.medlemmer";
-        String query3 = "TRUNCATE TABLE delfinen.kontingentbetaling";
+        String query2 = "TRUNCATE TABLE delfinen.kontingentbetaling";
+        String query3 = "INSERT INTO delfinen.kontingentbetaling (ID, name, age, active) SELECT ID, name, age, active FROM delfinen.medlemmer";
+        
         
         if(age < 18) {
             senior = "Nej";
@@ -67,13 +68,14 @@ public class MedlemMedlemstype extends Medlem {
         pstmt.setString(11, junior);
         
         pstmt.executeUpdate();
-        pstmt3 = myConnector.prepareStatement(query3);
-        pstmt3.executeUpdate();
         pstmt2 = myConnector.prepareStatement(query2);
         pstmt2.executeUpdate();
+        pstmt3 = myConnector.prepareStatement(query3);
+        pstmt3.executeUpdate();
 
         pstmt.close();
         pstmt2.close();
+        pstmt3.close();
         myConnector.close();
     }
 
