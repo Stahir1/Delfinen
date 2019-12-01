@@ -33,7 +33,8 @@ public class MedlemMedlemstype extends Medlem {
         String junior = "";
         String query = "INSERT INTO delfinen.medlemmer (name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active, senior, junior) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String query2 = "INSERT INTO delfinen.kontingentbetaling (ID, name, age, active) SELECT ID, name, age, active FROM delfinen.medlemmer";
-
+        String query3 = "TRUNCATE TABLE delfinen.kontingentbetaling";
+        
         if(age < 18) {
             senior = "Nej";
             junior = "Ja";
@@ -45,11 +46,13 @@ public class MedlemMedlemstype extends Medlem {
         Connection myConnector = null;
         PreparedStatement pstmt = null;
         PreparedStatement pstmt2 = null;
+        PreparedStatement pstmt3 = null;
         ResultSet resultSet = null;
         myConnector = DBConnector.getConnector();
 
         pstmt = myConnector.prepareStatement(query);
-        pstmt2 = myConnector.prepareStatement(query2);
+        
+        
 
         pstmt.setString(1, name);
         pstmt.setInt(2, age); // for at lave ordering kolennen i order table starte på 1 i stedet for 0.
@@ -64,6 +67,9 @@ public class MedlemMedlemstype extends Medlem {
         pstmt.setString(11, junior);
         
         pstmt.executeUpdate();
+        pstmt3 = myConnector.prepareStatement(query3);
+        pstmt3.executeUpdate();
+        pstmt2 = myConnector.prepareStatement(query2);
         pstmt2.executeUpdate();
 
         pstmt.close();
