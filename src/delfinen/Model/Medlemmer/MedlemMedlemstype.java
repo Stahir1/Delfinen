@@ -34,16 +34,15 @@ public class MedlemMedlemstype extends Medlem {
         String query = "INSERT INTO delfinen.medlemmer (name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active, senior, junior) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String query2 = "TRUNCATE TABLE delfinen.kontingentbetaling";
         String query3 = "INSERT INTO delfinen.kontingentbetaling (ID, name, age, active) SELECT ID, name, age, active FROM delfinen.medlemmer";
-        
-        
-        if(age < 18) {
+
+        if (age < 18) {
             senior = "Nej";
             junior = "Ja";
         } else {
             senior = "Ja";
             junior = "Nej";
         }
-        
+
         Connection myConnector = null;
         PreparedStatement pstmt = null;
         PreparedStatement pstmt2 = null;
@@ -52,8 +51,6 @@ public class MedlemMedlemstype extends Medlem {
         myConnector = DBConnector.getConnector();
 
         pstmt = myConnector.prepareStatement(query);
-        
-        
 
         pstmt.setString(1, name);
         pstmt.setInt(2, age); // for at lave ordering kolennen i order table starte på 1 i stedet for 0.
@@ -66,7 +63,7 @@ public class MedlemMedlemstype extends Medlem {
         pstmt.setBoolean(9, active);
         pstmt.setString(10, senior);
         pstmt.setString(11, junior);
-        
+
         pstmt.executeUpdate();
         pstmt2 = myConnector.prepareStatement(query2);
         pstmt2.executeUpdate();
@@ -166,7 +163,7 @@ public class MedlemMedlemstype extends Medlem {
 
         System.out.println("Hvilket medlem vil du ændre? (Søg på medlems-ID)");
         int choiceID = scanners.IntScanner();
-        
+
         System.out.println("Hvad vil du ændre?");
         System.out.println("Tast 1 for navn.");
         System.out.println("Tast 2 for alder.");
@@ -178,10 +175,10 @@ public class MedlemMedlemstype extends Medlem {
         System.out.println("Tast 8 for konkurrencesvømmer tilstand.");
         System.out.println("Tast 9 for aktiv/passiv tilstand.");
         System.out.println("Tast 0 for at afslutte.");
-        
+
         int choiceSubject = scanners.IntScanner();
-        
-        switch(choiceSubject) {
+
+        switch (choiceSubject) {
             case 1:
                 System.out.println("Hvad skal navnet ændres til?");
                 name = scanners.StringScanner();
@@ -213,9 +210,9 @@ public class MedlemMedlemstype extends Medlem {
             case 8:
                 System.out.println("Hvad skal svømmer-tilstanden ændres til? (1 = JA, 2 = NEJ)");
                 number = scanners.IntScanner();
-                if(number == 1) {
+                if (number == 1) {
                     competitiveSwimmer = true;
-                } else if(number == 2) {
+                } else if (number == 2) {
                     competitiveSwimmer = false;
                 } else {
                     System.out.println("Du har hverken tastet \"1\" eller \"2\"");
@@ -224,22 +221,22 @@ public class MedlemMedlemstype extends Medlem {
             case 9:
                 System.out.println("Hvad skal aktiv/passiv-tilstanden ændres til? (1 = JA, 2 = NEJ)");
                 number = scanners.IntScanner();
-                if(number == 1) {
+                if (number == 1) {
                     active = true;
-                } else if(number == 2) {
+                } else if (number == 2) {
                     active = false;
                 } else {
                     System.out.println("Du har hverken tastet \"1\" eller \"2\"");
                 }
                 break;
         }
-        
-        if(choiceID == 0) { 
+
+        if (choiceID == 0) {
         } else {
             MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
             medlemsType.updateMemberInDB(choiceSubject, choiceID, name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
-            System.out.println("Info om det redigerede medlem: \n");
-                    medlemsType.getMembersFromDBByID(choiceID);
+            System.out.println("Info om det redigerede medlem:");
+            medlemsType.getMembersFromDBByID(choiceID);
         }
 
     }
@@ -308,73 +305,101 @@ public class MedlemMedlemstype extends Medlem {
         System.out.println("Info om det nyoprettede medlem: " + medlemsType.toString());
 
     }
-    
+
     public void getMembersFromDBByID(int choiceID) throws SQLException {
-            String query = "SELECT * FROM delfinen.medlemmer WHERE ID = ?";
-            Connection myConnector = null;
-            PreparedStatement pstmt = null;
-            ResultSet resultSet = null;
-            myConnector = DBConnector.getConnector();
-            pstmt = myConnector.prepareStatement(query);
-            
-            pstmt.setInt(1, choiceID);
-            resultSet = pstmt.executeQuery();
-            while (resultSet.next()) {
-                // Nedenfor deklarerer vi vores kolonne-navne, så vi ikke behøver at
-                // tilføje det inde i vores printline for hver pizza (dvs. 30+ gange)
-                int ID = resultSet.getInt("ID");
-                String name = resultSet.getString("Name");
-                int age = resultSet.getInt("Age");
-                String email = resultSet.getString("Email");
-                int phoneNumber = resultSet.getInt("phoneNumber");
-                String city = resultSet.getString("City");
-                int zipCode = resultSet.getInt("ZipCode");
-                String address = resultSet.getString("Address");
-                boolean competitiveSwimmer = resultSet.getBoolean("competitiveSwimmer");
-                boolean active = resultSet.getBoolean("Active");
-                System.out.println("ID: " + ID + ", " + name + ": " + age + ", " + email + " " 
-                        + phoneNumber + ", " + city + ", " + zipCode + ", " + address + ", " + competitiveSwimmer + " " + active + " ");
+        String query = "SELECT * FROM delfinen.medlemmer WHERE ID = ?";
+        Connection myConnector = null;
+        PreparedStatement pstmt = null;
+        ResultSet resultSet = null;
+        myConnector = DBConnector.getConnector();
+        pstmt = myConnector.prepareStatement(query);
+
+        pstmt.setInt(1, choiceID);
+        resultSet = pstmt.executeQuery();
+        while (resultSet.next()) {
+            // Nedenfor deklarerer vi vores kolonne-navne, så vi ikke behøver at
+            // tilføje det inde i vores printline for hver pizza (dvs. 30+ gange)
+            int ID = resultSet.getInt("ID");
+            String name = resultSet.getString("Name");
+            int age = resultSet.getInt("Age");
+            String email = resultSet.getString("Email");
+            int phoneNumber = resultSet.getInt("phoneNumber");
+            String city = resultSet.getString("City");
+            int zipCode = resultSet.getInt("ZipCode");
+            String address = resultSet.getString("Address");
+            boolean competitiveSwimmer = resultSet.getBoolean("competitiveSwimmer");
+            boolean active = resultSet.getBoolean("Active");
+            String competitiveSwimmerStr = "";
+            String activeStr = "";
+            if (competitiveSwimmer == true) {
+                competitiveSwimmerStr = "Ja";
+            } else {
+                competitiveSwimmerStr = "Nej";
             }
-
-            resultSet.close();
-            pstmt.close();
-            myConnector.close();
-        } 
-    
-       public void getMembersFromDB() throws SQLException {
-            String query = "SELECT * FROM delfinen.medlemmer";
-            Connection myConnector = null;
-            PreparedStatement pstmt = null;
-            ResultSet resultSet = null;
-            myConnector = DBConnector.getConnector();
-
-            pstmt = myConnector.prepareStatement(query);
-            resultSet = pstmt.executeQuery();
-            while (resultSet.next()) {
-                // Nedenfor deklarerer vi vores kolonne-navne, så vi ikke behøver at
-                // tilføje det inde i vores printline for hver pizza (dvs. 30+ gange)
-                int ID = resultSet.getInt("ID");
-                String name = resultSet.getString("Name");
-                int age = resultSet.getInt("Age");
-                String email = resultSet.getString("Email");
-                int phoneNumber = resultSet.getInt("phoneNumber");
-                String city = resultSet.getString("City");
-                int zipCode = resultSet.getInt("ZipCode");
-                String address = resultSet.getString("Address");
-                boolean competitiveSwimmer = resultSet.getBoolean("competitiveSwimmer");
-                boolean active = resultSet.getBoolean("Active");
-                System.out.println("ID: " + ID + ", " + name + ": " + age + ", " + email + " " 
-                        + phoneNumber + ", " + city + ", " + zipCode + ", " + address + ", " + competitiveSwimmer + " " + active + " ");
+            if (active == true) {
+                activeStr = "Aktivt";
+            } else {
+                activeStr = "Passivt";
             }
+            System.out.println("ID: " + ID + ".\n" + "Navn: " + name + ".\n" 
+                    + "Alder: " + age + ".\n" + "Email: " + email + ".\n"
+                    + "Tlf.: " + phoneNumber + ".\n" + "By: " + city + ".\n" 
+                    + "Postnr.: " + zipCode + ".\n" + "Adresse: " + address 
+                    + ".\n" + "Konkurrencesvømmer: " + competitiveSwimmerStr 
+                    + ".\n" + "Medlemskab: " + activeStr + ".");
+        }
 
-            resultSet.close();
-            pstmt.close();
-            myConnector.close();
-        } 
+        resultSet.close();
+        pstmt.close();
+        myConnector.close();
+    }
+
+    public void getMembersFromDB() throws SQLException {
+        String query = "SELECT * FROM delfinen.medlemmer";
+        Connection myConnector = null;
+        PreparedStatement pstmt = null;
+        ResultSet resultSet = null;
+        myConnector = DBConnector.getConnector();
+
+        pstmt = myConnector.prepareStatement(query);
+        resultSet = pstmt.executeQuery();
+        while (resultSet.next()) {
+            // Nedenfor deklarerer vi vores kolonne-navne, så vi ikke behøver at
+            // tilføje det inde i vores printline for hver pizza (dvs. 30+ gange)
+            int ID = resultSet.getInt("ID");
+            String name = resultSet.getString("Name");
+            int age = resultSet.getInt("Age");
+            String email = resultSet.getString("Email");
+            int phoneNumber = resultSet.getInt("phoneNumber");
+            String city = resultSet.getString("City");
+            int zipCode = resultSet.getInt("ZipCode");
+            String address = resultSet.getString("Address");
+            boolean competitiveSwimmer = resultSet.getBoolean("competitiveSwimmer");
+            boolean active = resultSet.getBoolean("Active");
+            String competitiveSwimmerStr = "";
+            String activeStr = "";
+            if (competitiveSwimmer == true) {
+                competitiveSwimmerStr = "Konkurrencesvømmer";
+            } else {
+                competitiveSwimmerStr = "Ikke konkurrencesvømmer";
+            }
+            if (active == true) {
+                activeStr = "Aktivt medlemskab";
+            } else {
+                activeStr = "Passivt medlemskab";
+            }
+            System.out.println("ID: " + ID + ", " + name + ", " + age + ", " + email + ", "
+                    + phoneNumber + ", " + city + ", " + zipCode + ", " + address + ", " + competitiveSwimmerStr + ", " + activeStr + ".");
+        }
+
+        resultSet.close();
+        pstmt.close();
+        myConnector.close();
+    }
 
     @Override
     public String toString() {
-        String n = "\n";
+        String n = ".\n";
         String compSwimWord;
         String activeWord;
         if (competitiveSwimmer == true) {
@@ -384,20 +409,20 @@ public class MedlemMedlemstype extends Medlem {
         }
 
         if (active == true) {
-            activeWord = "Ja";
+            activeWord = "Aktivt";
         } else {
-            activeWord = "Nej";
+            activeWord = "Passivt";
         }
 
-        return "Navn: " + super.getName() + n
+        return "\nNavn: " + super.getName() + n
                 + "Alder: " + super.getAge() + n
                 + "Email: " + super.getEmail() + n
                 + "Tlf.: " + super.getPhoneNumber() + n
                 + "By: " + super.getCity() + n
-                + "Postnummer: " + super.getZipCode() + n
+                + "Postnr.: " + super.getZipCode() + n
                 + "Adresse: " + super.getAdress() + n
                 + "Konkurrencesvømmer: " + compSwimWord + n
-                + "Aktivt medlemskab: " + activeWord + n;
+                + "Medlemskab: " + activeWord + n;
     }
 
 }

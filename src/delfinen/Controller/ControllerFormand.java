@@ -46,6 +46,7 @@ public class ControllerFormand {
                     medlemsType.getMembersFromDB();
                     System.out.print("\n");
                     medlemsType.updateMemberProcess();
+                    break;
                     
                 case 0:
                     keepRunning = false;
