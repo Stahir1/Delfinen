@@ -41,7 +41,9 @@ public class LedelsenKasser extends Ledelsen {
         pstmt.setInt(1, choiceID);
         resultSet = pstmt.executeQuery();
         
+        while(resultSet.next()){
         int age = resultSet.getInt("age");
+        
         boolean active = resultSet.getBoolean("active");
         
         if(active == false) {
@@ -55,7 +57,7 @@ public class LedelsenKasser extends Ledelsen {
         if(age > 60) {
             priceAmount = priceAmount * 0.75;
         }
-        
+        }
         pstmt2 = myConnector.prepareStatement(query2);
         pstmt2.setDouble(1, priceAmount);
         pstmt2.setString(2, "Dato");
