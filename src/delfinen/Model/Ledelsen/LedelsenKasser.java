@@ -24,7 +24,7 @@ public class LedelsenKasser extends Ledelsen {
 
     private boolean competitiveSwimmer;
     private boolean active;
-    private LocalDate dato = LocalDate.now();
+    private LocalDate date = LocalDate.now();
 
     public LedelsenKasser(String name, int age, String email, int phoneNumber, String city, int zipCode, String address, boolean competitiveSwimmer, boolean active) {
         super(name, age, email, phoneNumber, city, zipCode, address);
@@ -36,7 +36,7 @@ public class LedelsenKasser extends Ledelsen {
         String query = "SELECT age, active FROM delfinen.kontingentbetaling WHERE ID = ?";
         String query2 = "UPDATE delfinen.kontingentbetaling SET amount = ?, hasPaid = false, date = ? WHERE ID = ?";
         double priceAmount = 0;
-        dato = dato.plusWeeks(2);
+        date = date.plusWeeks(2);
         Connection myConnector = null;
         PreparedStatement pstmt = null;
         PreparedStatement pstmt2 = null;
@@ -64,10 +64,10 @@ public class LedelsenKasser extends Ledelsen {
                 priceAmount = priceAmount * 0.75;
             }
         }
-        
+
         pstmt2 = myConnector.prepareStatement(query2);
         pstmt2.setDouble(1, priceAmount);
-        pstmt2.setString(2, dato.toString());
+        pstmt2.setString(2, date.toString());
         pstmt2.setInt(3, choiceID);
         pstmt2.executeUpdate();
 
@@ -88,15 +88,66 @@ public class LedelsenKasser extends Ledelsen {
         String address = "";
         boolean competitiveSwimmer = true;
         boolean active = true;
+        LedelsenKasser kasser = new LedelsenKasser(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+
+        kasser.getContMembersFromDB();
 
         System.out.println("Hvilket medlem ønsker du at oprette kontingentbetaling til? (Indtast ID nr. for det ønskede medlem)");
         choiceID = scanners.IntScanner();
 
-        LedelsenKasser kasser = new LedelsenKasser(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
         kasser.createPayment(choiceID);
-        
-        System.out.println("Betalingsfrist: " + dato.plusWeeks(2).toString() + ".");
 
+        System.out.println("Betalingsfrist: " + date.plusWeeks(2).toString() + ".");
+
+    }
+
+    public void getContMembersFromDB() throws SQLException {
+        String query = "SELECT * FROM delfinen.kontingentbetaling";
+        Connection myConnector = null;
+        PreparedStatement pstmt = null;
+        ResultSet resultSet = null;
+        myConnector = DBConnector.getConnector();
+
+        pstmt = myConnector.prepareStatement(query);
+        resultSet = pstmt.executeQuery();
+        while (resultSet.next()) {
+            // Nedenfor deklarerer vi vores kolonne-navne, så vi ikke behøver at
+            // tilføje det inde i vores printline for hver pizza (dvs. 30+ gange)
+            int ID = resultSet.getInt("ID");
+            String name = resultSet.getString("name");
+            int age = resultSet.getInt("age");
+            boolean active = resultSet.getBoolean("active");
+            String activeStr = "";
+            if (active == true) {
+                activeStr = "Aktivt medlemskab";
+            } else {
+                activeStr = "Passivt medlemskab";
+            }
+            double priceAmount = resultSet.getDouble("amount");
+            boolean hasPaid = resultSet.getBoolean("hasPaid");
+            String hasPaidStr = "";
+            if (hasPaid == true) {
+                hasPaidStr = "Har betalt";
+            } else {
+                hasPaidStr = "Har ikke betalt";
+            }
+            String getDate = resultSet.getString("date");
+
+            if (priceAmount == 0.0) {
+                System.out.println("ID: " + ID + ", " + name + ", " + age + ", "
+                        + activeStr + " - Dette medlem har ikke fået oprettet kontingentbetaling.");
+            } else {
+            System.out.println("ID: " + ID + ", " + name + ", " + age + ", "
+                    + activeStr + ", " + priceAmount + " kr., " + hasPaidStr
+                    + ", " + getDate + ".");
+            }
+        }
+        
+        System.out.println("");
+
+        resultSet.close();
+        pstmt.close();
+        myConnector.close();
     }
 
 }
