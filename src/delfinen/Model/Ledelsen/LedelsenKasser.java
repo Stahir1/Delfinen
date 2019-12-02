@@ -12,8 +12,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -191,7 +194,7 @@ public class LedelsenKasser extends Ledelsen {
                     + activeStr + " - Dette medlem har ikke fået oprettet kontingentbetaling.");
         }
         System.out.println("");
-        
+
         resultSet2.close();
         pstmt2.close();
 
@@ -229,6 +232,7 @@ public class LedelsenKasser extends Ledelsen {
                         + activeStr + ", " + priceAmount + " kr., " + hasPaidStr
                         + ", " + getDate + ".");
             }
+
         }
 
         System.out.println("");
@@ -238,4 +242,56 @@ public class LedelsenKasser extends Ledelsen {
         myConnector.close();
     }
 
+    public void updateHasPaid(int choiceID) throws SQLException, ParseException {
+        String query = "SELECT date FROM delfinen.kontingentbetaling WHERE ID = ?";
+        String query2 = "UPDATE delfinen.kontingentbetaling SET hasPaid = true, date = ? WHERE ID = ?";
+
+        Connection myConnector = null;
+        PreparedStatement pstmt = null;
+        PreparedStatement pstmt2 = null;
+        ResultSet resultSet = null;
+        myConnector = DBConnector.getConnector();
+        pstmt = myConnector.prepareStatement(query);
+
+        pstmt.setInt(1, choiceID);
+        resultSet = pstmt.executeQuery();
+        pstmt2 = myConnector.prepareStatement(query2);
+        
+        String getDate = resultSet.getString("date");
+        SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+        Date stringToDate = formatter1.parse(getDate);
+        Calendar c = Calendar.getInstance();
+        c.setTime(stringToDate);
+        c.add(Calendar.YEAR, 1);
+        stringToDate = c.getTime();
+        pstmt2.setString(1, stringToDate.toString());
+        pstmt2.setInt(2, choiceID);
+        
+        
+        
+        pstmt2.executeUpdate();
+        resultSet.close();
+        pstmt.close();
+        myConnector.close();
+
+        
+    }
+    
+    public void updateHasPaidProcess() throws SQLException{
+        Controller scanners = new Controller();
+        String name = "";
+        int age = 0;
+        String email = "";
+        int phoneNumber = 0;
+        String city = "";
+        int zipCode = 0;
+        String address = "";
+        boolean competitiveSwimmer = true;
+        boolean active = true;
+        LedelsenKasser kasser = new LedelsenKasser(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+        kasser.getContMembersFromDBInRestance();
+        System.out.println("Hvilket medlem skal markeres som betalt?");
+        
+        
+    }
 }
