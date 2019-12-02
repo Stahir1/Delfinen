@@ -5,10 +5,16 @@
  */
 package delfinen.Model.Ledelsen;
 
+
 /**
  *
  * @author Danie
  */
-public class LedelsenFormand {
+public class LedelsenFormand extends Ledelsen {
+    
+    public LedelsenFormand(String name, int age, String email, int phoneNumber, String city, int zipCode, String address) {
+        super(name, age, email, phoneNumber, city, zipCode, address);
+    }
+    
     
 }
