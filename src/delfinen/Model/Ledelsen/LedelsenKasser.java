@@ -17,7 +17,7 @@ import java.sql.SQLException;
  * @author Danie
  */
 public class LedelsenKasser extends Ledelsen {
-    
+
     private boolean competitiveSwimmer;
     private boolean active;
 
@@ -26,7 +26,7 @@ public class LedelsenKasser extends Ledelsen {
         this.competitiveSwimmer = competitiveSwimmer;
         this.active = active;
     }
-    
+
     public void createPayment(int choiceID) throws SQLException {
         String query = "SELECT age, active FROM delfinen.kontingentbetaling WHERE ID = ?";
         String query2 = "UPDATE delfinen.kontingentbetaling SET amount = ?, hasPaid = false, date = ? WHERE ID = ?";
@@ -40,23 +40,23 @@ public class LedelsenKasser extends Ledelsen {
 
         pstmt.setInt(1, choiceID);
         resultSet = pstmt.executeQuery();
-        
-        while(resultSet.next()){
-        int age = resultSet.getInt("age");
-        
-        boolean active = resultSet.getBoolean("active");
-        
-        if(active == false) {
-            priceAmount = 500;
-        } else if(active == true && age < 18) {
-            priceAmount = 1000;
-        } else if(active == true && age >= 18) {
-            priceAmount = 1600;
-        }
-        
-        if(age > 60) {
-            priceAmount = priceAmount * 0.75;
-        }
+
+        while (resultSet.next()) {
+            int age = resultSet.getInt("age");
+
+            boolean active = resultSet.getBoolean("active");
+
+            if (active == false) {
+                priceAmount = 500;
+            } else if (active == true && age < 18) {
+                priceAmount = 1000;
+            } else if (active == true && age >= 18) {
+                priceAmount = 1600;
+            }
+
+            if (age > 60) {
+                priceAmount = priceAmount * 0.75;
+            }
         }
         pstmt2 = myConnector.prepareStatement(query2);
         pstmt2.setDouble(1, priceAmount);
@@ -69,7 +69,7 @@ public class LedelsenKasser extends Ledelsen {
         pstmt2.close();
         myConnector.close();
     }
-    
+
     public void createPaymentProcess(int choiceID) throws SQLException {
         Controller scanners = new Controller();
         String name = "";
@@ -81,14 +81,13 @@ public class LedelsenKasser extends Ledelsen {
         String address = "";
         boolean competitiveSwimmer = true;
         boolean active = true;
-        
+
         System.out.println("Hvilket medlem ønsker du at oprette kontingentbetaling til? (Indtast ID nr. for det ønskede medlem)");
-        int number = scanners.IntScanner();
-        
+        choiceID = scanners.IntScanner();
+
         LedelsenKasser kasser = new LedelsenKasser(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
         kasser.createPayment(choiceID);
-        
-        
+
     }
-    
+
 }

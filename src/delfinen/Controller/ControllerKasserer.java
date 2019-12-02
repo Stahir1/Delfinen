@@ -36,7 +36,6 @@ public class ControllerKasserer {
 
             switch (number) {
                 case 1:
-                    choiceID = scanners.IntScanner();
                     kasser.createPaymentProcess(choiceID);
                     break;
 
