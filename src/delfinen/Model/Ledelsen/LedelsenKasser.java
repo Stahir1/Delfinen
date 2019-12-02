@@ -5,6 +5,7 @@
  */
 package delfinen.Model.Ledelsen;
 
+import delfinen.Controller.Controller;
 import delfinen.Util.DBConnector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,52 +27,66 @@ public class LedelsenKasser extends Ledelsen {
         this.active = active;
     }
     
-    public void createContingentPayment(String name, int age, String email, int phoneNumber, String city, int zipCode, String address, boolean competitiveSwimmer, boolean active) throws SQLException {
-        String senior = "";
-        String junior = "";
-        String query = "INSERT INTO delfinen.medlemmer (name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active, senior, junior) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        String query2 = "TRUNCATE TABLE delfinen.kontingentbetaling";
-        String query3 = "INSERT INTO delfinen.kontingentbetaling (ID, name, age, active) SELECT ID, name, age, active FROM delfinen.medlemmer";
-
-        if (age < 18) {
-            senior = "Nej";
-            junior = "Ja";
-        } else {
-            senior = "Ja";
-            junior = "Nej";
-        }
-
+    public void createPayment(int choiceID) throws SQLException {
+        String query = "SELECT age, active FROM delfinen.kontingentbetaling WHERE ID = ?";
+        String query2 = "UPDATE delfinen.kontingentbetaling SET amount = ?, hasPaid = false, date = ? WHERE ID = ?";
+        double priceAmount = 0;
         Connection myConnector = null;
         PreparedStatement pstmt = null;
         PreparedStatement pstmt2 = null;
-        PreparedStatement pstmt3 = null;
         ResultSet resultSet = null;
         myConnector = DBConnector.getConnector();
-
         pstmt = myConnector.prepareStatement(query);
 
-        pstmt.setString(1, name);
-        pstmt.setInt(2, age); // for at lave ordering kolennen i order table starte på 1 i stedet for 0.
-        pstmt.setString(3, email);
-        pstmt.setInt(4, phoneNumber);
-        pstmt.setString(5, city);
-        pstmt.setInt(6, zipCode);
-        pstmt.setString(7, address);
-        pstmt.setBoolean(8, competitiveSwimmer);
-        pstmt.setBoolean(9, active);
-        pstmt.setString(10, senior);
-        pstmt.setString(11, junior);
-
-        pstmt.executeUpdate();
+        pstmt.setInt(1, choiceID);
+        resultSet = pstmt.executeQuery();
+        
+        int age = resultSet.getInt("age");
+        boolean active = resultSet.getBoolean("active");
+        
+        if(active == false) {
+            priceAmount = 500;
+        } else if(active == true && age < 18) {
+            priceAmount = 1000;
+        } else if(active == true && age >= 18) {
+            priceAmount = 1600;
+        }
+        
+        if(age > 60) {
+            priceAmount = priceAmount * 0.75;
+        }
+        
         pstmt2 = myConnector.prepareStatement(query2);
+        pstmt2.setDouble(1, priceAmount);
+        pstmt2.setString(2, "Dato");
+        pstmt2.setInt(3, choiceID);
         pstmt2.executeUpdate();
-        pstmt3 = myConnector.prepareStatement(query3);
-        pstmt3.executeUpdate();
 
+        resultSet.close();
         pstmt.close();
         pstmt2.close();
-        pstmt3.close();
         myConnector.close();
+    }
+    
+    public void createPaymentProcess(int choiceID) throws SQLException {
+        Controller scanners = new Controller();
+        String name = "";
+        int age = 0;
+        String email = "";
+        int phoneNumber = 0;
+        String city = "";
+        int zipCode = 0;
+        String address = "";
+        boolean competitiveSwimmer = true;
+        boolean active = true;
+        
+        System.out.println("Hvilket medlem ønsker du at oprette kontingentbetaling til? (Indtast ID nr. for det ønskede medlem)");
+        int number = scanners.IntScanner();
+        
+        LedelsenKasser kasser = new LedelsenKasser(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+        kasser.createPayment(choiceID);
+        
+        
     }
     
 }
