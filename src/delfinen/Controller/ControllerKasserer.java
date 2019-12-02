@@ -38,6 +38,10 @@ public class ControllerKasserer {
                 case 1:
                     kasser.createPaymentProcess(choiceID);
                     break;
+                    
+                case 2:
+                    kasser.getContMembersFromDBInRestance();
+                    break;
 
                 case 0:
                     keepRunning = false;

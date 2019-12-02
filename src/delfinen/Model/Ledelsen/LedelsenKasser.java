@@ -137,12 +137,100 @@ public class LedelsenKasser extends Ledelsen {
                 System.out.println("ID: " + ID + ", " + name + ", " + age + ", "
                         + activeStr + " - Dette medlem har ikke fået oprettet kontingentbetaling.");
             } else {
-            System.out.println("ID: " + ID + ", " + name + ", " + age + ", "
-                    + activeStr + ", " + priceAmount + " kr., " + hasPaidStr
-                    + ", " + getDate + ".");
+                System.out.println("ID: " + ID + ", " + name + ", " + age + ", "
+                        + activeStr + ", " + priceAmount + " kr., " + hasPaidStr
+                        + ", " + getDate + ".");
             }
         }
+
+        System.out.println("");
+
+        resultSet.close();
+        pstmt.close();
+        myConnector.close();
+    }
+
+    public void getContMembersFromDBInRestance() throws SQLException {
+        String query = "SELECT * FROM delfinen.kontingentbetaling WHERE hasPaid = false";
+        String query2 = "SELECT * FROM delfinen.kontingentbetaling WHERE hasPaid IS null";
+        Connection myConnector = null;
+        PreparedStatement pstmt = null;
+        PreparedStatement pstmt2 = null;
+        ResultSet resultSet = null;
+        ResultSet resultSet2 = null;
+        myConnector = DBConnector.getConnector();
+
+        pstmt2 = myConnector.prepareStatement(query2);
+        resultSet2 = pstmt2.executeQuery();
+
+        System.out.println("Medlemmer der ikke er oprettet i kontingentbetaling:");
+        while (resultSet2.next()) {
+            // Nedenfor deklarerer vi vores kolonne-navne, så vi ikke behøver at
+            // tilføje det inde i vores printline for hver pizza (dvs. 30+ gange)
+            int ID = resultSet2.getInt("ID");
+            String name = resultSet2.getString("name");
+            int age = resultSet2.getInt("age");
+            boolean active = resultSet2.getBoolean("active");
+            String activeStr = "";
+            if (active == true) {
+                activeStr = "Aktivt medlemskab";
+            } else {
+                activeStr = "Passivt medlemskab";
+            }
+            double priceAmount = resultSet2.getDouble("amount");
+            boolean hasPaid = resultSet2.getBoolean("hasPaid");
+            String hasPaidStr = "";
+            if (hasPaid == true) {
+                hasPaidStr = "Har betalt";
+            } else {
+                hasPaidStr = "Har ikke betalt";
+            }
+            String getDate = resultSet2.getString("date");
+
+            System.out.println("ID: " + ID + ", " + name + ", " + age + ", "
+                    + activeStr + " - Dette medlem har ikke fået oprettet kontingentbetaling.");
+        }
+        System.out.println("");
         
+        resultSet2.close();
+        pstmt2.close();
+
+        pstmt = myConnector.prepareStatement(query);
+        resultSet = pstmt.executeQuery();
+        System.out.println("Medlemmer i restance:");
+        while (resultSet.next()) {
+            // Nedenfor deklarerer vi vores kolonne-navne, så vi ikke behøver at
+            // tilføje det inde i vores printline for hver pizza (dvs. 30+ gange)
+            int ID = resultSet.getInt("ID");
+            String name = resultSet.getString("name");
+            int age = resultSet.getInt("age");
+            boolean active = resultSet.getBoolean("active");
+            String activeStr = "";
+            if (active == true) {
+                activeStr = "Aktivt medlemskab";
+            } else {
+                activeStr = "Passivt medlemskab";
+            }
+            double priceAmount = resultSet.getDouble("amount");
+            boolean hasPaid = resultSet.getBoolean("hasPaid");
+            String hasPaidStr = "";
+            if (hasPaid == true) {
+                hasPaidStr = "Har betalt";
+            } else {
+                hasPaidStr = "Har ikke betalt";
+            }
+            String getDate = resultSet.getString("date");
+
+            if (priceAmount == 0.0) {
+                System.out.println("ID: " + ID + ", " + name + ", " + age + ", "
+                        + activeStr + " - Dette medlem har ikke fået oprettet kontingentbetaling.");
+            } else {
+                System.out.println("ID: " + ID + ", " + name + ", " + age + ", "
+                        + activeStr + ", " + priceAmount + " kr., " + hasPaidStr
+                        + ", " + getDate + ".");
+            }
+        }
+
         System.out.println("");
 
         resultSet.close();
