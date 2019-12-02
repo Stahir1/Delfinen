@@ -6,11 +6,15 @@
 package delfinen.Model.Ledelsen;
 
 import delfinen.Controller.Controller;
+import delfinen.Model.Medlemmer.MedlemMedlemstype;
 import delfinen.Util.DBConnector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 /**
  *
@@ -20,6 +24,7 @@ public class LedelsenKasser extends Ledelsen {
 
     private boolean competitiveSwimmer;
     private boolean active;
+    private LocalDate dato = LocalDate.now();
 
     public LedelsenKasser(String name, int age, String email, int phoneNumber, String city, int zipCode, String address, boolean competitiveSwimmer, boolean active) {
         super(name, age, email, phoneNumber, city, zipCode, address);
@@ -31,6 +36,7 @@ public class LedelsenKasser extends Ledelsen {
         String query = "SELECT age, active FROM delfinen.kontingentbetaling WHERE ID = ?";
         String query2 = "UPDATE delfinen.kontingentbetaling SET amount = ?, hasPaid = false, date = ? WHERE ID = ?";
         double priceAmount = 0;
+        dato = dato.plusWeeks(2);
         Connection myConnector = null;
         PreparedStatement pstmt = null;
         PreparedStatement pstmt2 = null;
@@ -58,9 +64,10 @@ public class LedelsenKasser extends Ledelsen {
                 priceAmount = priceAmount * 0.75;
             }
         }
+        
         pstmt2 = myConnector.prepareStatement(query2);
         pstmt2.setDouble(1, priceAmount);
-        pstmt2.setString(2, "Dato");
+        pstmt2.setString(2, dato.toString());
         pstmt2.setInt(3, choiceID);
         pstmt2.executeUpdate();
 
@@ -87,6 +94,8 @@ public class LedelsenKasser extends Ledelsen {
 
         LedelsenKasser kasser = new LedelsenKasser(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
         kasser.createPayment(choiceID);
+        
+        System.out.println("Betalingsfrist: " + dato.plusWeeks(2).toString() + ".");
 
     }
 
