@@ -101,6 +101,9 @@ public class LedelsenKasser extends Ledelsen {
         int choiceID = scanners.IntScanner();
 
         kasser.createPayment(choiceID);
+        
+        LedelsenTræner træner = new LedelsenTræner();
+        træner.addMembertoTeam(choiceID);
 
         System.out.println("Betalingsfrist: " + date.plusWeeks(2).toString() + ".");
 

@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `kontingentbetaling` (
 
 DROP TABLE IF EXISTS `svømmehold`;
 CREATE TABLE IF NOT EXISTS `svømmehold` (
- `teamID` INT(11) NOT NULL,
+ `teamID` INT(11),
  `teamName` VARCHAR(255),
  `trainer` VARCHAR (255),
   `swimmerID` INT(11) NOT NULL,

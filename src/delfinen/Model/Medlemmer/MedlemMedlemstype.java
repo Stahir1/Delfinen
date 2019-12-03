@@ -6,6 +6,7 @@
 package delfinen.Model.Medlemmer;
 
 import delfinen.Controller.Controller;
+import delfinen.Model.Ledelsen.LedelsenTræner;
 import delfinen.Util.DBConnector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -137,7 +138,7 @@ public class MedlemMedlemstype extends Medlem {
 
         MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
         medlemsType.addMemberToDB(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
-
+        
         System.out.println("Info om det nyoprettede medlem: " + medlemsType.toString());
 
     }
