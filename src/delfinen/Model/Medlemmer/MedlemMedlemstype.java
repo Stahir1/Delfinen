@@ -231,7 +231,7 @@ public class MedlemMedlemstype extends Medlem {
                 break;
         }
 
-        if (choiceID == 0) {
+        if (choiceSubject == 0) {
         } else {
             MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
             medlemsType.updateMemberInDB(choiceSubject, choiceID, name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
