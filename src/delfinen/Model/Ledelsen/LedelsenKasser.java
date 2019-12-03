@@ -255,29 +255,29 @@ public class LedelsenKasser extends Ledelsen {
 
         pstmt.setInt(1, choiceID);
         resultSet = pstmt.executeQuery();
-        pstmt2 = myConnector.prepareStatement(query2);
-        
-        String getDate = resultSet.getString("date");
-        SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
-        Date stringToDate = formatter1.parse(getDate);
-        Calendar c = Calendar.getInstance();
-        c.setTime(stringToDate);
-        c.add(Calendar.YEAR, 1);
-        stringToDate = c.getTime();
-        pstmt2.setString(1, stringToDate.toString());
-        pstmt2.setInt(2, choiceID);
-        
-        
-        
-        pstmt2.executeUpdate();
+
+        while (resultSet.next()) {
+            String getDate = resultSet.getString("date");
+            SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+            Date stringToDate = formatter1.parse(getDate);
+            Calendar c = Calendar.getInstance();
+            c.setTime(stringToDate);
+            c.add(Calendar.YEAR, 1);
+            stringToDate = c.getTime();
+            
+            pstmt2 = myConnector.prepareStatement(query2);
+            pstmt2.setString(1, stringToDate.toString());
+            pstmt2.setInt(2, choiceID);
+            pstmt2.executeUpdate();
+        }
         resultSet.close();
         pstmt.close();
+        pstmt2.close();
         myConnector.close();
 
-        
     }
-    
-    public void updateHasPaidProcess() throws SQLException, ParseException{
+
+    public void updateHasPaidProcess() throws SQLException, ParseException {
         Controller scanners = new Controller();
         String name = "";
         int age = 0;
@@ -289,14 +289,13 @@ public class LedelsenKasser extends Ledelsen {
         boolean competitiveSwimmer = true;
         boolean active = true;
         LedelsenKasser kasser = new LedelsenKasser(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
-        
+
         kasser.getContMembersFromDBInRestance();
-        
+
         System.out.println("Hvilket medlem skal markeres som betalt?");
         int choiceID = scanners.IntScanner();
-        
+
         kasser.updateHasPaid(choiceID);
-        
-        
+
     }
 }
