@@ -80,7 +80,7 @@ public class LedelsenKasser extends Ledelsen {
         myConnector.close();
     }
 
-    public void createPaymentProcess(int choiceID) throws SQLException {
+    public void createPaymentProcess() throws SQLException {
         Controller scanners = new Controller();
         String name = "";
         int age = 0;
@@ -96,7 +96,7 @@ public class LedelsenKasser extends Ledelsen {
         kasser.getContMembersFromDB();
 
         System.out.println("Hvilket medlem ønsker du at oprette kontingentbetaling til? (Indtast ID nr. for det ønskede medlem)");
-        choiceID = scanners.IntScanner();
+        int choiceID = scanners.IntScanner();
 
         kasser.createPayment(choiceID);
 
@@ -277,7 +277,7 @@ public class LedelsenKasser extends Ledelsen {
         
     }
     
-    public void updateHasPaidProcess() throws SQLException{
+    public void updateHasPaidProcess() throws SQLException, ParseException{
         Controller scanners = new Controller();
         String name = "";
         int age = 0;
@@ -289,8 +289,13 @@ public class LedelsenKasser extends Ledelsen {
         boolean competitiveSwimmer = true;
         boolean active = true;
         LedelsenKasser kasser = new LedelsenKasser(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+        
         kasser.getContMembersFromDBInRestance();
+        
         System.out.println("Hvilket medlem skal markeres som betalt?");
+        int choiceID = scanners.IntScanner();
+        
+        kasser.updateHasPaid(choiceID);
         
         
     }

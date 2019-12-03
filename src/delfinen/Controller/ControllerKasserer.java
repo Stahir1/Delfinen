@@ -4,6 +4,7 @@ import delfinen.Model.Ledelsen.LedelsenKasser;
 import delfinen.Model.Medlemmer.MedlemMedlemstype;
 import delfinen.View.MainMenuView;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 /**
  *
@@ -26,7 +27,7 @@ public class ControllerKasserer {
     private int choiceSubject = 0;
     private int choiceID = 0;
 
-    public void runKassererProg() throws SQLException {
+    public void runKassererProg() throws SQLException, ParseException {
         LedelsenKasser kasser = new LedelsenKasser(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
         
         while (keepRunning) {
@@ -36,12 +37,15 @@ public class ControllerKasserer {
 
             switch (number) {
                 case 1:
-                    kasser.createPaymentProcess(choiceID);
+                    kasser.createPaymentProcess();
                     break;
                     
                 case 2:
                     kasser.getContMembersFromDBInRestance();
                     break;
+                    
+                case 3:
+                    kasser.updateHasPaidProcess();
 
                 case 0:
                     keepRunning = false;
