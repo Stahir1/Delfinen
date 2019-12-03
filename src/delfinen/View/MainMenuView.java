@@ -39,7 +39,7 @@ public class MainMenuView {
         System.out.println("Tast herunder...");
     }
 
-    public void showMainMenuTræner() {
+    public void showMainMenuTrainer() {
         System.out.println("**************************************");
         System.out.println("Tast 1 for at se info om svømmere");
         System.out.println("Tast 2 for at opdatere svømmeresultater");

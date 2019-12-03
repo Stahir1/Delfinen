@@ -7,6 +7,7 @@ package delfinen.Main;
 
 import delfinen.Controller.Controller;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 /**
  *
@@ -14,7 +15,7 @@ import java.sql.SQLException;
  */
 public class Svømmeklub {
     
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, ParseException {
         Controller program = new Controller();
         program.runProg();
     }

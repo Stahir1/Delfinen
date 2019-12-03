@@ -3,6 +3,7 @@ package delfinen.Controller;
 import delfinen.Model.Medlemmer.MedlemMedlemstype;
 import delfinen.View.MainMenuView;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Scanner;
 
 /**
@@ -23,7 +24,7 @@ public class Controller {
     boolean active = false;
     boolean keepRunning = true;
 
-    public void runProg() throws SQLException {
+    public void runProg() throws SQLException, ParseException {
 
         menu.defaultShowMainMenu();
         int number = IntScanner();
@@ -38,6 +39,11 @@ public class Controller {
             case 2:
                 ControllerKasserer kasserer = new ControllerKasserer();
                 kasserer.runKassererProg();
+                break;
+                
+            case 3:
+                ControllerTræner træner = new ControllerTræner();
+                træner.runTrainerProg();
                 break;
         }
 

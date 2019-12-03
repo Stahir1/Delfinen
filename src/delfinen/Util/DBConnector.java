@@ -18,6 +18,7 @@ public class DBConnector {
         url += "useSSL=false";
         String user = "root";
         String password = "Cph23168";
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
