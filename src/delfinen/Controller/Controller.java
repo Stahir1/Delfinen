@@ -39,6 +39,11 @@ public class Controller {
                 ControllerKasserer kasserer = new ControllerKasserer();
                 kasserer.runKassererProg();
                 break;
+                
+            case 3:
+                ControllerTræner træner = new ControllerTræner();
+                træner.runKassererProg();
+                break;
         }
 
     }
