@@ -42,7 +42,7 @@ public class Controller {
                 
             case 3:
                 ControllerTræner træner = new ControllerTræner();
-                træner.runKassererProg();
+                træner.runTrainerProg();
                 break;
         }
 

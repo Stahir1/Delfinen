@@ -26,12 +26,12 @@ public class ControllerTræner {
    // private int choiceSubject = 0;
    // private int choiceID = 0;
     
-    public void runKassererProg() throws SQLException {
+    public void runTrainerProg() throws SQLException {
        // LedelsenKasser kasser = new LedelsenKasser(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
         
         while (keepRunning) {
 
-            menu.showMainMenuTræner();
+            menu.showMainMenuTrainer();
             int number = scanners.IntScanner();
 
             switch (number) {
