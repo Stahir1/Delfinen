@@ -40,6 +40,8 @@ public class LedelsenKasser extends Ledelsen {
         String query2 = "UPDATE delfinen.kontingentbetaling SET amount = ?, hasPaid = false, date = ? WHERE ID = ?";
         double priceAmount = 0;
         date = date.plusWeeks(2);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String dateFormated = date.format(formatter);
         Connection myConnector = null;
         PreparedStatement pstmt = null;
         PreparedStatement pstmt2 = null;
@@ -70,7 +72,7 @@ public class LedelsenKasser extends Ledelsen {
 
         pstmt2 = myConnector.prepareStatement(query2);
         pstmt2.setDouble(1, priceAmount);
-        pstmt2.setString(2, date.toString());
+        pstmt2.setString(2, dateFormated);
         pstmt2.setInt(3, choiceID);
         pstmt2.executeUpdate();
 
@@ -258,14 +260,13 @@ public class LedelsenKasser extends Ledelsen {
 
         while (resultSet.next()) {
             String getDate = resultSet.getString("date");
-            SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
-            Date stringToDate = formatter1.parse(getDate);
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            Date stringToDate = formatter.parse(getDate);
             Calendar c = Calendar.getInstance();
             c.setTime(stringToDate);
             c.add(Calendar.YEAR, 1);
             stringToDate = c.getTime();
-            SimpleDateFormat formatter2 = new SimpleDateFormat("dd-MM-yyyy");
-            String stringToDateToString = formatter2.format(stringToDate);
+            String stringToDateToString = formatter.format(stringToDate);
             
             pstmt2 = myConnector.prepareStatement(query2);
             pstmt2.setString(1, stringToDateToString);
