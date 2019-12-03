@@ -29,7 +29,7 @@ public class ControllerKasserer {
 
     public void runKassererProg() throws SQLException, ParseException {
         LedelsenKasser kasser = new LedelsenKasser(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
-        
+
         while (keepRunning) {
 
             menu.showMainMenuKasserer();
@@ -39,13 +39,23 @@ public class ControllerKasserer {
                 case 1:
                     kasser.createPaymentProcess();
                     break;
-                    
+
                 case 2:
                     kasser.getContMembersFromDBInRestance();
                     break;
-                    
+
                 case 3:
-                    kasser.updateHasPaidProcess();
+                    menu.showAdministrationMenuCashier();
+                    number = scanners.IntScanner();
+                    switch (number) {
+                        case 1:
+                            kasser.updateHasPaidProcess();
+                            break;
+                            
+                        case 2:
+                            kasser.removeHasPaidProcess();
+                            break;
+                    }
                     break;
 
                 case 0:

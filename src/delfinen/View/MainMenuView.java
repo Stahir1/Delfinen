@@ -21,8 +21,8 @@ public class MainMenuView {
 
     public void showMainMenuFormand() {
         System.out.println("**************************************");
-        System.out.println("Tast 1 for at tilføje medlemmer");
-        System.out.println("Tast 2 for at se nuværende medlemmer");
+        System.out.println("Tast 1 for at tilføje medlemmer.");
+        System.out.println("Tast 2 for at se nuværende medlemmer.");
         System.out.println("Tast 3 for at redigere et medlem.");
         System.out.println("Tast 0 for at lukke programmet.");
         System.out.println("**************************************");
@@ -31,9 +31,9 @@ public class MainMenuView {
 
     public void showMainMenuKasserer() {
         System.out.println("**************************************");
-        System.out.println("Tast 1 for at oprette kontingentbetaling");
-        System.out.println("Tast 2 for at se medlemmer i restance");
-        System.out.println("Tast 3 for at administrere kontingentbetaling");
+        System.out.println("Tast 1 for at oprette kontingentbetaling.");
+        System.out.println("Tast 2 for at se medlemmer i restance.");
+        System.out.println("Tast 3 for at administrere kontingentbetaling.");
         System.out.println("Tast 0 for at lukke programmet.");
         System.out.println("**************************************");
         System.out.println("Tast herunder...");
@@ -41,8 +41,17 @@ public class MainMenuView {
 
     public void showMainMenuTrainer() {
         System.out.println("**************************************");
-        System.out.println("Tast 1 for at se info om svømmere");
-        System.out.println("Tast 2 for at opdatere svømmeresultater");
+        System.out.println("Tast 1 for at se info om svømmere.");
+        System.out.println("Tast 2 for at opdatere svømmeresultater.");
+        System.out.println("Tast 0 for at lukke programmet.");
+        System.out.println("**************************************");
+        System.out.println("Tast herunder...");
+    }
+    
+    public void showAdministrationMenuCashier() {
+        System.out.println("**************************************");
+        System.out.println("Tast 1 for at registrere et medlem som havende betalt.");
+        System.out.println("Tast 2 for at registrere et medlem som havende IKKE betalt.");
         System.out.println("Tast 0 for at lukke programmet.");
         System.out.println("**************************************");
         System.out.println("Tast herunder...");
