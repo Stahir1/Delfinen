@@ -97,3 +97,39 @@ CREATE TABLE IF NOT EXISTS `kontingentbetaling` (
   
   PRIMARY KEY (`ID`)
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8;
+
+DROP TABLE IF EXISTS `svømmehold`;
+CREATE TABLE IF NOT EXISTS `svømmehold` (
+ `teamID` INT(11) NOT NULL,
+ `teamName` VARCHAR(255),
+ `trainer` VARCHAR (255),
+  `swimmerID` INT(11) NOT NULL,
+  `swimmerAge` INT(11) NOT NULL
+) ENGINE=INNODB DEFAULT CHARSET=UTF8;
+
+DROP TABLE IF EXISTS `konkurrenceresultater`;
+CREATE TABLE IF NOT EXISTS `konkurrenceresultater` (
+ `swimmerID` INT(11) NOT NULL,
+ `eventname` VARCHAR (255),
+ `eventCrawlTime` FLOAT(6, 4),
+ `eventCrawlPlacement` VARCHAR (255),
+ `eventButterflyTime` FLOAT(6, 4),
+ `eventButtterflyPlacement` VARCHAR (255),
+ `eventBackstrokeTime` FLOAT(6, 4),
+ `eventBackstrokePlacement` VARCHAR (255),
+ `eventBreaststrokeTime` FLOAT(6, 4),
+ `eventBreaststrokePlacement` VARCHAR (255)
+) ENGINE=INNODB DEFAULT CHARSET=UTF8;
+
+DROP TABLE IF EXISTS `træningsresultater`;
+CREATE TABLE IF NOT EXISTS `træningsresultater` (
+ `swimmerID` INT(11) NOT NULL,
+ `crawlTime` FLOAT(6, 4),
+ `crawlDate` VARCHAR (255),
+ `butterflyTime` FLOAT(6, 4),
+ `butterflyDate` VARCHAR (255),
+ `backstrokeTime` FLOAT(6, 4),
+ `backstrokeDate` VARCHAR (255),
+ `breaststrokeTime` FLOAT(6, 4),
+ `breaststrokeDate` VARCHAR (255)
+) ENGINE=INNODB DEFAULT CHARSET=UTF8;
