@@ -46,6 +46,7 @@ public class ControllerKasserer {
                     
                 case 3:
                     kasser.updateHasPaidProcess();
+                    break;
 
                 case 0:
                     keepRunning = false;

@@ -264,12 +264,15 @@ public class LedelsenKasser extends Ledelsen {
             c.setTime(stringToDate);
             c.add(Calendar.YEAR, 1);
             stringToDate = c.getTime();
+            SimpleDateFormat formatter2 = new SimpleDateFormat("dd-MM-yyyy");
+            String stringToDateToString = formatter2.format(stringToDate);
             
             pstmt2 = myConnector.prepareStatement(query2);
-            pstmt2.setString(1, stringToDate.toString());
+            pstmt2.setString(1, stringToDateToString);
             pstmt2.setInt(2, choiceID);
             pstmt2.executeUpdate();
         }
+        
         resultSet.close();
         pstmt.close();
         pstmt2.close();
