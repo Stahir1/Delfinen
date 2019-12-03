@@ -36,7 +36,7 @@ public class ControllerFormand {
 
             switch (number) {
                 case 1:
-                    medlemsType.addMemberProcess();
+                    medlemsType.addMemberToDBProcess();
                     break;
                     
                 case 2: 

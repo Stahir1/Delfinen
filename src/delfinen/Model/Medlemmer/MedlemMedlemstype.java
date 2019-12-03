@@ -76,6 +76,71 @@ public class MedlemMedlemstype extends Medlem {
         pstmt3.close();
         myConnector.close();
     }
+    
+    public void addMemberToDBProcess() throws SQLException {
+        Controller scanners = new Controller();
+        boolean untilRight = true;
+        String name = "";
+        int age;
+        String email = "";
+        int phoneNumber;
+        String city = "";
+        int zipCode;
+        String address = "";
+        boolean competitiveSwimmer = true;
+        boolean active = true;
+
+        System.out.println("Indtast navn:");
+        name = scanners.StringScanner();
+
+        System.out.println("Indtast alder:");
+        age = scanners.IntScanner();
+
+        System.out.println("Indtast email:");
+        email = scanners.StringScanner();
+
+        System.out.println("Indtast tlf.:");
+        phoneNumber = scanners.IntScanner();
+
+        System.out.println("Indtast by:");
+        city = scanners.StringScanner();
+
+        System.out.println("Indtast postnummer:");
+        zipCode = scanners.IntScanner();
+
+        System.out.println("Indtast adresse:");
+        address = scanners.StringScanner();
+
+        System.out.println("Konkurrencesvømmer? 1 = JA, 2 = NEJ");
+        int booNum = scanners.IntScanner();
+        if (booNum == 1) {
+            competitiveSwimmer = true;
+            untilRight = false;
+        } else if (booNum == 2) {
+            competitiveSwimmer = false;
+            untilRight = false;
+        } else {
+            System.out.println("Du har hverken tastet \"1\" eller \"2\".");
+        }
+
+        System.out.println("Aktivt medlemskab? 1 = JA, 2 = NEJ");
+        booNum = scanners.IntScanner();
+        if (booNum == 1) {
+            active = true;
+            untilRight = false;
+        } else if (booNum == 2) {
+            active = false;
+            untilRight = false;
+        } else {
+            System.out.println("Du har hverken tastet \"1\" eller \"2\".");
+        }
+
+        MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+        medlemsType.addMemberToDB(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+
+        System.out.println("Info om det nyoprettede medlem: " + medlemsType.toString());
+
+    }
 
     public void updateMemberInDB(int choiceSubject, int choiceID, String name, int age, String email, int phoneNumber, String city, int zipCode, String address, boolean competitiveSwimmer, boolean active) throws SQLException {
         String query = "";
@@ -263,70 +328,7 @@ public class MedlemMedlemstype extends Medlem {
 
     }
 
-    public void addMemberProcess() throws SQLException {
-        Controller scanners = new Controller();
-        boolean untilRight = true;
-        String name = "";
-        int age;
-        String email = "";
-        int phoneNumber;
-        String city = "";
-        int zipCode;
-        String address = "";
-        boolean competitiveSwimmer = true;
-        boolean active = true;
-
-        System.out.println("Indtast navn:");
-        name = scanners.StringScanner();
-
-        System.out.println("Indtast alder:");
-        age = scanners.IntScanner();
-
-        System.out.println("Indtast email:");
-        email = scanners.StringScanner();
-
-        System.out.println("Indtast tlf.:");
-        phoneNumber = scanners.IntScanner();
-
-        System.out.println("Indtast by:");
-        city = scanners.StringScanner();
-
-        System.out.println("Indtast postnummer:");
-        zipCode = scanners.IntScanner();
-
-        System.out.println("Indtast adresse:");
-        address = scanners.StringScanner();
-
-        System.out.println("Konkurrencesvømmer? 1 = JA, 2 = NEJ");
-        int booNum = scanners.IntScanner();
-        if (booNum == 1) {
-            competitiveSwimmer = true;
-            untilRight = false;
-        } else if (booNum == 2) {
-            competitiveSwimmer = false;
-            untilRight = false;
-        } else {
-            System.out.println("Du har hverken tastet \"1\" eller \"2\".");
-        }
-
-        System.out.println("Aktivt medlemskab? 1 = JA, 2 = NEJ");
-        booNum = scanners.IntScanner();
-        if (booNum == 1) {
-            active = true;
-            untilRight = false;
-        } else if (booNum == 2) {
-            active = false;
-            untilRight = false;
-        } else {
-            System.out.println("Du har hverken tastet \"1\" eller \"2\".");
-        }
-
-        MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
-        medlemsType.addMemberToDB(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
-
-        System.out.println("Info om det nyoprettede medlem: " + medlemsType.toString());
-
-    }
+    
 
     public void getMembersFromDBByID(int choiceID) throws SQLException {
         String query = "SELECT * FROM delfinen.medlemmer WHERE ID = ?";

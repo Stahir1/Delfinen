@@ -301,4 +301,45 @@ public class LedelsenKasser extends Ledelsen {
         kasser.updateHasPaid(choiceID);
 
     }
+    
+    public void removeHasPaid(int choiceID) throws SQLException, ParseException {
+        String query = "UPDATE delfinen.kontingentbetaling SET hasPaid = false WHERE ID = ?";
+
+        Connection myConnector = null;
+        PreparedStatement pstmt = null;
+        myConnector = DBConnector.getConnector();
+        pstmt = myConnector.prepareStatement(query);
+
+        pstmt.setInt(1, choiceID);
+        pstmt.executeUpdate();
+        
+        pstmt.close();
+        myConnector.close();
+
+    }
+    
+    public void removeHasPaidProcess() throws SQLException, ParseException {
+        Controller scanners = new Controller();
+        String name = "";
+        int age = 0;
+        String email = "";
+        int phoneNumber = 0;
+        String city = "";
+        int zipCode = 0;
+        String address = "";
+        boolean competitiveSwimmer = true;
+        boolean active = true;
+        LedelsenKasser kasser = new LedelsenKasser(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+
+        kasser.getContMembersFromDB();
+
+        System.out.println("Hvilket medlem skal markeres med manglende betaling?");
+        int choiceID = scanners.IntScanner();
+
+        kasser.removeHasPaid(choiceID);
+
+    }
+    
+    
+    
 }
