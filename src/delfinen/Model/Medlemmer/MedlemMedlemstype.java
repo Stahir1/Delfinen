@@ -32,8 +32,9 @@ public class MedlemMedlemstype extends Medlem {
         String senior = "";
         String junior = "";
         String query = "INSERT INTO delfinen.medlemmer (name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active, senior, junior) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        String query2 = "TRUNCATE TABLE delfinen.kontingentbetaling";
-        String query3 = "INSERT INTO delfinen.kontingentbetaling (ID, name, age, active) SELECT ID, name, age, active FROM delfinen.medlemmer";
+        //String query2 = "TRUNCATE TABLE delfinen.kontingentbetaling";
+        String query3 = "INSERT INTO delfinen.kontingentbetaling (ID, name, age, active) SELECT ID, name, age, active FROM delfinen.medlemmer ORDER BY ID DESC LIMIT 1";
+        //String query3 = "UPDATE delfinen.kontingentbetaling SET ID = ?, name = ?, age = ?, active = ?";
 
         if (age < 18) {
             senior = "Nej";
@@ -45,7 +46,7 @@ public class MedlemMedlemstype extends Medlem {
 
         Connection myConnector = null;
         PreparedStatement pstmt = null;
-        PreparedStatement pstmt2 = null;
+        //PreparedStatement pstmt2 = null;
         PreparedStatement pstmt3 = null;
         ResultSet resultSet = null;
         myConnector = DBConnector.getConnector();
@@ -65,21 +66,24 @@ public class MedlemMedlemstype extends Medlem {
         pstmt.setString(11, junior);
 
         pstmt.executeUpdate();
-        pstmt2 = myConnector.prepareStatement(query2);
-        pstmt2.executeUpdate();
+        //pstmt2 = myConnector.prepareStatement(query2);
+        //pstmt2.executeUpdate();
         pstmt3 = myConnector.prepareStatement(query3);
         pstmt3.executeUpdate();
 
         pstmt.close();
-        pstmt2.close();
+        //pstmt2.close();
         pstmt3.close();
         myConnector.close();
     }
 
     public void updateMemberInDB(int choiceSubject, int choiceID, String name, int age, String email, int phoneNumber, String city, int zipCode, String address, boolean competitiveSwimmer, boolean active) throws SQLException {
         String query = "";
+        String query2 = "";
+        String query3 = "";
         Connection myConnector = null;
         PreparedStatement pstmt = null;
+        PreparedStatement pstmt2 = null;
         ResultSet resultSet = null;
         myConnector = DBConnector.getConnector();
 
@@ -90,60 +94,98 @@ public class MedlemMedlemstype extends Medlem {
                 pstmt = myConnector.prepareStatement(query);
                 pstmt.setString(1, name);
                 pstmt.setInt(2, choiceID);
+                query2 = "UPDATE delfinen.kontingentbetaling SET name = ? WHERE ID = ?";
+                pstmt2 = myConnector.prepareStatement(query2);
+                pstmt2.setString(1, name);
+                pstmt2.setInt(2, choiceID);
                 break;
             case 2:
                 query = "UPDATE delfinen.medlemmer SET age = ? WHERE ID = ?";
                 pstmt = myConnector.prepareStatement(query);
                 pstmt.setInt(1, age);
                 pstmt.setInt(2, choiceID);
+                query2 = "UPDATE delfinen.kontingentbetaling SET age = ? WHERE ID = ?";
+                pstmt2 = myConnector.prepareStatement(query2);
+                pstmt2.setInt(1, age);
+                pstmt2.setInt(2, choiceID);
                 break;
             case 3:
                 query = "UPDATE delfinen.medlemmer SET email = ? WHERE ID = ?";
                 pstmt = myConnector.prepareStatement(query);
                 pstmt.setString(1, email);
                 pstmt.setInt(2, choiceID);
+                query2 = "UPDATE delfinen.kontingentbetaling SET email = ? WHERE ID = ?";
+                pstmt2 = myConnector.prepareStatement(query2);
+                pstmt2.setString(1, email);
+                pstmt2.setInt(2, choiceID);
                 break;
             case 4:
                 query = "UPDATE delfinen.medlemmer SET phoneNumber = ? WHERE ID = ?";
                 pstmt = myConnector.prepareStatement(query);
                 pstmt.setInt(1, phoneNumber);
                 pstmt.setInt(2, choiceID);
+                query2 = "UPDATE delfinen.kontingentbetaling SET phoneNumber = ? WHERE ID = ?";
+                pstmt2 = myConnector.prepareStatement(query2);
+                pstmt2.setInt(1, phoneNumber);
+                pstmt2.setInt(2, choiceID);
                 break;
             case 5:
                 query = "UPDATE delfinen.medlemmer SET city = ? WHERE ID = ?";
                 pstmt = myConnector.prepareStatement(query);
                 pstmt.setString(1, city);
                 pstmt.setInt(2, choiceID);
+                query2 = "UPDATE delfinen.kontingentbetaling SET city = ? WHERE ID = ?";
+                pstmt2 = myConnector.prepareStatement(query2);
+                pstmt2.setString(1, city);
+                pstmt2.setInt(2, choiceID);
                 break;
             case 6:
                 query = "UPDATE delfinen.medlemmer SET zipCode = ? WHERE ID = ?";
                 pstmt = myConnector.prepareStatement(query);
                 pstmt.setInt(1, zipCode);
                 pstmt.setInt(2, choiceID);
+                query2 = "UPDATE delfinen.kontingentbetaling SET zipCode = ? WHERE ID = ?";
+                pstmt2 = myConnector.prepareStatement(query2);
+                pstmt2.setInt(1, zipCode);
+                pstmt2.setInt(2, choiceID);
                 break;
             case 7:
                 query = "UPDATE delfinen.medlemmer SET address = ? WHERE ID = ?";
                 pstmt = myConnector.prepareStatement(query);
                 pstmt.setString(1, address);
                 pstmt.setInt(2, choiceID);
+                query2 = "UPDATE delfinen.kontingentbetaling SET address = ? WHERE ID = ?";
+                pstmt2 = myConnector.prepareStatement(query2);
+                pstmt2.setString(1, address);
+                pstmt2.setInt(2, choiceID);
                 break;
             case 8:
                 query = "UPDATE delfinen.medlemmer SET competitiveSwimmer = ? WHERE ID = ?";
                 pstmt = myConnector.prepareStatement(query);
                 pstmt.setBoolean(1, competitiveSwimmer);
                 pstmt.setInt(2, choiceID);
+                query2 = "UPDATE delfinen.kontingentbetaling SET competitiveSwimmer = ? WHERE ID = ?";
+                pstmt2 = myConnector.prepareStatement(query2);
+                pstmt2.setBoolean(1, competitiveSwimmer);
+                pstmt2.setInt(2, choiceID);
                 break;
             case 9:
                 query = "UPDATE delfinen.medlemmer SET active = ? WHERE ID = ?";
                 pstmt = myConnector.prepareStatement(query);
                 pstmt.setBoolean(1, active);
                 pstmt.setInt(2, choiceID);
+                query2 = "UPDATE delfinen.kontingentbetaling SET active = ? WHERE ID = ?";
+                pstmt2 = myConnector.prepareStatement(query2);
+                pstmt2.setBoolean(1, active);
+                pstmt2.setInt(2, choiceID);
                 break;
         }
 
         pstmt.executeUpdate();
+        pstmt2.executeUpdate();
 
         pstmt.close();
+        pstmt2.close();
         myConnector.close();
     }
 
