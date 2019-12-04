@@ -184,8 +184,8 @@ public class LedelsenTræner extends Ledelsen {
     }
 
     public void updateEventResults(int choiceSubject, int choiceID, String name, int age, String email, int phoneNumber, String city, int zipCode, String address, boolean competitiveSwimmer, boolean active) throws SQLException {
-        String queryFirst = "SELECT swimmerID FROM delfinen.træningsresultater WHERE swimmerID = ?";
-        String querySec = "INSERT INTO delfinen.træningsresultater (swimmerID) VALUES (?)";
+        String queryFirst = "SELECT swimmerID FROM delfinen.konkurrenceresultater WHERE swimmerID = ?";
+        String querySec = "INSERT INTO delfinen.konkurrenceresultater (swimmerID) VALUES (?)";
         String query = "";
         Connection myConnector = null;
         PreparedStatement pstmt = null;
