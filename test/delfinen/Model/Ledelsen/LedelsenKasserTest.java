@@ -27,7 +27,6 @@ public class LedelsenKasserTest {
     public LedelsenKasserTest() {
     }
 
-    Controller scanners = new Controller();
     String name = "";
     int age = 0;
     String email = "";
