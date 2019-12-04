@@ -41,8 +41,17 @@ public class MainMenuView {
 
     public void showMainMenuTrainer() {
         System.out.println("**************************************");
-        System.out.println("Tast 1 for at se info om svømmere.");
-        System.out.println("Tast 2 for at opdatere svømmeresultater.");
+        System.out.println("Tast 1 for at opdatere svømmeresultater.");
+        System.out.println("Tast 2 for at se info om svømmere.");
+        System.out.println("Tast 0 for at lukke programmet.");
+        System.out.println("**************************************");
+        System.out.println("Tast herunder...");
+    }
+    
+    public void showMainMenuTrainerUpdateSwimmers() {
+        System.out.println("**************************************");
+        System.out.println("Tast 1 for at opdatere træningsresult.");
+        System.out.println("Tast 2 for at indtaste stævneresultater.");
         System.out.println("Tast 0 for at lukke programmet.");
         System.out.println("**************************************");
         System.out.println("Tast herunder...");

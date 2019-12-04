@@ -71,5 +71,12 @@ public class Controller {
 
         return bool;
     }
+    
+    public double DoubleScanner() {
+        Scanner myScan = new Scanner(System.in);
+        double number = myScan.nextDouble();
+
+        return number;
+    }
 
 }

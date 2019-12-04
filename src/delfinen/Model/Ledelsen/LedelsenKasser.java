@@ -102,7 +102,7 @@ public class LedelsenKasser extends Ledelsen {
 
         kasser.createPayment(choiceID);
         
-        LedelsenTræner træner = new LedelsenTræner();
+        LedelsenTræner træner = new LedelsenTræner(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
         træner.addMembertoTeam(choiceID);
 
         System.out.println("Betalingsfrist: " + date.plusWeeks(2).toString() + ".");
