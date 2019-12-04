@@ -91,11 +91,10 @@ public class LedelsenTræner extends Ledelsen {
         pstmtFirst.setInt(1, choiceID);
         resultSet = pstmtFirst.executeQuery();
         int swimmerID = 0;
-        while(resultSet.next()) {
+        while (resultSet.next()) {
             swimmerID = resultSet.getInt("swimmerID");
         }
-        
-        
+
         if (choiceID != swimmerID) {
             pstmt2 = myConnector.prepareStatement(querySec);
             pstmt2.setInt(1, choiceID);
@@ -181,7 +180,7 @@ public class LedelsenTræner extends Ledelsen {
         træner.updateTrainingResults(subjectID, choiceID, name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
 
     }
-    
+
     public void updateEventResults(int choiceSubject, int choiceID, String name, int age, String email, int phoneNumber, String city, int zipCode, String address, boolean competitiveSwimmer, boolean active) throws SQLException {
         String queryFirst = "SELECT swimmerID FROM delfinen.konkurrenceresultater WHERE swimmerID = ?";
         String querySec = "INSERT INTO delfinen.konkurrenceresultater (swimmerID) VALUES (?)";
@@ -204,11 +203,10 @@ public class LedelsenTræner extends Ledelsen {
         pstmtFirst.setInt(1, choiceID);
         resultSet = pstmtFirst.executeQuery();
         int swimmerID = 0;
-        while(resultSet.next()) {
+        while (resultSet.next()) {
             swimmerID = resultSet.getInt("swimmerID");
         }
-        
-        
+
         if (choiceID != swimmerID) {
             pstmt2 = myConnector.prepareStatement(querySec);
             pstmt2.setInt(1, choiceID);
@@ -216,21 +214,20 @@ public class LedelsenTræner extends Ledelsen {
             pstmt2.close();
         }
 
-
         switch (choiceSubject) {
             case 1:
                 query = "UPDATE delfinen.konkurrenceresultater SET eventname = ?, eventCrawlTime = ?, eventCrawlPlacement = ? WHERE swimmerID = ?";
                 pstmt = myConnector.prepareStatement(query);
-                
+
                 System.out.println(whichEvent);
                 eventname = scanners.StringScanner();
-                
+
                 System.out.println(whichTime);
                 input = scanners.DoubleScanner();
-                
+
                 System.out.println(whichPlace);
                 place = scanners.IntScanner();
-                
+
                 pstmt.setString(1, eventname);
                 pstmt.setDouble(2, input);
                 pstmt.setInt(3, place);
@@ -239,16 +236,16 @@ public class LedelsenTræner extends Ledelsen {
             case 2:
                 query = "UPDATE delfinen.konkurrenceresultater SET eventname = ?, eventButterflyTime = ?, eventButterflyPlacement = ? WHERE swimmerID = ?";
                 pstmt = myConnector.prepareStatement(query);
-                
+
                 System.out.println(whichEvent);
                 eventname = scanners.StringScanner();
-                
+
                 System.out.println(whichTime);
                 input = scanners.DoubleScanner();
-                
+
                 System.out.println(whichPlace);
                 place = scanners.IntScanner();
-                
+
                 pstmt.setString(1, eventname);
                 pstmt.setDouble(2, input);
                 pstmt.setInt(3, place);
@@ -257,16 +254,16 @@ public class LedelsenTræner extends Ledelsen {
             case 3:
                 query = "UPDATE delfinen.konkurrenceresultater SET eventname = ?, eventBackstrokeTime = ?, eventBackstrokePlacement = ? WHERE swimmerID = ?";
                 pstmt = myConnector.prepareStatement(query);
-                
+
                 System.out.println(whichEvent);
                 eventname = scanners.StringScanner();
-                
+
                 System.out.println(whichTime);
                 input = scanners.DoubleScanner();
-                
+
                 System.out.println(whichPlace);
                 place = scanners.IntScanner();
-                
+
                 pstmt.setString(1, eventname);
                 pstmt.setDouble(2, input);
                 pstmt.setInt(3, place);
@@ -275,16 +272,16 @@ public class LedelsenTræner extends Ledelsen {
             case 4:
                 query = "UPDATE delfinen.konkurrenceresultater SET eventname = ?, eventBreaststrokeTime = ?, eventBreaststrokePlacement = ? WHERE swimmerID = ?";
                 pstmt = myConnector.prepareStatement(query);
-                
+
                 System.out.println(whichEvent);
                 eventname = scanners.StringScanner();
-                
+
                 System.out.println(whichTime);
                 input = scanners.DoubleScanner();
-                
+
                 System.out.println(whichPlace);
                 place = scanners.IntScanner();
-                
+
                 pstmt.setString(1, eventname);
                 pstmt.setDouble(2, input);
                 pstmt.setInt(3, place);
@@ -298,7 +295,7 @@ public class LedelsenTræner extends Ledelsen {
         pstmtFirst.close();
         myConnector.close();
     }
-    
+
     public void updateEventResultsProcess() throws SQLException {
         String name = "";
         int age = 0;
@@ -326,8 +323,7 @@ public class LedelsenTræner extends Ledelsen {
         træner.updateEventResults(subjectID, choiceID, name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
 
     }
-    
-    
+
     public void showSvømmehold() throws SQLException {
         String query = "SELECT * FROM delfinen.svømmehold";
         Connection myConnector = null;
@@ -336,23 +332,127 @@ public class LedelsenTræner extends Ledelsen {
         myConnector = DBConnector.getConnector();
         pstmt = myConnector.prepareStatement(query);
         pstmt.executeQuery();
-        
+
         resultSet = pstmt.executeQuery();
         while (resultSet.next()) {
             String teamName = resultSet.getString("teamName");
             String trainer = resultSet.getString("trainer");
             int swimmerID = resultSet.getInt("swimmerID");
             int swimmerAge = resultSet.getInt("swimmerAge");
-  
-            System.out.println("Svømmer-ID: " + swimmerID + ", Svømmer alder: " 
+
+            System.out.println("Svømmer-ID: " + swimmerID + ", Svømmer alder: "
                     + swimmerAge + ", Holdnavn: " + teamName
                     + ", Træner: " + trainer + ".");
         }
         System.out.println("");
-        
+
         pstmt.close();
         myConnector.close();
         resultSet.close();
+    }
+
+    public String showTopFive(int choiceID, int choiceSubject) throws SQLException {
+        String query = "SELECT * FROM delfinen.svømmehold WHERE teamID = ?";
+        String query1 = "SELECT * FROM delfinen.træningsresultater ORDER BY ? DESC LIMIT 5";
+        //String query2 = "SELECT * FROM delfinen.konkurrenceresultater ORDER BY ? LIMIT BY 5 DESC";
+        Connection myConnector = null;
+        PreparedStatement pstmt = null;
+        PreparedStatement pstmt2 = null;
+        PreparedStatement pstmt3 = null;
+
+        ResultSet resultSet = null;
+        ResultSet resultSet2 = null;
+        myConnector = DBConnector.getConnector();
+
+        //query
+        pstmt = myConnector.prepareStatement(query);
+        pstmt.setInt(1, choiceID);
+        resultSet = pstmt.executeQuery();
+
+        //query 1
+        pstmt2 = myConnector.prepareStatement(query1);
+       
+        switch (choiceSubject) {
+            case 1:
+                pstmt2.setString(1, "crawlTime");
+                pstmt2.executeQuery();
+                break;
+            case 2:
+                pstmt2.setString(1, "butterflyTime");
+                pstmt2.executeQuery();
+                break;
+            case 3:
+                pstmt2.setString(1, "backstrokeTime");
+                pstmt2.executeQuery();
+                break;
+            case 4:
+                pstmt2.setString(1, "breaststrokeTime");
+                pstmt2.executeQuery();
+                break;
+        }
+        resultSet2 = pstmt2.executeQuery();
+        int swimmerID = 0;
+        double time = 0;
+        String output = "";
+        while (resultSet2.next()) {
+            swimmerID = resultSet2.getInt("swimmerID");
+
+            switch (choiceSubject) {
+
+                case 1:
+                    time = resultSet2.getDouble("crawlTime");
+                    break;
+
+                case 2:
+                    time = resultSet2.getDouble("butterflyTime");
+                    break;
+
+                case 3:
+                    time = resultSet2.getDouble("backstrokeTime");
+                    break;
+
+                case 4:
+                    time = resultSet2.getDouble("breaststrokeTime");
+                    break;
+
+            }
+            output += "SvømmerID: " + swimmerID + ", tid: " + time + "\n";
+
+        }
+        pstmt.close();
+        pstmt2.close();
+        myConnector.close();
+        resultSet.close();
+        return output;
+    }
+
+    public void showTopFiveProcess() throws SQLException {
+        String name = "";
+        int age = 0;
+        String email = "";
+        int phoneNumber = 0;
+        String city = "";
+        int zipCode = 0;
+        String address = "";
+        boolean competitiveSwimmer = true;
+        boolean active = true;
+        Controller scanners = new Controller();
+        LedelsenTræner træner = new LedelsenTræner(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+
+        System.out.println("Hvilket hold vil du se top 5 over?");
+        System.out.println("Indtast 1 for Juniorhold.");
+        System.out.println("Indtast 2 for Seniorhold.");
+        int choiceID = scanners.IntScanner();
+
+        System.out.println("Hvilken disciplin vil du se top 5 for?");
+        System.out.println("Tast 1 for crawl.");
+        System.out.println("Tast 2 for butterfly.");
+        System.out.println("Tast 3 for rygcrawl.");
+        System.out.println("Tast 4 for brystsvømning.");
+        int choiceSubject = scanners.IntScanner();
+
+        System.out.println(træner.showTopFive(choiceID, choiceSubject));
+
     }
 
 }

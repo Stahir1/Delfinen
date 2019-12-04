@@ -48,7 +48,7 @@ public class ControllerTræner {
                     break;
 
                 case 2:
-
+                    træner.showTopFiveProcess();
                     break;
 
                 case 0:
