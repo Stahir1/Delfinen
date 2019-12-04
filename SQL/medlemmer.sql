@@ -100,9 +100,9 @@ CREATE TABLE IF NOT EXISTS `kontingentbetaling` (
 
 DROP TABLE IF EXISTS `svømmehold`;
 CREATE TABLE IF NOT EXISTS `svømmehold` (
- `teamID` INT(11),
- `teamName` VARCHAR(255),
- `trainer` VARCHAR (255),
+ `teamID` INT(11) DEFAULT NULL,
+ `teamName` VARCHAR(255) DEFAULT NULL,
+ `trainer` VARCHAR (255) DEFAULT NULL,
   `swimmerID` INT(11) NOT NULL,
   `swimmerAge` INT(11) NOT NULL
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8;

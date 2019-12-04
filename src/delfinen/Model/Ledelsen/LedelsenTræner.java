@@ -15,7 +15,7 @@ public class LedelsenTræner {
 
     public void addMembertoTeam(int choiceID) throws SQLException {
         String query = "INSERT INTO delfinen.svømmehold (swimmerID, swimmerAge) SELECT ID, age FROM delfinen.medlemmer WHERE ID = ?";
-        String query2 = "SELECT swimmerAge FROM delfinen.svømmehold WHERE ID = ?";
+        String query2 = "SELECT swimmerAge FROM delfinen.svømmehold WHERE teamID = ?";
         String query3 = "UPDATE delfinen.svømmehold SET teamID = ?, teamName = ?, trainer = ?";
 
         Connection myConnector = null;
@@ -31,14 +31,16 @@ public class LedelsenTræner {
         pstmt.setInt(1, choiceID);
         pstmt.executeUpdate();
         
+        
         // query 2
+        pstmt2 = myConnector.prepareStatement(query2);
+        pstmt2.setInt(1, choiceID);
         resultSet = pstmt2.executeQuery();
         int swimmerAge = 0;
         while (resultSet.next()) {
             swimmerAge = resultSet.getInt("swimmerAge");
         }
-        pstmt2 = myConnector.prepareStatement(query2);
-        pstmt2.executeUpdate();
+       // pstmt2.executeQuery();
         
         // guery 3
         pstmt3 = myConnector.prepareStatement(query3);
