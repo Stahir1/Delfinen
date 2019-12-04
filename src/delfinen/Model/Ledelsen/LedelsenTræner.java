@@ -15,7 +15,7 @@ public class LedelsenTræner {
 
     public void addMembertoTeam(int choiceID) throws SQLException {
         String query = "INSERT INTO delfinen.svømmehold (swimmerID, swimmerAge) SELECT ID, age FROM delfinen.medlemmer WHERE ID = ?";
-        String query2 = "SELECT swimmerAge FROM delfinen.svømmehold WHERE teamID = ?";
+        String query2 = "SELECT swimmerAge FROM delfinen.svømmehold WHERE swimmerID = ?";
         String query3 = "UPDATE delfinen.svømmehold SET teamID = ?, teamName = ?, trainer = ?";
 
         Connection myConnector = null;
