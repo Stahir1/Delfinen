@@ -17,7 +17,11 @@ public class DBConnector {
         url += "serverTimezone=UTC&allowPublicKeyRetrieval=true&";
         url += "useSSL=false";
         String user = "root";
+<<<<<<< Updated upstream
         String password = "ascent88";
+=======
+        String password = "Cph23168";
+>>>>>>> Stashed changes
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
