@@ -28,7 +28,7 @@ public class LedelsenTræner extends Ledelsen {
     public void addMembertoTeam(int choiceID) throws SQLException {
         String query = "INSERT INTO delfinen.svømmehold (swimmerID, swimmerAge) SELECT ID, age FROM delfinen.medlemmer WHERE ID = ?";
         String query2 = "SELECT swimmerAge FROM delfinen.svømmehold WHERE swimmerID = ?";
-        String query3 = "UPDATE delfinen.svømmehold SET teamID = ?, teamName = ?, trainer = ?";
+        String query3 = "UPDATE delfinen.svømmehold SET teamID = ?, teamName = ?, trainer = ? WHERE swimmerID = ?";
 
         Connection myConnector = null;
         PreparedStatement pstmt = null;
@@ -58,10 +58,12 @@ public class LedelsenTræner extends Ledelsen {
             pstmt3.setInt(1, 1);
             pstmt3.setString(2, "Ungdomshold");
             pstmt3.setString(3, "Erik Nielsen");
-        } else {
+            pstmt3.setInt(4, choiceID);
+        } else if (swimmerAge > 18) {
             pstmt3.setInt(1, 2);
             pstmt3.setString(2, "Seniorhold");
             pstmt3.setString(3, "Cecilie Karlsen");
+            pstmt3.setInt(4, choiceID);
         }
         pstmt3.executeUpdate();
 
