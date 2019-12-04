@@ -47,8 +47,8 @@ public class LedelsenKasser extends Ledelsen {
         PreparedStatement pstmt2 = null;
         ResultSet resultSet = null;
         myConnector = DBConnector.getConnector();
+        
         pstmt = myConnector.prepareStatement(query);
-
         pstmt.setInt(1, choiceID);
         resultSet = pstmt.executeQuery();
 
