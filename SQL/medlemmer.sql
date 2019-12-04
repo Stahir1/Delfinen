@@ -111,25 +111,25 @@ DROP TABLE IF EXISTS `konkurrenceresultater`;
 CREATE TABLE IF NOT EXISTS `konkurrenceresultater` (
  `swimmerID` INT(11) DEFAULT NULL,
  `eventname` VARCHAR (255) DEFAULT NULL,
- `eventCrawlTime` FLOAT(6, 4) DEFAULT NULL,
+ `eventCrawlTime` FLOAT(6, 3) DEFAULT NULL,
  `eventCrawlPlacement` VARCHAR (255) DEFAULT NULL,
- `eventButterflyTime` FLOAT(6, 4) DEFAULT NULL,
+ `eventButterflyTime` FLOAT(6, 3) DEFAULT NULL,
  `eventButtterflyPlacement` VARCHAR (255) DEFAULT NULL,
- `eventBackstrokeTime` FLOAT(6, 4) DEFAULT NULL,
+ `eventBackstrokeTime` FLOAT(6, 3) DEFAULT NULL,
  `eventBackstrokePlacement` VARCHAR (255) DEFAULT NULL,
- `eventBreaststrokeTime` FLOAT(6, 4) DEFAULT NULL,
+ `eventBreaststrokeTime` FLOAT(6, 3) DEFAULT NULL,
  `eventBreaststrokePlacement` VARCHAR (255) DEFAULT NULL
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
 DROP TABLE IF EXISTS `træningsresultater`;
 CREATE TABLE IF NOT EXISTS `træningsresultater` (
  `swimmerID` INT(11) DEFAULT NULL,
- `crawlTime` FLOAT(6, 4) DEFAULT NULL,
+ `crawlTime` FLOAT(6, 3) DEFAULT NULL,
  `crawlDate` VARCHAR (255) DEFAULT NULL,
- `butterflyTime` FLOAT(6, 4) DEFAULT NULL,
+ `butterflyTime` FLOAT(6, 3) DEFAULT NULL,
  `butterflyDate` VARCHAR (255) DEFAULT NULL,
- `backstrokeTime` FLOAT(6, 4) DEFAULT NULL,
+ `backstrokeTime` FLOAT(6, 3) DEFAULT NULL,
  `backstrokeDate` VARCHAR (255) DEFAULT NULL,
- `breaststrokeTime` FLOAT(6, 4) DEFAULT NULL,
+ `breaststrokeTime` FLOAT(6, 3) DEFAULT NULL,
  `breaststrokeDate` VARCHAR (255) DEFAULT NULL
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8;
