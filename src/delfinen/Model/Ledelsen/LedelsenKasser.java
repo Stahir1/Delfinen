@@ -105,7 +105,11 @@ public class LedelsenKasser extends Ledelsen {
         LedelsenTræner træner = new LedelsenTræner(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
         træner.addMembertoTeam(choiceID);
 
-        System.out.println("Betalingsfrist: " + date.plusWeeks(2).toString() + ".");
+        date = date.plusWeeks(2);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String dateFormated = date.format(formatter);
+        
+        System.out.println("Betalingsfrist: " + dateFormated + ".");
 
     }
 

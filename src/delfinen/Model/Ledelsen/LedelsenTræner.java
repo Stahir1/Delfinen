@@ -54,12 +54,12 @@ public class LedelsenTræner extends Ledelsen {
 
         // guery 3
         pstmt3 = myConnector.prepareStatement(query3);
-        if (swimmerAge <= 18) {
+        if (swimmerAge < 18) {
             pstmt3.setInt(1, 1);
             pstmt3.setString(2, "Ungdomshold");
             pstmt3.setString(3, "Erik Nielsen");
             pstmt3.setInt(4, choiceID);
-        } else if (swimmerAge > 18) {
+        } else {
             pstmt3.setInt(1, 2);
             pstmt3.setString(2, "Seniorhold");
             pstmt3.setString(3, "Cecilie Karlsen");
@@ -354,93 +354,81 @@ public class LedelsenTræner extends Ledelsen {
     }
 
     public String showTopFive(int choiceID, int choiceSubject) throws SQLException {
-        //String query = "SELECT * FROM delfinen.svømmehold WHERE teamID = ?";
-        String query1 = "";
-        //String query2 = "SELECT * FROM delfinen.konkurrenceresultater ORDER BY ? LIMIT BY 5 DESC";
+        String query = "";
         Connection myConnector = null;
         PreparedStatement pstmt = null;
-        PreparedStatement pstmt2 = null;
 
         ResultSet resultSet = null;
-        ResultSet resultSet2 = null;
         myConnector = DBConnector.getConnector();
-
-        //query
-        //pstmt = myConnector.prepareStatement(query);
-        //pstmt.setInt(1, choiceID);
-        //resultSet = pstmt.executeQuery();
-
-        //query 1
-        
         
         switch (choiceSubject) {
             case 1:
                 // t.crawlTime
-                query1 = "SELECT s.teamName, s.swimmerID, s.swimmerAge, t.crawlTime "
+                query = "SELECT s.teamName, s.swimmerID, s.swimmerAge, t.crawlTime "
                 + "FROM delfinen.svømmehold s "
                 + "INNER JOIN delfinen.træningsresultater t "
                 + "ON t.swimmerID = s.swimmerID "
                 + "WHERE s.teamID = ? ORDER BY t.crawlTime ASC LIMIT 5";
-                pstmt2 = myConnector.prepareStatement(query1);
-                pstmt2.setInt(1, choiceID);
-                pstmt2.executeQuery();
+                pstmt = myConnector.prepareStatement(query);
+                pstmt.setInt(1, choiceID);
+                pstmt.executeQuery();
                 break;
             case 2:
                 // t.butterflyTime
-                query1 = "SELECT s.teamName, s.swimmerID, s.swimmerAge, t.butterflyTime "
+                query = "SELECT s.teamName, s.swimmerID, s.swimmerAge, t.butterflyTime "
                 + "FROM delfinen.svømmehold s "
                 + "INNER JOIN delfinen.træningsresultater t "
                 + "ON t.swimmerID = s.swimmerID "
                 + "WHERE s.teamID = ? ORDER BY t.butterflyTime ASC LIMIT 5";
-                pstmt2 = myConnector.prepareStatement(query1);
-                pstmt2.setInt(1, choiceID);
-                pstmt2.executeQuery();
+                pstmt = myConnector.prepareStatement(query);
+                pstmt.setInt(1, choiceID);
+                pstmt.executeQuery();
                 break;
             case 3:
                 // t.backstrokeTime
-                query1 = "SELECT s.teamName, s.swimmerID, s.swimmerAge, t.backstrokeTime "
+                query = "SELECT s.teamName, s.swimmerID, s.swimmerAge, t.backstrokeTime "
                 + "FROM delfinen.svømmehold s "
                 + "INNER JOIN delfinen.træningsresultater t "
                 + "ON t.swimmerID = s.swimmerID "
                 + "WHERE s.teamID = ? ORDER BY t.backstrokeTime ASC LIMIT 5";
-                pstmt2 = myConnector.prepareStatement(query1);
-                pstmt2.setInt(1, choiceID);
-                pstmt2.executeQuery();
+                pstmt = myConnector.prepareStatement(query);
+                pstmt.setInt(1, choiceID);
+                pstmt.executeQuery();
                 break;
             case 4:
                 // t.breaststrokeTime
-                query1 = "SELECT s.teamName, s.swimmerID, s.swimmerAge, t.breaststrokelTime "
+                query = "SELECT s.teamName, s.swimmerID, s.swimmerAge, t.breaststrokeTime "
                 + "FROM delfinen.svømmehold s "
                 + "INNER JOIN delfinen.træningsresultater t "
                 + "ON t.swimmerID = s.swimmerID "
                 + "WHERE s.teamID = ? ORDER BY t.breaststrokeTime ASC LIMIT 5";
-                pstmt2 = myConnector.prepareStatement(query1);
-                pstmt2.setInt(1, choiceID);
-                pstmt2.executeQuery();
+                pstmt = myConnector.prepareStatement(query);
+                pstmt.setInt(1, choiceID);
+                pstmt.executeQuery();
                 break;
         }
-        resultSet2 = pstmt2.executeQuery();
+        resultSet = pstmt.executeQuery();
         int swimmerID = 0;
         double time = 0;
         String output = "";
-        while (resultSet2.next()) {
-            swimmerID = resultSet2.getInt("swimmerID");
+        while (resultSet.next()) {
+            swimmerID = resultSet.getInt("swimmerID");
 
             switch (choiceSubject) {
                 case 1:
-                    time = resultSet2.getDouble("t.crawlTime");
+                    time = resultSet.getDouble("t.crawlTime");
                     break;
 
                 case 2:
-                    time = resultSet2.getDouble("t.butterflyTime");
+                    time = resultSet.getDouble("t.butterflyTime");
                     break;
 
                 case 3:
-                    time = resultSet2.getDouble("t.backstrokeTime");
+                    time = resultSet.getDouble("t.backstrokeTime");
                     break;
 
                 case 4:
-                    time = resultSet2.getDouble("t.breaststrokeTime");
+                    time = resultSet.getDouble("t.breaststrokeTime");
                     break;
 
             }
@@ -448,11 +436,10 @@ public class LedelsenTræner extends Ledelsen {
             output += "SvømmerID: " + swimmerID + ", tid: " + time + "\n";
 
         }
-        //pstmt.close();
-        pstmt2.close();
+
+        pstmt.close();
         myConnector.close();
-        //resultSet.close();
-        resultSet2.close();
+        resultSet.close();
         return output;
     }
 
