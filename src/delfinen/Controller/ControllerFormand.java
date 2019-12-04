@@ -1,5 +1,6 @@
 package delfinen.Controller;
 
+import delfinen.Model.Ledelsen.LedelsenFormand;
 import delfinen.Model.Medlemmer.MedlemMedlemstype;
 import delfinen.View.MainMenuView;
 import java.sql.SQLException;
@@ -28,6 +29,7 @@ public class ControllerFormand {
 
     public void runFormandProg() throws SQLException {
         MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+        LedelsenFormand formand = new LedelsenFormand(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
 
         while (keepRunning) {
 
@@ -36,16 +38,16 @@ public class ControllerFormand {
 
             switch (number) {
                 case 1:
-                    medlemsType.addMemberToDBProcess();
+                    formand.addMemberToDBProcess();
                     break;
                     
                 case 2: 
-                    medlemsType.getMembersFromDB();
+                    formand.getMembersFromDB();
                     break;
                 case 3:
-                    medlemsType.getMembersFromDB();
+                    formand.getMembersFromDB();
                     System.out.print("\n");
-                    medlemsType.updateMemberProcess();
+                    formand.updateMemberProcess();
                     break;
                     
                 case 0:
