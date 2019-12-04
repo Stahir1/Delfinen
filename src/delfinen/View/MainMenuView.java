@@ -42,7 +42,7 @@ public class MainMenuView {
     public void showMainMenuTrainer() {
         System.out.println("**************************************");
         System.out.println("Tast 1 for at opdatere svømmeresultater.");
-        System.out.println("Tast 2 for at se info om svømmere.");
+        System.out.println("Tast 2 for at se top 5 svømmere.");
         System.out.println("Tast 0 for at lukke programmet.");
         System.out.println("**************************************");
         System.out.println("Tast herunder...");
