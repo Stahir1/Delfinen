@@ -354,41 +354,68 @@ public class LedelsenTræner extends Ledelsen {
     }
 
     public String showTopFive(int choiceID, int choiceSubject) throws SQLException {
-        String query = "SELECT * FROM delfinen.svømmehold WHERE teamID = ?";
-        String query1 = "SELECT * FROM delfinen.træningsresultater ORDER BY ? DESC LIMIT 5";
+        //String query = "SELECT * FROM delfinen.svømmehold WHERE teamID = ?";
+        String query1 = "";
         //String query2 = "SELECT * FROM delfinen.konkurrenceresultater ORDER BY ? LIMIT BY 5 DESC";
         Connection myConnector = null;
         PreparedStatement pstmt = null;
         PreparedStatement pstmt2 = null;
-        PreparedStatement pstmt3 = null;
 
         ResultSet resultSet = null;
         ResultSet resultSet2 = null;
         myConnector = DBConnector.getConnector();
 
         //query
-        pstmt = myConnector.prepareStatement(query);
-        pstmt.setInt(1, choiceID);
-        resultSet = pstmt.executeQuery();
+        //pstmt = myConnector.prepareStatement(query);
+        //pstmt.setInt(1, choiceID);
+        //resultSet = pstmt.executeQuery();
 
         //query 1
-        pstmt2 = myConnector.prepareStatement(query1);
-       
+        
+        
         switch (choiceSubject) {
             case 1:
-                pstmt2.setString(1, "crawlTime");
+                // t.crawlTime
+                query1 = "SELECT s.teamName, s.swimmerID, s.swimmerAge, t.crawlTime "
+                + "FROM delfinen.svømmehold s "
+                + "INNER JOIN delfinen.træningsresultater t "
+                + "ON t.swimmerID = s.swimmerID "
+                + "WHERE s.teamID = ? ORDER BY t.crawlTime ASC LIMIT 5";
+                pstmt2 = myConnector.prepareStatement(query1);
+                pstmt2.setInt(1, choiceID);
                 pstmt2.executeQuery();
                 break;
             case 2:
-                pstmt2.setString(1, "butterflyTime");
+                // t.butterflyTime
+                query1 = "SELECT s.teamName, s.swimmerID, s.swimmerAge, t.butterflyTime "
+                + "FROM delfinen.svømmehold s "
+                + "INNER JOIN delfinen.træningsresultater t "
+                + "ON t.swimmerID = s.swimmerID "
+                + "WHERE s.teamID = ? ORDER BY t.butterflyTime ASC LIMIT 5";
+                pstmt2 = myConnector.prepareStatement(query1);
+                pstmt2.setInt(1, choiceID);
                 pstmt2.executeQuery();
                 break;
             case 3:
-                pstmt2.setString(1, "backstrokeTime");
+                // t.backstrokeTime
+                query1 = "SELECT s.teamName, s.swimmerID, s.swimmerAge, t.backstrokeTime "
+                + "FROM delfinen.svømmehold s "
+                + "INNER JOIN delfinen.træningsresultater t "
+                + "ON t.swimmerID = s.swimmerID "
+                + "WHERE s.teamID = ? ORDER BY t.backstrokeTime ASC LIMIT 5";
+                pstmt2 = myConnector.prepareStatement(query1);
+                pstmt2.setInt(1, choiceID);
                 pstmt2.executeQuery();
                 break;
             case 4:
-                pstmt2.setString(1, "breaststrokeTime");
+                // t.breaststrokeTime
+                query1 = "SELECT s.teamName, s.swimmerID, s.swimmerAge, t.breaststrokelTime "
+                + "FROM delfinen.svømmehold s "
+                + "INNER JOIN delfinen.træningsresultater t "
+                + "ON t.swimmerID = s.swimmerID "
+                + "WHERE s.teamID = ? ORDER BY t.breaststrokeTime ASC LIMIT 5";
+                pstmt2 = myConnector.prepareStatement(query1);
+                pstmt2.setInt(1, choiceID);
                 pstmt2.executeQuery();
                 break;
         }
@@ -400,31 +427,32 @@ public class LedelsenTræner extends Ledelsen {
             swimmerID = resultSet2.getInt("swimmerID");
 
             switch (choiceSubject) {
-
                 case 1:
-                    time = resultSet2.getDouble("crawlTime");
+                    time = resultSet2.getDouble("t.crawlTime");
                     break;
 
                 case 2:
-                    time = resultSet2.getDouble("butterflyTime");
+                    time = resultSet2.getDouble("t.butterflyTime");
                     break;
 
                 case 3:
-                    time = resultSet2.getDouble("backstrokeTime");
+                    time = resultSet2.getDouble("t.backstrokeTime");
                     break;
 
                 case 4:
-                    time = resultSet2.getDouble("breaststrokeTime");
+                    time = resultSet2.getDouble("t.breaststrokeTime");
                     break;
 
             }
+            
             output += "SvømmerID: " + swimmerID + ", tid: " + time + "\n";
 
         }
-        pstmt.close();
+        //pstmt.close();
         pstmt2.close();
         myConnector.close();
-        resultSet.close();
+        //resultSet.close();
+        resultSet2.close();
         return output;
     }
 
@@ -445,6 +473,16 @@ public class LedelsenTræner extends Ledelsen {
         System.out.println("Indtast 1 for Juniorhold.");
         System.out.println("Indtast 2 for Seniorhold.");
         int choiceID = scanners.IntScanner();
+        
+        String holdType = "";
+        switch(choiceID) {
+            case 1:
+                holdType = "ungdomssvømmere";
+                break;
+            case 2:
+                holdType = "seniorsvømmere";
+                break;
+        }
 
         System.out.println("Hvilken disciplin vil du se top 5 for?");
         System.out.println("Tast 1 for crawl.");
@@ -453,6 +491,22 @@ public class LedelsenTræner extends Ledelsen {
         System.out.println("Tast 4 for brystsvømning.");
         int choiceSubject = scanners.IntScanner();
 
+        String disciplin = "";
+        switch(choiceSubject) {
+            case 1:
+                disciplin = "crawl";
+                break;
+            case 2:
+                disciplin = "butterfly";
+                break;
+            case 3:
+                disciplin = "rygcrawl";
+                break;
+            case 4:
+                disciplin = "brystsvømning";
+        }
+        
+        System.out.printf("Top 5 %s i disciplinen %s: \n", holdType, disciplin);
         System.out.println(træner.showTopFive(choiceID, choiceSubject));
 
     }
