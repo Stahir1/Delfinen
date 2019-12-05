@@ -5,6 +5,8 @@ import delfinen.Model.Medlemmer.MedlemMedlemstype;
 import delfinen.View.MainMenuView;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,40 +29,56 @@ public class ControllerKasserer {
     private int choiceSubject = 0;
     private int choiceID = 0;
 
-    public void runKassererProg() throws SQLException, ParseException {
+    public void runKassererProg() {
         LedelsenKasser kasser = new LedelsenKasser(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
 
         while (keepRunning) {
 
-            menu.showMainMenuKasserer();
-            int number = scanners.IntScanner();
-
-            switch (number) {
-                case 1:
-                    kasser.createPaymentProcess();
-                    break;
-
-                case 2:
-                    kasser.getContMembersFromDBInRestance();
-                    break;
-
-                case 3:
-                    menu.showAdministrationMenuCashier();
-                    number = scanners.IntScanner();
-                    switch (number) {
-                        case 1:
-                            kasser.updateHasPaidProcess();
-                            break;
-                            
-                        case 2:
-                            kasser.removeHasPaidProcess();
-                            break;
+            try {
+                menu.showMainMenuKasserer();
+                int number = scanners.IntScanner();
+                
+                switch (number) {
+                    case 1:
+                        kasser.createPaymentProcess();
+                        break;
+                        
+                    case 2:
+                        kasser.getContMembersFromDBInRestance();
+                        break;
+                        
+                    case 3:
+                        menu.showAdministrationMenuCashier();
+                        number = scanners.IntScanner();
+                        switch (number) {
+                            case 1:
+                {
+                    try {
+                        kasser.updateHasPaidProcess();
+                    } catch (ParseException ex) {
+                        System.out.println("Kan ikke formattere korrekt.");
                     }
-                    break;
-
-                case 0:
-                    keepRunning = false;
-                    break;
+                }
+                                break;
+                                
+                            case 2:
+                {
+                    try {
+                        kasser.removeHasPaidProcess();
+                    } catch (ParseException ex) {
+                        System.out.println("Kan ikke formattere korrekt.");
+                    }
+                }
+                                break;
+                        }
+                        break;
+                        
+                    case 0:
+                        keepRunning = false;
+                        break;
+                }
+            } catch (SQLException ex) {
+                System.out.println("Kan ikke kommunikere korrekt med databasen.");
             }
 
         }

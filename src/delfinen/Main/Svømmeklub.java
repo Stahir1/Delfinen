@@ -15,7 +15,7 @@ import java.text.ParseException;
  */
 public class Svømmeklub {
     
-    public static void main(String[] args) throws SQLException, ParseException {
+    public static void main(String[] args) {
         Controller program = new Controller();
         program.runProg();
     }

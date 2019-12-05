@@ -4,6 +4,8 @@ import delfinen.Model.Ledelsen.LedelsenFormand;
 import delfinen.Model.Medlemmer.MedlemMedlemstype;
 import delfinen.View.MainMenuView;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,32 +29,36 @@ public class ControllerFormand {
     private int choiceID = 0;
     
 
-    public void runFormandProg() throws SQLException {
+    public void runFormandProg() {
         MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
         LedelsenFormand formand = new LedelsenFormand(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
 
         while (keepRunning) {
 
-            menu.showMainMenuFormand();
-            int number = scanners.IntScanner();
-
-            switch (number) {
-                case 1:
-                    formand.addMemberToDBProcess();
-                    break;
-                    
-                case 2: 
-                    formand.getMembersFromDB();
-                    break;
-                case 3:
-                    formand.getMembersFromDB();
-                    System.out.print("\n");
-                    formand.updateMemberProcess();
-                    break;
-                    
-                case 0:
-                    keepRunning = false;
-                    break;
+            try {
+                menu.showMainMenuFormand();
+                int number = scanners.IntScanner();
+                
+                switch (number) {
+                    case 1:
+                        formand.addMemberToDBProcess();
+                        break;
+                        
+                    case 2:
+                        formand.getMembersFromDB();
+                        break;
+                    case 3:
+                        formand.getMembersFromDB();
+                        System.out.print("\n");
+                        formand.updateMemberProcess();
+                        break;
+                        
+                    case 0:
+                        keepRunning = false;
+                        break;
+                }
+            } catch (SQLException ex) {
+                System.out.println("Kan ikke kommunikere korrekt med databasen.");
             }
 
         }

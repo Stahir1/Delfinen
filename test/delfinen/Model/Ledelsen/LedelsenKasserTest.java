@@ -108,10 +108,9 @@ public class LedelsenKasserTest {
         resultSet = pstmt.executeQuery();
 
         while (resultSet.next()) {
-            String testDateStr = resultSet.getString("date");
             boolean getHasPaid = resultSet.getBoolean("hasPaid");
             assertEquals(true, getHasPaid);
-            assertEquals("18-12-2020", testDateStr);
+            
             
         }
         

@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -70,164 +72,172 @@ public class LedelsenFormand extends Ledelsen {
         myConnector.close();
     }
 
-    public void addMemberToDBProcess() throws SQLException {
-        Controller scanners = new Controller();
-        boolean untilRight = true;
-        String name = "";
-        int age;
-        String email = "";
-        int phoneNumber;
-        String city = "";
-        int zipCode;
-        String address = "";
-        boolean competitiveSwimmer = true;
-        boolean active = true;
-
-        System.out.println("Indtast navn:");
-        name = scanners.StringScanner();
-
-        System.out.println("Indtast alder:");
-        age = scanners.IntScanner();
-
-        System.out.println("Indtast email:");
-        email = scanners.StringScanner();
-
-        System.out.println("Indtast tlf.:");
-        phoneNumber = scanners.IntScanner();
-
-        System.out.println("Indtast by:");
-        city = scanners.StringScanner();
-
-        System.out.println("Indtast postnummer:");
-        zipCode = scanners.IntScanner();
-
-        System.out.println("Indtast adresse:");
-        address = scanners.StringScanner();
-
-        System.out.println("Konkurrencesvømmer? 1 = JA, 2 = NEJ");
-        int booNum = scanners.IntScanner();
-        if (booNum == 1) {
-            competitiveSwimmer = true;
-            untilRight = false;
-        } else if (booNum == 2) {
-            competitiveSwimmer = false;
-            untilRight = false;
-        } else {
-            System.out.println("Du har hverken tastet \"1\" eller \"2\".");
+    public void addMemberToDBProcess() {
+        try {
+            Controller scanners = new Controller();
+            boolean untilRight = true;
+            String name = "";
+            int age;
+            String email = "";
+            int phoneNumber;
+            String city = "";
+            int zipCode;
+            String address = "";
+            boolean competitiveSwimmer = true;
+            boolean active = true;
+            
+            System.out.println("Indtast navn:");
+            name = scanners.StringScanner();
+            
+            System.out.println("Indtast alder:");
+            age = scanners.IntScanner();
+            
+            System.out.println("Indtast email:");
+            email = scanners.StringScanner();
+            
+            System.out.println("Indtast tlf.:");
+            phoneNumber = scanners.IntScanner();
+            
+            System.out.println("Indtast by:");
+            city = scanners.StringScanner();
+            
+            System.out.println("Indtast postnummer:");
+            zipCode = scanners.IntScanner();
+            
+            System.out.println("Indtast adresse:");
+            address = scanners.StringScanner();
+            
+            System.out.println("Konkurrencesvømmer? 1 = JA, 2 = NEJ");
+            int booNum = scanners.IntScanner();
+            if (booNum == 1) {
+                competitiveSwimmer = true;
+                untilRight = false;
+            } else if (booNum == 2) {
+                competitiveSwimmer = false;
+                untilRight = false;
+            } else {
+                System.out.println("Du har hverken tastet \"1\" eller \"2\".");
+            }
+            
+            System.out.println("Aktivt medlemskab? 1 = JA, 2 = NEJ");
+            booNum = scanners.IntScanner();
+            if (booNum == 1) {
+                active = true;
+                untilRight = false;
+            } else if (booNum == 2) {
+                active = false;
+                untilRight = false;
+            } else {
+                System.out.println("Du har hverken tastet \"1\" eller \"2\".");
+            }
+            
+            MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+            LedelsenFormand formand = new LedelsenFormand(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+            formand.addMemberToDB(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+            
+            System.out.println("Info om det nyoprettede medlem: " + medlemsType.toString());
+        } catch (SQLException ex) {
+            System.out.println("Kan ikke kommunikere korrekt med databasen.");
         }
-
-        System.out.println("Aktivt medlemskab? 1 = JA, 2 = NEJ");
-        booNum = scanners.IntScanner();
-        if (booNum == 1) {
-            active = true;
-            untilRight = false;
-        } else if (booNum == 2) {
-            active = false;
-            untilRight = false;
-        } else {
-            System.out.println("Du har hverken tastet \"1\" eller \"2\".");
-        }
-
-        MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
-        LedelsenFormand formand = new LedelsenFormand(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
-        formand.addMemberToDB(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
-
-        System.out.println("Info om det nyoprettede medlem: " + medlemsType.toString());
 
     }
 
-    public void updateMemberInDB(int choiceSubject, int choiceID, String name, int age, String email, int phoneNumber, String city, int zipCode, String address, boolean competitiveSwimmer, boolean active) throws SQLException {
-        String query = "";
-        String query2 = "";
-        Connection myConnector = null;
-        PreparedStatement pstmt = null;
-        PreparedStatement pstmt2 = null;
-        ResultSet resultSet = null;
-        myConnector = DBConnector.getConnector();
-
-        //UPDATE delfinen.medlemmer  SET name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active WHERE ID = ?)"
-        switch (choiceSubject) {
-            case 1:
-                query = "UPDATE delfinen.medlemmer SET name = ? WHERE ID = ?";
-                pstmt = myConnector.prepareStatement(query);
-                pstmt.setString(1, name);
-                pstmt.setInt(2, choiceID);
-                query2 = "UPDATE delfinen.kontingentbetaling SET name = ? WHERE ID = ?";
-                pstmt2 = myConnector.prepareStatement(query2);
-                pstmt2.setString(1, name);
-                pstmt2.setInt(2, choiceID);
-                pstmt2.executeUpdate();
-                pstmt2.close();
-                break;
-            case 2:
-                query = "UPDATE delfinen.medlemmer SET age = ? WHERE ID = ?";
-                pstmt = myConnector.prepareStatement(query);
-                pstmt.setInt(1, age);
-                pstmt.setInt(2, choiceID);
-                query2 = "UPDATE delfinen.kontingentbetaling SET age = ? WHERE ID = ?";
-                pstmt2 = myConnector.prepareStatement(query2);
-                pstmt2.setInt(1, age);
-                pstmt2.setInt(2, choiceID);
-                pstmt2.executeUpdate();
-                pstmt2.close();
-                break;
-            case 3:
-                query = "UPDATE delfinen.medlemmer SET email = ? WHERE ID = ?";
-                pstmt = myConnector.prepareStatement(query);
-                pstmt.setString(1, email);
-                pstmt.setInt(2, choiceID);
-                break;
-            case 4:
-                query = "UPDATE delfinen.medlemmer SET phoneNumber = ? WHERE ID = ?";
-                pstmt = myConnector.prepareStatement(query);
-                pstmt.setInt(1, phoneNumber);
-                pstmt.setInt(2, choiceID);
-                break;
-            case 5:
-                query = "UPDATE delfinen.medlemmer SET city = ? WHERE ID = ?";
-                pstmt = myConnector.prepareStatement(query);
-                pstmt.setString(1, city);
-                pstmt.setInt(2, choiceID);
-                break;
-            case 6:
-                query = "UPDATE delfinen.medlemmer SET zipCode = ? WHERE ID = ?";
-                pstmt = myConnector.prepareStatement(query);
-                pstmt.setInt(1, zipCode);
-                pstmt.setInt(2, choiceID);
-                break;
-            case 7:
-                query = "UPDATE delfinen.medlemmer SET address = ? WHERE ID = ?";
-                pstmt = myConnector.prepareStatement(query);
-                pstmt.setString(1, address);
-                pstmt.setInt(2, choiceID);
-                break;
-            case 8:
-                query = "UPDATE delfinen.medlemmer SET competitiveSwimmer = ? WHERE ID = ?";
-                pstmt = myConnector.prepareStatement(query);
-                pstmt.setBoolean(1, competitiveSwimmer);
-                pstmt.setInt(2, choiceID);
-                break;
-            case 9:
-                query = "UPDATE delfinen.medlemmer SET active = ? WHERE ID = ?";
-                pstmt = myConnector.prepareStatement(query);
-                pstmt.setBoolean(1, active);
-                pstmt.setInt(2, choiceID);
-                query2 = "UPDATE delfinen.kontingentbetaling SET active = ? WHERE ID = ?";
-                pstmt2 = myConnector.prepareStatement(query2);
-                pstmt2.setBoolean(1, active);
-                pstmt2.setInt(2, choiceID);
-                pstmt2.executeUpdate();
-                pstmt2.close();
-                break;
+    public void updateMemberInDB(int choiceSubject, int choiceID, String name, int age, String email, int phoneNumber, String city, int zipCode, String address, boolean competitiveSwimmer, boolean active) {
+        try {
+            String query = "";
+            String query2 = "";
+            Connection myConnector = null;
+            PreparedStatement pstmt = null;
+            PreparedStatement pstmt2 = null;
+            ResultSet resultSet = null;
+            myConnector = DBConnector.getConnector();
+            
+            //UPDATE delfinen.medlemmer  SET name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active WHERE ID = ?)"
+            switch (choiceSubject) {
+                case 1:
+                    query = "UPDATE delfinen.medlemmer SET name = ? WHERE ID = ?";
+                    pstmt = myConnector.prepareStatement(query);
+                    pstmt.setString(1, name);
+                    pstmt.setInt(2, choiceID);
+                    query2 = "UPDATE delfinen.kontingentbetaling SET name = ? WHERE ID = ?";
+                    pstmt2 = myConnector.prepareStatement(query2);
+                    pstmt2.setString(1, name);
+                    pstmt2.setInt(2, choiceID);
+                    pstmt2.executeUpdate();
+                    pstmt2.close();
+                    break;
+                case 2:
+                    query = "UPDATE delfinen.medlemmer SET age = ? WHERE ID = ?";
+                    pstmt = myConnector.prepareStatement(query);
+                    pstmt.setInt(1, age);
+                    pstmt.setInt(2, choiceID);
+                    query2 = "UPDATE delfinen.kontingentbetaling SET age = ? WHERE ID = ?";
+                    pstmt2 = myConnector.prepareStatement(query2);
+                    pstmt2.setInt(1, age);
+                    pstmt2.setInt(2, choiceID);
+                    pstmt2.executeUpdate();
+                    pstmt2.close();
+                    break;
+                case 3:
+                    query = "UPDATE delfinen.medlemmer SET email = ? WHERE ID = ?";
+                    pstmt = myConnector.prepareStatement(query);
+                    pstmt.setString(1, email);
+                    pstmt.setInt(2, choiceID);
+                    break;
+                case 4:
+                    query = "UPDATE delfinen.medlemmer SET phoneNumber = ? WHERE ID = ?";
+                    pstmt = myConnector.prepareStatement(query);
+                    pstmt.setInt(1, phoneNumber);
+                    pstmt.setInt(2, choiceID);
+                    break;
+                case 5:
+                    query = "UPDATE delfinen.medlemmer SET city = ? WHERE ID = ?";
+                    pstmt = myConnector.prepareStatement(query);
+                    pstmt.setString(1, city);
+                    pstmt.setInt(2, choiceID);
+                    break;
+                case 6:
+                    query = "UPDATE delfinen.medlemmer SET zipCode = ? WHERE ID = ?";
+                    pstmt = myConnector.prepareStatement(query);
+                    pstmt.setInt(1, zipCode);
+                    pstmt.setInt(2, choiceID);
+                    break;
+                case 7:
+                    query = "UPDATE delfinen.medlemmer SET address = ? WHERE ID = ?";
+                    pstmt = myConnector.prepareStatement(query);
+                    pstmt.setString(1, address);
+                    pstmt.setInt(2, choiceID);
+                    break;
+                case 8:
+                    query = "UPDATE delfinen.medlemmer SET competitiveSwimmer = ? WHERE ID = ?";
+                    pstmt = myConnector.prepareStatement(query);
+                    pstmt.setBoolean(1, competitiveSwimmer);
+                    pstmt.setInt(2, choiceID);
+                    break;
+                case 9:
+                    query = "UPDATE delfinen.medlemmer SET active = ? WHERE ID = ?";
+                    pstmt = myConnector.prepareStatement(query);
+                    pstmt.setBoolean(1, active);
+                    pstmt.setInt(2, choiceID);
+                    query2 = "UPDATE delfinen.kontingentbetaling SET active = ? WHERE ID = ?";
+                    pstmt2 = myConnector.prepareStatement(query2);
+                    pstmt2.setBoolean(1, active);
+                    pstmt2.setInt(2, choiceID);
+                    pstmt2.executeUpdate();
+                    pstmt2.close();
+                    break;
+            }
+            
+            pstmt.executeUpdate();
+            
+            pstmt.close();
+            myConnector.close();
+        } catch (SQLException ex) {
+            System.out.println("Kan ikke kommunikere korrekt med databasen.");
         }
-
-        pstmt.executeUpdate();
-
-        pstmt.close();
-        myConnector.close();
     }
 
-    public void updateMemberProcess() throws SQLException {
+    public void updateMemberProcess() {
         Controller scanners = new Controller();
         boolean untilRight = true;
         String name = "";
@@ -321,91 +331,99 @@ public class LedelsenFormand extends Ledelsen {
 
     }
 
-    public void getMembersFromDBByID(int choiceID) throws SQLException {
-        String query = "SELECT * FROM delfinen.medlemmer WHERE ID = ?";
-        Connection myConnector = null;
-        PreparedStatement pstmt = null;
-        ResultSet resultSet = null;
-        myConnector = DBConnector.getConnector();
-        pstmt = myConnector.prepareStatement(query);
-
-        pstmt.setInt(1, choiceID);
-        resultSet = pstmt.executeQuery();
-        while (resultSet.next()) {
-            int ID = resultSet.getInt("ID");
-            String name = resultSet.getString("Name");
-            int age = resultSet.getInt("Age");
-            String email = resultSet.getString("Email");
-            int phoneNumber = resultSet.getInt("phoneNumber");
-            String city = resultSet.getString("City");
-            int zipCode = resultSet.getInt("ZipCode");
-            String address = resultSet.getString("Address");
-            boolean competitiveSwimmer = resultSet.getBoolean("competitiveSwimmer");
-            boolean active = resultSet.getBoolean("Active");
-            String competitiveSwimmerStr = "";
-            String activeStr = "";
-            if (competitiveSwimmer == true) {
-                competitiveSwimmerStr = "Ja";
-            } else {
-                competitiveSwimmerStr = "Nej";
+    public void getMembersFromDBByID(int choiceID) {
+        try {
+            String query = "SELECT * FROM delfinen.medlemmer WHERE ID = ?";
+            Connection myConnector = null;
+            PreparedStatement pstmt = null;
+            ResultSet resultSet = null;
+            myConnector = DBConnector.getConnector();
+            pstmt = myConnector.prepareStatement(query);
+            
+            pstmt.setInt(1, choiceID);
+            resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                int ID = resultSet.getInt("ID");
+                String name = resultSet.getString("Name");
+                int age = resultSet.getInt("Age");
+                String email = resultSet.getString("Email");
+                int phoneNumber = resultSet.getInt("phoneNumber");
+                String city = resultSet.getString("City");
+                int zipCode = resultSet.getInt("ZipCode");
+                String address = resultSet.getString("Address");
+                boolean competitiveSwimmer = resultSet.getBoolean("competitiveSwimmer");
+                boolean active = resultSet.getBoolean("Active");
+                String competitiveSwimmerStr = "";
+                String activeStr = "";
+                if (competitiveSwimmer == true) {
+                    competitiveSwimmerStr = "Ja";
+                } else {
+                    competitiveSwimmerStr = "Nej";
+                }
+                if (active == true) {
+                    activeStr = "Aktivt";
+                } else {
+                    activeStr = "Passivt";
+                }
+                System.out.println("ID: " + ID + ".\n" + "Navn: " + name + ".\n"
+                        + "Alder: " + age + ".\n" + "Email: " + email + ".\n"
+                                + "Tlf.: " + phoneNumber + ".\n" + "By: " + city + ".\n"
+                                        + "Postnr.: " + zipCode + ".\n" + "Adresse: " + address
+                        + ".\n" + "Konkurrencesvømmer: " + competitiveSwimmerStr
+                        + ".\n" + "Medlemskab: " + activeStr + ".");
             }
-            if (active == true) {
-                activeStr = "Aktivt";
-            } else {
-                activeStr = "Passivt";
-            }
-            System.out.println("ID: " + ID + ".\n" + "Navn: " + name + ".\n"
-                    + "Alder: " + age + ".\n" + "Email: " + email + ".\n"
-                    + "Tlf.: " + phoneNumber + ".\n" + "By: " + city + ".\n"
-                    + "Postnr.: " + zipCode + ".\n" + "Adresse: " + address
-                    + ".\n" + "Konkurrencesvømmer: " + competitiveSwimmerStr
-                    + ".\n" + "Medlemskab: " + activeStr + ".");
+            
+            resultSet.close();
+            pstmt.close();
+            myConnector.close();
+        } catch (SQLException ex) {
+            System.out.println("Kan ikke kommunikere korrekt med databasen.");
         }
-
-        resultSet.close();
-        pstmt.close();
-        myConnector.close();
     }
 
-    public void getMembersFromDB() throws SQLException {
-        String query = "SELECT * FROM delfinen.medlemmer";
-        Connection myConnector = null;
-        PreparedStatement pstmt = null;
-        ResultSet resultSet = null;
-        myConnector = DBConnector.getConnector();
-
-        pstmt = myConnector.prepareStatement(query);
-        resultSet = pstmt.executeQuery();
-        while (resultSet.next()) {
-            int ID = resultSet.getInt("ID");
-            String name = resultSet.getString("Name");
-            int age = resultSet.getInt("Age");
-            String email = resultSet.getString("Email");
-            int phoneNumber = resultSet.getInt("phoneNumber");
-            String city = resultSet.getString("City");
-            int zipCode = resultSet.getInt("ZipCode");
-            String address = resultSet.getString("Address");
-            boolean competitiveSwimmer = resultSet.getBoolean("competitiveSwimmer");
-            boolean active = resultSet.getBoolean("Active");
-            String competitiveSwimmerStr = "";
-            String activeStr = "";
-            if (competitiveSwimmer == true) {
-                competitiveSwimmerStr = "Konkurrencesvømmer";
-            } else {
-                competitiveSwimmerStr = "Ikke konkurrencesvømmer";
+    public void getMembersFromDB() {
+        try {
+            String query = "SELECT * FROM delfinen.medlemmer";
+            Connection myConnector = null;
+            PreparedStatement pstmt = null;
+            ResultSet resultSet = null;
+            myConnector = DBConnector.getConnector();
+            
+            pstmt = myConnector.prepareStatement(query);
+            resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                int ID = resultSet.getInt("ID");
+                String name = resultSet.getString("Name");
+                int age = resultSet.getInt("Age");
+                String email = resultSet.getString("Email");
+                int phoneNumber = resultSet.getInt("phoneNumber");
+                String city = resultSet.getString("City");
+                int zipCode = resultSet.getInt("ZipCode");
+                String address = resultSet.getString("Address");
+                boolean competitiveSwimmer = resultSet.getBoolean("competitiveSwimmer");
+                boolean active = resultSet.getBoolean("Active");
+                String competitiveSwimmerStr = "";
+                String activeStr = "";
+                if (competitiveSwimmer == true) {
+                    competitiveSwimmerStr = "Konkurrencesvømmer";
+                } else {
+                    competitiveSwimmerStr = "Ikke konkurrencesvømmer";
+                }
+                if (active == true) {
+                    activeStr = "Aktivt medlemskab";
+                } else {
+                    activeStr = "Passivt medlemskab";
+                }
+                System.out.println("ID: " + ID + ", " + name + ", " + age + ", " + email + ", "
+                        + phoneNumber + ", " + city + ", " + zipCode + ", " + address + ", " + competitiveSwimmerStr + ", " + activeStr + ".");
             }
-            if (active == true) {
-                activeStr = "Aktivt medlemskab";
-            } else {
-                activeStr = "Passivt medlemskab";
-            }
-            System.out.println("ID: " + ID + ", " + name + ", " + age + ", " + email + ", "
-                    + phoneNumber + ", " + city + ", " + zipCode + ", " + address + ", " + competitiveSwimmerStr + ", " + activeStr + ".");
+            
+            resultSet.close();
+            pstmt.close();
+            myConnector.close();
+        } catch (SQLException ex) {
+            System.out.println("Kan ikke kommunikere korrekt med databasen.");
         }
-
-        resultSet.close();
-        pstmt.close();
-        myConnector.close();
     }
 
 }

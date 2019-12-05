@@ -24,7 +24,7 @@ public class ControllerTræner {
     private boolean active;
     private boolean keepRunning = true;
 
-    public void runTrainerProg() throws SQLException {
+    public void runTrainerProg() {
         LedelsenTræner træner = new LedelsenTræner(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
 
         while (keepRunning) {

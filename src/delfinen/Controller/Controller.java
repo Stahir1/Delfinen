@@ -5,6 +5,8 @@ import delfinen.View.MainMenuView;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -24,27 +26,31 @@ public class Controller {
     boolean active = false;
     boolean keepRunning = true;
 
-    public void runProg() throws SQLException, ParseException {
+    public void runProg() {
 
-        menu.defaultShowMainMenu();
-        int number = IntScanner();
+        try {
+            menu.defaultShowMainMenu();
+            int number = IntScanner();
 
-        switch (number) {
+            switch (number) {
 
-            case 1:
-                ControllerFormand formand = new ControllerFormand();
-                formand.runFormandProg();
-                break;
+                case 1:
+                    ControllerFormand formand = new ControllerFormand();
+                    formand.runFormandProg();
+                    break;
 
-            case 2:
-                ControllerKasserer kasserer = new ControllerKasserer();
-                kasserer.runKassererProg();
-                break;
-                
-            case 3:
-                ControllerTræner træner = new ControllerTræner();
-                træner.runTrainerProg();
-                break;
+                case 2:
+                    ControllerKasserer kasserer = new ControllerKasserer();
+                    kasserer.runKassererProg();
+                    break;
+
+                case 3:
+                    ControllerTræner træner = new ControllerTræner();
+                    træner.runTrainerProg();
+                    break;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Kan ikke kommunikere korrekt med databasen.");
         }
 
     }
@@ -71,7 +77,7 @@ public class Controller {
 
         return bool;
     }
-    
+
     public double DoubleScanner() {
         Scanner myScan = new Scanner(System.in);
         double number = myScan.nextDouble();
