@@ -3,6 +3,7 @@ package delfinen.Controller;
 import delfinen.Model.Ledelsen.LedelsenFormand;
 import delfinen.Model.Medlemmer.MedlemMedlemstype;
 import delfinen.View.MainMenuView;
+import java.util.InputMismatchException;
 
 
 
@@ -33,9 +34,11 @@ public class ControllerFormand {
         LedelsenFormand formand = new LedelsenFormand(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
 
         while (keepRunning) {
-
+            try {
             menu.showMainMenuFormand();
             int number = scanners.IntScanner();
+             if (number == 0 || number == 1 || number == 2 || number == 3) {
+                    keepRunning = false;
             switch (number) {
                 case 1:
                     formand.addMemberToDBProcess();
@@ -51,10 +54,12 @@ public class ControllerFormand {
                     break;
                     
                 case 0:
-                    keepRunning = false;
                     break;
             }
-
-        }
+             }
+        } catch (InputMismatchException e) {
+                System.out.println("Du skal indtaste et tal.");
+            }
+    }
     }
 }

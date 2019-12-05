@@ -15,6 +15,7 @@ public class MainMenuView {
         System.out.println("Tast 1 for formand.");
         System.out.println("Tast 2 for kasserer.");
         System.out.println("Tast 3 for træner.");
+        System.out.println("Tast 0 for at lukke programmet.");
         System.out.println("**************************************");
         System.out.println("Tast herunder...");
     }

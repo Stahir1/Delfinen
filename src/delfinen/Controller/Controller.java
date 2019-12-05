@@ -1,6 +1,7 @@
 package delfinen.Controller;
 
 import delfinen.View.MainMenuView;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -24,32 +25,41 @@ public class Controller {
     public void runProg() {
 
         while (keepRunning) {
-            menu.defaultShowMainMenu();
-            int number = IntScanner();
+            try {
+                menu.defaultShowMainMenu();
 
-            if (number == 1 || number == 2 || number == 3) {
-                keepRunning = false;
-                switch (number) {
+                int number = IntScanner();
 
-                    case 1:
-                        ControllerFormand formand = new ControllerFormand();
-                        formand.runFormandProg();
-                        break;
+                if (number == 0 || number == 1 || number == 2 || number == 3) {
+                    keepRunning = false;
+                    switch (number) {
 
-                    case 2:
-                        ControllerKasserer kasserer = new ControllerKasserer();
-                        kasserer.runKassererProg();
-                        break;
+                        case 1:
+                            ControllerFormand formand = new ControllerFormand();
+                            formand.runFormandProg();
+                            break;
 
-                    case 3:
-                        ControllerTræner træner = new ControllerTræner();
-                        træner.runTrainerProg();
-                        break;
+                        case 2:
+                            ControllerKasserer kasserer = new ControllerKasserer();
+                            kasserer.runKassererProg();
+                            break;
+
+                        case 3:
+                            ControllerTræner træner = new ControllerTræner();
+                            træner.runTrainerProg();
+                            break;
+
+                        case 0:
+                            break;
+                    }
+
+                } else {
+                    System.out.println("Du har ikke tastet et korrekt tal ind.");
+
                 }
 
-            } else {
-                System.out.println("Du har ikke tastet et korrekt tal ind.");
-
+            } catch (InputMismatchException e) {
+                System.out.println("Du skal indtaste et tal.");
             }
         }
     }

@@ -2,7 +2,7 @@ package delfinen.Controller;
 
 import delfinen.Model.Ledelsen.LedelsenKasser;
 import delfinen.View.MainMenuView;
-
+import java.util.InputMismatchException;
 
 /**
  *
@@ -29,35 +29,42 @@ public class ControllerKasserer {
         LedelsenKasser kasser = new LedelsenKasser(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
 
         while (keepRunning) {
-
-            menu.showMainMenuKasserer();
-            int number = scanners.IntScanner();
-            switch (number) {
-                case 1:
-                    kasser.createPaymentProcess();
-                    break;
-                    
-                case 2:
-                    kasser.getContMembersFromDBInRestance();
-                    break;
-                    
-                case 3:
-                    menu.showAdministrationMenuCashier();
-                    number = scanners.IntScanner();
+            try {
+                menu.showMainMenuKasserer();
+                int number = scanners.IntScanner();
+                if (number == 0 || number == 1 || number == 2 || number == 3) {
+                    keepRunning = false;
                     switch (number) {
                         case 1:
-                            kasser.updateHasPaidProcess();
+                            kasser.createPaymentProcess();
                             break;
-                            
+
                         case 2:
-                            kasser.removeHasPaidProcess();
+                            kasser.getContMembersFromDBInRestance();
+                            break;
+
+                        case 3:
+                            menu.showAdministrationMenuCashier();
+                            number = scanners.IntScanner();
+                            switch (number) {
+                                case 1:
+                                    kasser.updateHasPaidProcess();
+                                    break;
+
+                                case 2:
+                                    kasser.removeHasPaidProcess();
+                                    break;
+                            }
+                            break;
+
+                        case 0:
+                            keepRunning = false;
                             break;
                     }
-                    break;
-                    
-                case 0:
-                    keepRunning = false;
-                    break;
+
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Du skal indtaste et tal.");
             }
 
         }
