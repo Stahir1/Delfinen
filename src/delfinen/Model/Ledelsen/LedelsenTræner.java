@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-
 /**
  *
  * @author Emil, Sohaib, Jimmy, Daniel
@@ -31,19 +30,19 @@ public class LedelsenTræner extends Ledelsen {
             String query = "INSERT INTO delfinen.svømmehold (swimmerID, swimmerAge) SELECT ID, age FROM delfinen.medlemmer WHERE ID = ?";
             String query2 = "SELECT swimmerAge FROM delfinen.svømmehold WHERE swimmerID = ?";
             String query3 = "UPDATE delfinen.svømmehold SET teamID = ?, teamName = ?, trainer = ? WHERE swimmerID = ?";
-            
+
             Connection myConnector = null;
             PreparedStatement pstmt = null;
             PreparedStatement pstmt2 = null;
             PreparedStatement pstmt3 = null;
             ResultSet resultSet = null;
             myConnector = DBConnector.getConnector();
-            
+
             // query 1
             pstmt = myConnector.prepareStatement(query);
             pstmt.setInt(1, choiceID);
             pstmt.executeUpdate();
-            
+
             // query 2
             pstmt2 = myConnector.prepareStatement(query2);
             pstmt2.setInt(1, choiceID);
@@ -52,9 +51,11 @@ public class LedelsenTræner extends Ledelsen {
             while (resultSet.next()) {
                 swimmerAge = resultSet.getInt("swimmerAge");
             }
-            
+
             // guery 3
             pstmt3 = myConnector.prepareStatement(query3);
+            // Afhængigt af alderen bliver svømmeren tildelt et hold samt en træner
+            // til det dettilhørende hold.
             if (swimmerAge < 18) {
                 pstmt3.setInt(1, 1);
                 pstmt3.setString(2, "Ungdomshold");
@@ -67,7 +68,7 @@ public class LedelsenTræner extends Ledelsen {
                 pstmt3.setInt(4, choiceID);
             }
             pstmt3.executeUpdate();
-            
+
             pstmt.close();
             pstmt2.close();
             pstmt3.close();
@@ -93,7 +94,7 @@ public class LedelsenTræner extends Ledelsen {
             Controller scanners = new Controller();
             double input;
             String hvilkenTid = "Hvad er tiden på? (\"sek,milsek\")";
-            
+
             pstmtFirst = myConnector.prepareStatement(queryFirst);
             pstmtFirst.setInt(1, choiceID);
             resultSet = pstmtFirst.executeQuery();
@@ -101,18 +102,18 @@ public class LedelsenTræner extends Ledelsen {
             while (resultSet.next()) {
                 swimmerID = resultSet.getInt("swimmerID");
             }
-            
+
             if (choiceID != swimmerID) {
                 pstmt2 = myConnector.prepareStatement(querySec);
                 pstmt2.setInt(1, choiceID);
                 pstmt2.executeUpdate();
                 pstmt2.close();
             }
-            
+
             // dato:
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             String dateFormated = date.format(formatter);
-            
+
             switch (choiceSubject) {
                 case 1:
                     query = "UPDATE delfinen.træningsresultater SET crawlTime = ?, crawlDate = ? WHERE swimmerID = ?";
@@ -150,11 +151,11 @@ public class LedelsenTræner extends Ledelsen {
                     pstmt.setString(2, dateFormated);
                     pstmt.setInt(3, choiceID);
                     break;
-                    
+
             }
-            
+
             pstmt.executeUpdate();
-            
+
             pstmt.close();
             pstmtFirst.close();
             myConnector.close();
@@ -176,15 +177,20 @@ public class LedelsenTræner extends Ledelsen {
         Controller scanners = new Controller();
         LedelsenTræner træner = new LedelsenTræner(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
         træner.showSvømmehold();
-        System.out.println("Hvilken svømmer vil du registrere træningsresultat til?");
+        System.out.println("Hvilken svømmer vil du registrere træningsresultat til? [Tast \"0\" for at forlade menuen.]");
         int choiceID = scanners.IntScanner();
-        System.out.println("Hvilken disciplin skal opdateres?");
-        System.out.println("Tast 1 for crawl.");
-        System.out.println("Tast 2 for butterfly.");
-        System.out.println("Tast 3 for rygcrawl.");
-        System.out.println("Tast 4 for brystsvømning.");
-        int subjectID = scanners.IntScanner();
-        træner.updateTrainingResults(subjectID, choiceID, name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+        if (choiceID != 0) {
+            System.out.println("Hvilken disciplin skal opdateres?");
+            System.out.println("Tast 1 for crawl.");
+            System.out.println("Tast 2 for butterfly.");
+            System.out.println("Tast 3 for rygcrawl.");
+            System.out.println("Tast 4 for brystsvømning.");
+            int subjectID = scanners.IntScanner();
+            // her bliver metoden kaldt.
+            træner.updateTrainingResults(subjectID, choiceID, name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+        } else {
+
+        }
 
     }
 
@@ -206,7 +212,7 @@ public class LedelsenTræner extends Ledelsen {
             String whichEvent = "Indtast stævne-navn:";
             String whichTime = "Hvad er tiden på? (\"sek,milsek\")";
             String whichPlace = "Hvilken placering blev svømmeren?";
-            
+
             pstmtFirst = myConnector.prepareStatement(queryFirst);
             pstmtFirst.setInt(1, choiceID);
             resultSet = pstmtFirst.executeQuery();
@@ -214,28 +220,28 @@ public class LedelsenTræner extends Ledelsen {
             while (resultSet.next()) {
                 swimmerID = resultSet.getInt("swimmerID");
             }
-            
+
             if (choiceID != swimmerID) {
                 pstmt2 = myConnector.prepareStatement(querySec);
                 pstmt2.setInt(1, choiceID);
                 pstmt2.executeUpdate();
                 pstmt2.close();
             }
-            
+
             switch (choiceSubject) {
                 case 1:
                     query = "UPDATE delfinen.konkurrenceresultater SET eventname = ?, eventCrawlTime = ?, eventCrawlPlacement = ? WHERE swimmerID = ?";
                     pstmt = myConnector.prepareStatement(query);
-                    
+
                     System.out.println(whichEvent);
                     eventname = scanners.StringScanner();
-                    
+
                     System.out.println(whichTime);
                     input = scanners.DoubleScanner();
-                    
+
                     System.out.println(whichPlace);
                     place = scanners.IntScanner();
-                    
+
                     pstmt.setString(1, eventname);
                     pstmt.setDouble(2, input);
                     pstmt.setInt(3, place);
@@ -244,16 +250,16 @@ public class LedelsenTræner extends Ledelsen {
                 case 2:
                     query = "UPDATE delfinen.konkurrenceresultater SET eventname = ?, eventButterflyTime = ?, eventButterflyPlacement = ? WHERE swimmerID = ?";
                     pstmt = myConnector.prepareStatement(query);
-                    
+
                     System.out.println(whichEvent);
                     eventname = scanners.StringScanner();
-                    
+
                     System.out.println(whichTime);
                     input = scanners.DoubleScanner();
-                    
+
                     System.out.println(whichPlace);
                     place = scanners.IntScanner();
-                    
+
                     pstmt.setString(1, eventname);
                     pstmt.setDouble(2, input);
                     pstmt.setInt(3, place);
@@ -262,16 +268,16 @@ public class LedelsenTræner extends Ledelsen {
                 case 3:
                     query = "UPDATE delfinen.konkurrenceresultater SET eventname = ?, eventBackstrokeTime = ?, eventBackstrokePlacement = ? WHERE swimmerID = ?";
                     pstmt = myConnector.prepareStatement(query);
-                    
+
                     System.out.println(whichEvent);
                     eventname = scanners.StringScanner();
-                    
+
                     System.out.println(whichTime);
                     input = scanners.DoubleScanner();
-                    
+
                     System.out.println(whichPlace);
                     place = scanners.IntScanner();
-                    
+
                     pstmt.setString(1, eventname);
                     pstmt.setDouble(2, input);
                     pstmt.setInt(3, place);
@@ -280,25 +286,25 @@ public class LedelsenTræner extends Ledelsen {
                 case 4:
                     query = "UPDATE delfinen.konkurrenceresultater SET eventname = ?, eventBreaststrokeTime = ?, eventBreaststrokePlacement = ? WHERE swimmerID = ?";
                     pstmt = myConnector.prepareStatement(query);
-                    
+
                     System.out.println(whichEvent);
                     eventname = scanners.StringScanner();
-                    
+
                     System.out.println(whichTime);
                     input = scanners.DoubleScanner();
-                    
+
                     System.out.println(whichPlace);
                     place = scanners.IntScanner();
-                    
+
                     pstmt.setString(1, eventname);
                     pstmt.setDouble(2, input);
                     pstmt.setInt(3, place);
                     pstmt.setInt(4, choiceID);
                     break;
             }
-            
+
             pstmt.executeUpdate();
-            
+
             pstmt.close();
             pstmtFirst.close();
             myConnector.close();
@@ -320,15 +326,19 @@ public class LedelsenTræner extends Ledelsen {
         Controller scanners = new Controller();
         LedelsenTræner træner = new LedelsenTræner(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
         træner.showSvømmehold();
-        System.out.println("Hvilken svømmer vil du registrere stævneresultat til?");
+        System.out.println("Hvilken svømmer vil du registrere stævneresultat til? [Tast \"0\" for at forlade menuen.]");
         int choiceID = scanners.IntScanner();
-        System.out.println("Hvilken disciplin skal opdateres?");
-        System.out.println("Tast 1 for crawl.");
-        System.out.println("Tast 2 for butterfly.");
-        System.out.println("Tast 3 for rygcrawl.");
-        System.out.println("Tast 4 for brystsvømning.");
-        int subjectID = scanners.IntScanner();
-        træner.updateEventResults(subjectID, choiceID, name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+        if (choiceID != 0) {
+            System.out.println("Hvilken disciplin skal opdateres?");
+            System.out.println("Tast 1 for crawl.");
+            System.out.println("Tast 2 for butterfly.");
+            System.out.println("Tast 3 for rygcrawl.");
+            System.out.println("Tast 4 for brystsvømning.");
+            int subjectID = scanners.IntScanner();
+            træner.updateEventResults(subjectID, choiceID, name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+        } else {
+
+        }
 
     }
 
@@ -341,20 +351,20 @@ public class LedelsenTræner extends Ledelsen {
             myConnector = DBConnector.getConnector();
             pstmt = myConnector.prepareStatement(query);
             pstmt.executeQuery();
-            
+
             resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
                 String teamName = resultSet.getString("teamName");
                 String trainer = resultSet.getString("trainer");
                 int swimmerID = resultSet.getInt("swimmerID");
                 int swimmerAge = resultSet.getInt("swimmerAge");
-                
+
                 System.out.println("Svømmer-ID: " + swimmerID + ", Svømmer alder: "
                         + swimmerAge + ", Holdnavn: " + teamName
                         + ", Træner: " + trainer + ".");
             }
             System.out.println("");
-            
+
             pstmt.close();
             myConnector.close();
             resultSet.close();
@@ -368,10 +378,14 @@ public class LedelsenTræner extends Ledelsen {
             String query = "";
             Connection myConnector = null;
             PreparedStatement pstmt = null;
-            
+
             ResultSet resultSet = null;
             myConnector = DBConnector.getConnector();
-            
+
+            // Vi bruger INNER JOIN til at tage de vigtige kolonner i delfinen.svømmehold
+            // og delfinen.træningsresultat.
+            // Vi har valgt at træningsresultatet bruges af træneren til udtagelse i konkurrencer,
+            // da træneren ønsker den nuværende svømmer-form og ikke bedste rekord.
             switch (choiceSubject) {
                 case 1:
                     // t.crawlTime
@@ -424,36 +438,35 @@ public class LedelsenTræner extends Ledelsen {
             String output = "";
             while (resultSet.next()) {
                 swimmerID = resultSet.getInt("swimmerID");
-                
+
                 switch (choiceSubject) {
                     case 1:
                         time = resultSet.getDouble("t.crawlTime");
                         break;
-                        
+
                     case 2:
                         time = resultSet.getDouble("t.butterflyTime");
                         break;
-                        
+
                     case 3:
                         time = resultSet.getDouble("t.backstrokeTime");
                         break;
-                        
+
                     case 4:
                         time = resultSet.getDouble("t.breaststrokeTime");
                         break;
-                        
+
                 }
-                
+
                 output += "SvømmerID: " + swimmerID + ", tid: " + time + "\n";
-                
+
             }
-            
+
             pstmt.close();
             myConnector.close();
             resultSet.close();
             return output;
-        } 
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             System.out.println("Kan ikke kommunikere korrekt med databasen.");
             String output = "";
             return output;
@@ -473,45 +486,49 @@ public class LedelsenTræner extends Ledelsen {
         Controller scanners = new Controller();
         LedelsenTræner træner = new LedelsenTræner(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
 
-        System.out.println("Hvilket hold vil du se top 5 over?");
+        System.out.println("Hvilket hold vil du se top 5 over? [Tast \"0\" for at forlade menuen.]");
         System.out.println("Indtast 1 for Juniorhold.");
         System.out.println("Indtast 2 for Seniorhold.");
         int choiceID = scanners.IntScanner();
-        
-        String holdType = "";
-        switch(choiceID) {
-            case 1:
-                holdType = "ungdomssvømmere";
-                break;
-            case 2:
-                holdType = "seniorsvømmere";
-                break;
-        }
+        if (choiceID != 0) {
 
-        System.out.println("Hvilken disciplin vil du se top 5 for?");
-        System.out.println("Tast 1 for crawl.");
-        System.out.println("Tast 2 for butterfly.");
-        System.out.println("Tast 3 for rygcrawl.");
-        System.out.println("Tast 4 for brystsvømning.");
-        int choiceSubject = scanners.IntScanner();
+            String holdType = "";
+            switch (choiceID) {
+                case 1:
+                    holdType = "ungdomssvømmere";
+                    break;
+                case 2:
+                    holdType = "seniorsvømmere";
+                    break;
+            }
 
-        String disciplin = "";
-        switch(choiceSubject) {
-            case 1:
-                disciplin = "crawl";
-                break;
-            case 2:
-                disciplin = "butterfly";
-                break;
-            case 3:
-                disciplin = "rygcrawl";
-                break;
-            case 4:
-                disciplin = "brystsvømning";
+            System.out.println("Hvilken disciplin vil du se top 5 for?");
+            System.out.println("Tast 1 for crawl.");
+            System.out.println("Tast 2 for butterfly.");
+            System.out.println("Tast 3 for rygcrawl.");
+            System.out.println("Tast 4 for brystsvømning.");
+            int choiceSubject = scanners.IntScanner();
+
+            String disciplin = "";
+            switch (choiceSubject) {
+                case 1:
+                    disciplin = "crawl";
+                    break;
+                case 2:
+                    disciplin = "butterfly";
+                    break;
+                case 3:
+                    disciplin = "rygcrawl";
+                    break;
+                case 4:
+                    disciplin = "brystsvømning";
+            }
+
+            System.out.printf("Top 5 %s i disciplinen %s: \n", holdType, disciplin);
+            System.out.println(træner.showTopFive(choiceID, choiceSubject));
+        } else {
+
         }
-        
-        System.out.printf("Top 5 %s i disciplinen %s: \n", holdType, disciplin);
-        System.out.println(træner.showTopFive(choiceID, choiceSubject));
 
     }
 

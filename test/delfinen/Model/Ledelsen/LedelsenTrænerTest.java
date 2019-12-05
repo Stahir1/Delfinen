@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package delfinen.Model.Ledelsen;
 
 import delfinen.Util.DBConnector;
@@ -33,7 +29,7 @@ public class LedelsenTrænerTest {
     }
 
     /**
-     * Her testes af svømmehold-DB kan vises. Vi bruger kun ID 1 til at bevise testens udfald.
+     * Her testes at svømmehold-DB kan vises. Vi bruger kun ID 1 til at bevise testens udfald.
      */
     @Test
     public void testShowSvømmehold() throws Exception {

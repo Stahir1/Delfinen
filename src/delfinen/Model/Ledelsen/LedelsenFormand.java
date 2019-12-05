@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package delfinen.Model.Ledelsen;
 
 import delfinen.Controller.Controller;
@@ -27,11 +23,16 @@ public class LedelsenFormand extends Ledelsen {
         this.competitiveSwimmer = competitiveSwimmer;
         this.active = active;
     }
-    
+
     public void addMemberToDB(String name, int age, String email, int phoneNumber, String city, int zipCode, String address, boolean competitiveSwimmer, boolean active) throws SQLException {
         String senior = "";
         String junior = "";
         String query = "INSERT INTO delfinen.medlemmer (name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active, senior, junior) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        // "DESC LIMIT 1" tager den sidste i tabellen ud fra ID, hvilket er den seneste
+        // tilføjet (den seneste tilføjede er det medlem man lige har oprettet).
+        // Medlemmets ID, navn, alder og aktiv/passiv info, smides over i kontingentbetaling,
+        // så formanden efterfølgende kan oprette betalinger/administrere medlemmet gennem
+        // sin del af systemet.
         String query3 = "INSERT INTO delfinen.kontingentbetaling (ID, name, age, active) SELECT ID, name, age, active FROM delfinen.medlemmer ORDER BY ID DESC LIMIT 1";
 
         if (age < 18) {
@@ -50,7 +51,7 @@ public class LedelsenFormand extends Ledelsen {
         pstmt = myConnector.prepareStatement(query);
 
         pstmt.setString(1, name);
-        pstmt.setInt(2, age); // for at lave ordering kolennen i order table starte på 1 i stedet for 0.
+        pstmt.setInt(2, age);
         pstmt.setString(3, email);
         pstmt.setInt(4, phoneNumber);
         pstmt.setString(5, city);
@@ -83,57 +84,62 @@ public class LedelsenFormand extends Ledelsen {
             String address = "";
             boolean competitiveSwimmer = true;
             boolean active = true;
-            
-            System.out.println("Indtast navn:");
+
+            System.out.println("Indtast navn: [Tast \"0\" hvis du ikke vil oprette et medlem alligevel.]");
             name = scanners.StringScanner();
-            
-            System.out.println("Indtast alder:");
-            age = scanners.IntScanner();
-            
-            System.out.println("Indtast email:");
-            email = scanners.StringScanner();
-            
-            System.out.println("Indtast tlf.:");
-            phoneNumber = scanners.IntScanner();
-            
-            System.out.println("Indtast by:");
-            city = scanners.StringScanner();
-            
-            System.out.println("Indtast postnummer:");
-            zipCode = scanners.IntScanner();
-            
-            System.out.println("Indtast adresse:");
-            address = scanners.StringScanner();
-            
-            System.out.println("Konkurrencesvømmer? 1 = JA, 2 = NEJ");
-            int booNum = scanners.IntScanner();
-            if (booNum == 1) {
-                competitiveSwimmer = true;
-                untilRight = false;
-            } else if (booNum == 2) {
-                competitiveSwimmer = false;
-                untilRight = false;
+            if (!name.equals("0")) {
+
+                System.out.println("Indtast alder:");
+                age = scanners.IntScanner();
+
+                System.out.println("Indtast email:");
+                email = scanners.StringScanner();
+
+                System.out.println("Indtast tlf.:");
+                phoneNumber = scanners.IntScanner();
+
+                System.out.println("Indtast by:");
+                city = scanners.StringScanner();
+
+                System.out.println("Indtast postnummer:");
+                zipCode = scanners.IntScanner();
+
+                System.out.println("Indtast adresse:");
+                address = scanners.StringScanner();
+                
+                // I stedet for at formand skal skrive "true" eller "false"
+                // kan vedkommende bare skrive "1" eller "2".
+                System.out.println("Konkurrencesvømmer? 1 = JA, 2 = NEJ");
+                int booNum = scanners.IntScanner();
+                if (booNum == 1) {
+                    competitiveSwimmer = true;
+                    untilRight = false;
+                } else if (booNum == 2) {
+                    competitiveSwimmer = false;
+                    untilRight = false;
+                } else {
+                    System.out.println("Du har hverken tastet \"1\" eller \"2\".");
+                }
+
+                System.out.println("Aktivt medlemskab? 1 = JA, 2 = NEJ");
+                booNum = scanners.IntScanner();
+                if (booNum == 1) {
+                    active = true;
+                    untilRight = false;
+                } else if (booNum == 2) {
+                    active = false;
+                    untilRight = false;
+                } else {
+                    System.out.println("Du har hverken tastet \"1\" eller \"2\".");
+                }
+
+                MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+                LedelsenFormand formand = new LedelsenFormand(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+                formand.addMemberToDB(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+
+                System.out.println("Info om det nyoprettede medlem: " + medlemsType.toString());
             } else {
-                System.out.println("Du har hverken tastet \"1\" eller \"2\".");
             }
-            
-            System.out.println("Aktivt medlemskab? 1 = JA, 2 = NEJ");
-            booNum = scanners.IntScanner();
-            if (booNum == 1) {
-                active = true;
-                untilRight = false;
-            } else if (booNum == 2) {
-                active = false;
-                untilRight = false;
-            } else {
-                System.out.println("Du har hverken tastet \"1\" eller \"2\".");
-            }
-            
-            MedlemMedlemstype medlemsType = new MedlemMedlemstype(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
-            LedelsenFormand formand = new LedelsenFormand(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
-            formand.addMemberToDB(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
-            
-            System.out.println("Info om det nyoprettede medlem: " + medlemsType.toString());
         } catch (SQLException ex) {
             System.out.println("Kan ikke kommunikere korrekt med databasen.");
         }
@@ -149,8 +155,10 @@ public class LedelsenFormand extends Ledelsen {
             PreparedStatement pstmt2 = null;
             ResultSet resultSet = null;
             myConnector = DBConnector.getConnector();
-            
-            //UPDATE delfinen.medlemmer  SET name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active WHERE ID = ?)"
+
+            //UPDATE delfinen.medlemmer SET name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active WHERE ID = ?)"
+            // Afhængigt af hvilket emne der ønskes ændret,
+            // ændrer queryen sig.
             switch (choiceSubject) {
                 case 1:
                     query = "UPDATE delfinen.medlemmer SET name = ? WHERE ID = ?";
@@ -225,9 +233,9 @@ public class LedelsenFormand extends Ledelsen {
                     pstmt2.close();
                     break;
             }
-            
+
             pstmt.executeUpdate();
-            
+
             pstmt.close();
             myConnector.close();
         } catch (SQLException ex) {
@@ -249,82 +257,86 @@ public class LedelsenFormand extends Ledelsen {
         boolean active = true;
         int number;
 
-        System.out.println("Hvilket medlem vil du ændre? (Søg på medlems-ID)");
+        System.out.println("Hvilket medlem vil du ændre? (Søg på medlems-ID) [Tast \"0\" hvis du vil forlade menuen.]");
         int choiceID = scanners.IntScanner();
+        if (choiceID != 0) {
 
-        System.out.println("Hvad vil du ændre?");
-        System.out.println("Tast 1 for navn.");
-        System.out.println("Tast 2 for alder.");
-        System.out.println("Tast 3 for email.");
-        System.out.println("Tast 4 for tlf.");
-        System.out.println("Tast 5 for by.");
-        System.out.println("Tast 6 for postnr.");
-        System.out.println("Tast 7 for adresse.");
-        System.out.println("Tast 8 for konkurrencesvømmer tilstand.");
-        System.out.println("Tast 9 for aktiv/passiv tilstand.");
-        System.out.println("Tast 0 for at afslutte.");
+            System.out.println("Hvad vil du ændre?");
+            System.out.println("Tast 1 for navn.");
+            System.out.println("Tast 2 for alder.");
+            System.out.println("Tast 3 for email.");
+            System.out.println("Tast 4 for tlf.");
+            System.out.println("Tast 5 for by.");
+            System.out.println("Tast 6 for postnr.");
+            System.out.println("Tast 7 for adresse.");
+            System.out.println("Tast 8 for konkurrencesvømmer tilstand.");
+            System.out.println("Tast 9 for aktiv/passiv tilstand.");
+            System.out.println("Tast 0 for at afslutte.");
 
-        int choiceSubject = scanners.IntScanner();
+            int choiceSubject = scanners.IntScanner();
 
-        switch (choiceSubject) {
-            case 1:
-                System.out.println("Hvad skal navnet ændres til?");
-                name = scanners.StringScanner();
-                break;
-            case 2:
-                System.out.println("Hvad skal alderen ændres til?");
-                age = scanners.IntScanner();
-                break;
-            case 3:
-                System.out.println("Hvad skal emailen ændres til?");
-                email = scanners.StringScanner();
-                break;
-            case 4:
-                System.out.println("Hvad skal tlf. ændres til?");
-                phoneNumber = scanners.IntScanner();
-                break;
-            case 5:
-                System.out.println("Hvad skal byen ændres til?");
-                city = scanners.StringScanner();
-                break;
-            case 6:
-                System.out.println("Hvad skal postnr. ændres til?");
-                zipCode = scanners.IntScanner();
-                break;
-            case 7:
-                System.out.println("Hvad skal adressen ændres til?");
-                address = scanners.StringScanner();
-                break;
-            case 8:
-                System.out.println("Hvad skal svømmer-tilstanden ændres til? (1 = JA, 2 = NEJ)");
-                number = scanners.IntScanner();
-                if (number == 1) {
-                    competitiveSwimmer = true;
-                } else if (number == 2) {
-                    competitiveSwimmer = false;
-                } else {
-                    System.out.println("Du har hverken tastet \"1\" eller \"2\"");
-                }
-                break;
-            case 9:
-                System.out.println("Hvad skal aktiv/passiv-tilstanden ændres til? (1 = JA, 2 = NEJ)");
-                number = scanners.IntScanner();
-                if (number == 1) {
-                    active = true;
-                } else if (number == 2) {
-                    active = false;
-                } else {
-                    System.out.println("Du har hverken tastet \"1\" eller \"2\"");
-                }
-                break;
-        }
+            switch (choiceSubject) {
+                case 1:
+                    System.out.println("Hvad skal navnet ændres til?");
+                    name = scanners.StringScanner();
+                    break;
+                case 2:
+                    System.out.println("Hvad skal alderen ændres til?");
+                    age = scanners.IntScanner();
+                    break;
+                case 3:
+                    System.out.println("Hvad skal emailen ændres til?");
+                    email = scanners.StringScanner();
+                    break;
+                case 4:
+                    System.out.println("Hvad skal tlf. ændres til?");
+                    phoneNumber = scanners.IntScanner();
+                    break;
+                case 5:
+                    System.out.println("Hvad skal byen ændres til?");
+                    city = scanners.StringScanner();
+                    break;
+                case 6:
+                    System.out.println("Hvad skal postnr. ændres til?");
+                    zipCode = scanners.IntScanner();
+                    break;
+                case 7:
+                    System.out.println("Hvad skal adressen ændres til?");
+                    address = scanners.StringScanner();
+                    break;
+                case 8:
+                    System.out.println("Hvad skal svømmer-tilstanden ændres til? (1 = JA, 2 = NEJ)");
+                    number = scanners.IntScanner();
+                    if (number == 1) {
+                        competitiveSwimmer = true;
+                    } else if (number == 2) {
+                        competitiveSwimmer = false;
+                    } else {
+                        System.out.println("Du har hverken tastet \"1\" eller \"2\"");
+                    }
+                    break;
+                case 9:
+                    System.out.println("Hvad skal aktiv/passiv-tilstanden ændres til? (1 = JA, 2 = NEJ)");
+                    number = scanners.IntScanner();
+                    if (number == 1) {
+                        active = true;
+                    } else if (number == 2) {
+                        active = false;
+                    } else {
+                        System.out.println("Du har hverken tastet \"1\" eller \"2\"");
+                    }
+                    break;
+            }
 
-        if (choiceSubject == 0) {
+            if (choiceSubject == 0) {
+            } else {
+                LedelsenFormand formand = new LedelsenFormand(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+                formand.updateMemberInDB(choiceSubject, choiceID, name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
+                System.out.println("Info om det redigerede medlem:");
+                formand.getMembersFromDBByID(choiceID);
+            }
         } else {
-            LedelsenFormand formand = new LedelsenFormand(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
-            formand.updateMemberInDB(choiceSubject, choiceID, name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
-            System.out.println("Info om det redigerede medlem:");
-            formand.getMembersFromDBByID(choiceID);
+
         }
 
     }
@@ -337,10 +349,12 @@ public class LedelsenFormand extends Ledelsen {
             ResultSet resultSet = null;
             myConnector = DBConnector.getConnector();
             pstmt = myConnector.prepareStatement(query);
-            
+
             pstmt.setInt(1, choiceID);
             resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
+                // her bliver databasens data trækket ud til variabler i Java
+                // som efterfølgende kan printes til formandens skærm.
                 int ID = resultSet.getInt("ID");
                 String name = resultSet.getString("Name");
                 int age = resultSet.getInt("Age");
@@ -365,12 +379,12 @@ public class LedelsenFormand extends Ledelsen {
                 }
                 System.out.println("ID: " + ID + ".\n" + "Navn: " + name + ".\n"
                         + "Alder: " + age + ".\n" + "Email: " + email + ".\n"
-                                + "Tlf.: " + phoneNumber + ".\n" + "By: " + city + ".\n"
-                                        + "Postnr.: " + zipCode + ".\n" + "Adresse: " + address
+                        + "Tlf.: " + phoneNumber + ".\n" + "By: " + city + ".\n"
+                        + "Postnr.: " + zipCode + ".\n" + "Adresse: " + address
                         + ".\n" + "Konkurrencesvømmer: " + competitiveSwimmerStr
                         + ".\n" + "Medlemskab: " + activeStr + ".");
             }
-            
+
             resultSet.close();
             pstmt.close();
             myConnector.close();
@@ -386,7 +400,7 @@ public class LedelsenFormand extends Ledelsen {
             PreparedStatement pstmt = null;
             ResultSet resultSet = null;
             myConnector = DBConnector.getConnector();
-            
+
             pstmt = myConnector.prepareStatement(query);
             resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
@@ -415,7 +429,7 @@ public class LedelsenFormand extends Ledelsen {
                 System.out.println("ID: " + ID + ", " + name + ", " + age + ", " + email + ", "
                         + phoneNumber + ", " + city + ", " + zipCode + ", " + address + ", " + competitiveSwimmerStr + ", " + activeStr + ".");
             }
-            
+
             resultSet.close();
             pstmt.close();
             myConnector.close();

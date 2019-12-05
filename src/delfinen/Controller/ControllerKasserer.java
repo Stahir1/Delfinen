@@ -33,7 +33,7 @@ public class ControllerKasserer {
                 menu.showMainMenuKasserer();
                 int number = scanners.IntScanner();
                 if (number == 0 || number == 1 || number == 2 || number == 3) {
-                    keepRunning = false;
+
                     switch (number) {
                         case 1:
                             kasser.createPaymentProcess();

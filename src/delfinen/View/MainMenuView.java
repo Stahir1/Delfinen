@@ -6,8 +6,8 @@ package delfinen.View;
  */
 public class MainMenuView {
 
-    // Her ses main menuens standard layout i programmet.
-    // Denne skærm vendes der hele tiden tilbage til, og er udgangspunktet for programmet.
+    // Her laves alle "menu-skærmene" i vores program.
+    // De kaldes bl.a. i controllerne til den enkelte rolle i ledelsen.
     public void defaultShowMainMenu() {
         System.out.println("**************************************");
         System.out.println("Velkommen til svømmeklubben Delfinen.");

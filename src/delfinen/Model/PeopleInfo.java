@@ -14,6 +14,7 @@ public class PeopleInfo {
     private int zipCode;
     private String address;
 
+    //Denne klasse er super-klassen til Ledelsen og Medlem. De to sub-klasser bruges til de dertilhørende sub-klasser.
     public PeopleInfo(String name, int age, String email, int phoneNumber, String city, int zipCode, String adress) {
         this.name = name;
         this.age = age;

@@ -32,7 +32,7 @@ public class ControllerTræner {
                 menu.showMainMenuTrainer();
                 int number = scanners.IntScanner();
                 if (number == 0 || number == 1 || number == 2) {
-                    keepRunning = false;
+
                     switch (number) {
                         case 1:
                             menu.showMainMenuTrainerUpdateSwimmers();

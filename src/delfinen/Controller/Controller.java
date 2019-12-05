@@ -27,11 +27,10 @@ public class Controller {
         while (keepRunning) {
             try {
                 menu.defaultShowMainMenu();
-
                 int number = IntScanner();
 
                 if (number == 0 || number == 1 || number == 2 || number == 3) {
-                    keepRunning = false;
+                    
                     switch (number) {
 
                         case 1:
@@ -50,22 +49,25 @@ public class Controller {
                             break;
 
                         case 0:
+                            keepRunning = false;
                             break;
                     }
 
                 } else {
+                    // Hvis man hverken taster 1, 2, 3, 0 - kommer denne besked frem.
                     System.out.println("Du har ikke tastet et korrekt tal ind.");
 
                 }
 
             } catch (InputMismatchException e) {
+                // Hvis man indtaster bogstaver, tegn e.l. - kommer denne besked frem.
                 System.out.println("Du skal indtaste et tal.");
             }
         }
     }
-    // Vi har to forskellige scannere. Én til Int som eksempelvis bruges til at nagivere rundt i menuen.
-    // Og én til String som bl.a. bruges til afhentningstidspunkt. 
 
+    // Her er scannerne som vi bruger i de forskellige classer ved at oprette
+    // objektet "scanners" i klasserne.
     public int IntScanner() {
         Scanner myScan = new Scanner(System.in);
         int number = myScan.nextInt();

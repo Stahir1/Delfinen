@@ -17,14 +17,13 @@ public class DBConnector {
         url += "serverTimezone=UTC&allowPublicKeyRetrieval=true&";
         url += "useSSL=false";
         String user = "root";
-        String password = "ascent88";
+        String password = "Cph23168";
 
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
             System.out.println("Kan ikke finde stien.");
-
         }
         try {
             connector = DriverManager.getConnection(url, user, password);
