@@ -35,30 +35,25 @@ public class ControllerFormand {
 
         while (keepRunning) {
 
-            try {
-                menu.showMainMenuFormand();
-                int number = scanners.IntScanner();
-                
-                switch (number) {
-                    case 1:
-                        formand.addMemberToDBProcess();
-                        break;
-                        
-                    case 2:
-                        formand.getMembersFromDB();
-                        break;
-                    case 3:
-                        formand.getMembersFromDB();
-                        System.out.print("\n");
-                        formand.updateMemberProcess();
-                        break;
-                        
-                    case 0:
-                        keepRunning = false;
-                        break;
-                }
-            } catch (SQLException ex) {
-                System.out.println("Kan ikke kommunikere korrekt med databasen.");
+            menu.showMainMenuFormand();
+            int number = scanners.IntScanner();
+            switch (number) {
+                case 1:
+                    formand.addMemberToDBProcess();
+                    break;
+                    
+                case 2:
+                    formand.getMembersFromDB();
+                    break;
+                case 3:
+                    formand.getMembersFromDB();
+                    System.out.print("\n");
+                    formand.updateMemberProcess();
+                    break;
+                    
+                case 0:
+                    keepRunning = false;
+                    break;
             }
 
         }

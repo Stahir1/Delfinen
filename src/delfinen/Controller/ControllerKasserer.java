@@ -34,51 +34,34 @@ public class ControllerKasserer {
 
         while (keepRunning) {
 
-            try {
-                menu.showMainMenuKasserer();
-                int number = scanners.IntScanner();
-                
-                switch (number) {
-                    case 1:
-                        kasser.createPaymentProcess();
-                        break;
-                        
-                    case 2:
-                        kasser.getContMembersFromDBInRestance();
-                        break;
-                        
-                    case 3:
-                        menu.showAdministrationMenuCashier();
-                        number = scanners.IntScanner();
-                        switch (number) {
-                            case 1:
-                {
-                    try {
-                        kasser.updateHasPaidProcess();
-                    } catch (ParseException ex) {
-                        System.out.println("Kan ikke formattere korrekt.");
+            menu.showMainMenuKasserer();
+            int number = scanners.IntScanner();
+            switch (number) {
+                case 1:
+                    kasser.createPaymentProcess();
+                    break;
+                    
+                case 2:
+                    kasser.getContMembersFromDBInRestance();
+                    break;
+                    
+                case 3:
+                    menu.showAdministrationMenuCashier();
+                    number = scanners.IntScanner();
+                    switch (number) {
+                        case 1:
+                            kasser.updateHasPaidProcess();
+                            break;
+                            
+                        case 2:
+                            kasser.removeHasPaidProcess();
+                            break;
                     }
-                }
-                                break;
-                                
-                            case 2:
-                {
-                    try {
-                        kasser.removeHasPaidProcess();
-                    } catch (ParseException ex) {
-                        System.out.println("Kan ikke formattere korrekt.");
-                    }
-                }
-                                break;
-                        }
-                        break;
-                        
-                    case 0:
-                        keepRunning = false;
-                        break;
-                }
-            } catch (SQLException ex) {
-                System.out.println("Kan ikke kommunikere korrekt med databasen.");
+                    break;
+                    
+                case 0:
+                    keepRunning = false;
+                    break;
             }
 
         }

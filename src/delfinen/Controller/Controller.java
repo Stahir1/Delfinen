@@ -28,29 +28,24 @@ public class Controller {
 
     public void runProg() {
 
-        try {
-            menu.defaultShowMainMenu();
-            int number = IntScanner();
-
-            switch (number) {
-
-                case 1:
-                    ControllerFormand formand = new ControllerFormand();
-                    formand.runFormandProg();
-                    break;
-
-                case 2:
-                    ControllerKasserer kasserer = new ControllerKasserer();
-                    kasserer.runKassererProg();
-                    break;
-
-                case 3:
-                    ControllerTræner træner = new ControllerTræner();
-                    træner.runTrainerProg();
-                    break;
-            }
-        } catch (SQLException ex) {
-            System.out.println("Kan ikke kommunikere korrekt med databasen.");
+        menu.defaultShowMainMenu();
+        int number = IntScanner();
+        switch (number) {
+            
+            case 1:
+                ControllerFormand formand = new ControllerFormand();
+                formand.runFormandProg();
+                break;
+                
+            case 2:
+                ControllerKasserer kasserer = new ControllerKasserer();
+                kasserer.runKassererProg();
+                break;
+                
+            case 3:
+                ControllerTræner træner = new ControllerTræner();
+                træner.runTrainerProg();
+                break;
         }
 
     }
