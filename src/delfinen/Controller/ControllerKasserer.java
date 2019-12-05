@@ -8,7 +8,7 @@ import java.text.ParseException;
 
 /**
  *
- * @author Jimmy
+ * @author Emil, Sohaib, Jimmy, Daniel
  */
 public class ControllerKasserer {
 

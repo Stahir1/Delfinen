@@ -15,7 +15,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Danie
+ * @author Emil, Sohaib, Jimmy, Daniel
  */
 public class LedelsenFormand extends Ledelsen {
 
@@ -32,9 +32,7 @@ public class LedelsenFormand extends Ledelsen {
         String senior = "";
         String junior = "";
         String query = "INSERT INTO delfinen.medlemmer (name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active, senior, junior) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        //String query2 = "TRUNCATE TABLE delfinen.kontingentbetaling";
         String query3 = "INSERT INTO delfinen.kontingentbetaling (ID, name, age, active) SELECT ID, name, age, active FROM delfinen.medlemmer ORDER BY ID DESC LIMIT 1";
-        //String query3 = "UPDATE delfinen.kontingentbetaling SET ID = ?, name = ?, age = ?, active = ?";
 
         if (age < 18) {
             senior = "Nej";
@@ -46,9 +44,7 @@ public class LedelsenFormand extends Ledelsen {
 
         Connection myConnector = null;
         PreparedStatement pstmt = null;
-        //PreparedStatement pstmt2 = null;
         PreparedStatement pstmt3 = null;
-        ResultSet resultSet = null;
         myConnector = DBConnector.getConnector();
 
         pstmt = myConnector.prepareStatement(query);
@@ -66,13 +62,10 @@ public class LedelsenFormand extends Ledelsen {
         pstmt.setString(11, junior);
 
         pstmt.executeUpdate();
-        //pstmt2 = myConnector.prepareStatement(query2);
-        //pstmt2.executeUpdate();
         pstmt3 = myConnector.prepareStatement(query3);
         pstmt3.executeUpdate();
 
         pstmt.close();
-        //pstmt2.close();
         pstmt3.close();
         myConnector.close();
     }
@@ -146,7 +139,6 @@ public class LedelsenFormand extends Ledelsen {
     public void updateMemberInDB(int choiceSubject, int choiceID, String name, int age, String email, int phoneNumber, String city, int zipCode, String address, boolean competitiveSwimmer, boolean active) throws SQLException {
         String query = "";
         String query2 = "";
-        String query3 = "";
         Connection myConnector = null;
         PreparedStatement pstmt = null;
         PreparedStatement pstmt2 = null;
@@ -340,8 +332,6 @@ public class LedelsenFormand extends Ledelsen {
         pstmt.setInt(1, choiceID);
         resultSet = pstmt.executeQuery();
         while (resultSet.next()) {
-            // Nedenfor deklarerer vi vores kolonne-navne, så vi ikke behøver at
-            // tilføje det inde i vores printline for hver pizza (dvs. 30+ gange)
             int ID = resultSet.getInt("ID");
             String name = resultSet.getString("Name");
             int age = resultSet.getInt("Age");
@@ -387,8 +377,6 @@ public class LedelsenFormand extends Ledelsen {
         pstmt = myConnector.prepareStatement(query);
         resultSet = pstmt.executeQuery();
         while (resultSet.next()) {
-            // Nedenfor deklarerer vi vores kolonne-navne, så vi ikke behøver at
-            // tilføje det inde i vores printline for hver pizza (dvs. 30+ gange)
             int ID = resultSet.getInt("ID");
             String name = resultSet.getString("Name");
             int age = resultSet.getInt("Age");

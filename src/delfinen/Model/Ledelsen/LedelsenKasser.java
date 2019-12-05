@@ -21,7 +21,7 @@ import java.util.Date;
 
 /**
  *
- * @author Danie
+ * @author Emil, Sohaib, Jimmy, Daniel
  */
 public class LedelsenKasser extends Ledelsen {
 
@@ -123,8 +123,6 @@ public class LedelsenKasser extends Ledelsen {
         pstmt = myConnector.prepareStatement(query);
         resultSet = pstmt.executeQuery();
         while (resultSet.next()) {
-            // Nedenfor deklarerer vi vores kolonne-navne, så vi ikke behøver at
-            // tilføje det inde i vores printline for hver pizza (dvs. 30+ gange)
             int ID = resultSet.getInt("ID");
             String name = resultSet.getString("name");
             int age = resultSet.getInt("age");
@@ -177,8 +175,6 @@ public class LedelsenKasser extends Ledelsen {
 
         System.out.println("Medlemmer der ikke er oprettet i kontingentbetaling:");
         while (resultSet2.next()) {
-            // Nedenfor deklarerer vi vores kolonne-navne, så vi ikke behøver at
-            // tilføje det inde i vores printline for hver pizza (dvs. 30+ gange)
             int ID = resultSet2.getInt("ID");
             String name = resultSet2.getString("name");
             int age = resultSet2.getInt("age");
@@ -211,8 +207,6 @@ public class LedelsenKasser extends Ledelsen {
         resultSet = pstmt.executeQuery();
         System.out.println("Medlemmer i restance:");
         while (resultSet.next()) {
-            // Nedenfor deklarerer vi vores kolonne-navne, så vi ikke behøver at
-            // tilføje det inde i vores printline for hver pizza (dvs. 30+ gange)
             int ID = resultSet.getInt("ID");
             String name = resultSet.getString("name");
             int age = resultSet.getInt("age");

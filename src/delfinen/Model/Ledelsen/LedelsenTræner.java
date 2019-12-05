@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 
 /**
  *
- * @author Danie
+ * @author Emil, Sohaib, Jimmy, Daniel
  */
 public class LedelsenTræner extends Ledelsen {
 
@@ -50,7 +50,6 @@ public class LedelsenTræner extends Ledelsen {
         while (resultSet.next()) {
             swimmerAge = resultSet.getInt("swimmerAge");
         }
-        // pstmt2.executeQuery();
 
         // guery 3
         pstmt3 = myConnector.prepareStatement(query3);

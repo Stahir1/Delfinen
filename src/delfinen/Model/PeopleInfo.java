@@ -2,7 +2,7 @@ package delfinen.Model;
 
 /**
  *
- * @author Jimmy
+ * @author Emil, Sohaib, Jimmy, Daniel
  */
 public class PeopleInfo {
 

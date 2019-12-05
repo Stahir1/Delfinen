@@ -8,7 +8,7 @@ package delfinen.Model.Medlemmer;
 
 /**
  *
- * @author Danie
+ * @author Emil, Sohaib, Jimmy, Daniel
  */
 public class MedlemMedlemstype extends Medlem {
 

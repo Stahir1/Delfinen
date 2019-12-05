@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Danie
+ * @author Emil, Sohaib, Jimmy, Daniel
  */
 public class Controller {
 

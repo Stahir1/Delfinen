@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Jimmy
+ * @author Emil, Sohaib, Jimmy, Daniel
  */
 public class ControllerTræner {
 
@@ -25,7 +25,6 @@ public class ControllerTræner {
     private boolean keepRunning = true;
 
     public void runTrainerProg() throws SQLException {
-        // LedelsenKasser kasser = new LedelsenKasser(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
         LedelsenTræner træner = new LedelsenTræner(name, age, email, phoneNumber, city, zipCode, address, competitiveSwimmer, active);
 
         while (keepRunning) {

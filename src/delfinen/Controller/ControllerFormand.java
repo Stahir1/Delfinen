@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Jimmy
+ * @author Emil, Sohaib, Jimmy, Daniel
  */
 public class ControllerFormand {
 
