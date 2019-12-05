@@ -2,22 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/Users/emilg/Desktop/Skole/Projekter/Delfinen/Delfinen/src/delfinen/Controller/Controller.java</file>
-            <file>file:/Users/emilg/Desktop/Skole/Projekter/Delfinen/Delfinen/src/delfinen/Model/Medlemmer/MedlemMedlemstype.java</file>
-            <file>file:/Users/emilg/Desktop/Skole/Projekter/Delfinen/Delfinen/src/delfinen/Util/DBConnector.java</file>
-            <file>file:/Users/emilg/Desktop/Skole/Projekter/Delfinen/Delfinen/src/delfinen/Model/Ledelsen/LedelsenFormand.java</file>
-            <file>file:/Users/emilg/Desktop/Skole/Projekter/Delfinen/Delfinen/src/delfinen/Controller/ControllerFormand.java</file>
-            <file>file:/Users/emilg/Desktop/Skole/Projekter/Delfinen/Delfinen/test/delfinen/Model/Ledelsen/LedelsenFormandTest.java</file>
-            <file>file:/Users/emilg/Desktop/Skole/Projekter/Delfinen/Delfinen/src/delfinen/Model/Ledelsen/LedelsenTræner.java</file>
-            <file>file:/Users/emilg/Desktop/Skole/Projekter/Delfinen/Delfinen/src/delfinen/Main/Svømmeklub.java</file>
-            <file>file:/Users/emilg/Desktop/Skole/Projekter/Delfinen/Delfinen/src/delfinen/View/MainMenuView.java</file>
-            <file>file:/Users/emilg/Desktop/Skole/Projekter/Delfinen/Delfinen/src/delfinen/Model/Medlemmer/Medlem.java</file>
-            <file>file:/Users/emilg/Desktop/Skole/Projekter/Delfinen/Delfinen/src/delfinen/Controller/ControllerKasserer.java</file>
-            <file>file:/Users/emilg/Desktop/Skole/Projekter/Delfinen/Delfinen/src/delfinen/Controller/ControllerTræner.java</file>
-            <file>file:/Users/emilg/Desktop/Skole/Projekter/Delfinen/Delfinen/test/delfinen/Model/Ledelsen/LedelsenTrænerTest.java</file>
-            <file>file:/Users/emilg/Desktop/Skole/Projekter/Delfinen/Delfinen/src/delfinen/Model/Ledelsen/LedelsenKasser.java</file>
-            <file>file:/Users/emilg/Desktop/Skole/Projekter/Delfinen/Delfinen/test/delfinen/Model/Ledelsen/LedelsenKasserTest.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
