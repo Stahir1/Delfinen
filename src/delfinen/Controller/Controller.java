@@ -1,12 +1,7 @@
 package delfinen.Controller;
 
-import delfinen.Model.Medlemmer.MedlemMedlemstype;
 import delfinen.View.MainMenuView;
-import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -28,26 +23,35 @@ public class Controller {
 
     public void runProg() {
 
-        menu.defaultShowMainMenu();
-        int number = IntScanner();
-        switch (number) {
-            
-            case 1:
-                ControllerFormand formand = new ControllerFormand();
-                formand.runFormandProg();
-                break;
-                
-            case 2:
-                ControllerKasserer kasserer = new ControllerKasserer();
-                kasserer.runKassererProg();
-                break;
-                
-            case 3:
-                ControllerTræner træner = new ControllerTræner();
-                træner.runTrainerProg();
-                break;
-        }
+        while (keepRunning) {
+            menu.defaultShowMainMenu();
+            int number = IntScanner();
 
+            if (number == 1 || number == 2 || number == 3) {
+                keepRunning = false;
+                switch (number) {
+
+                    case 1:
+                        ControllerFormand formand = new ControllerFormand();
+                        formand.runFormandProg();
+                        break;
+
+                    case 2:
+                        ControllerKasserer kasserer = new ControllerKasserer();
+                        kasserer.runKassererProg();
+                        break;
+
+                    case 3:
+                        ControllerTræner træner = new ControllerTræner();
+                        træner.runTrainerProg();
+                        break;
+                }
+
+            } else {
+                System.out.println("Du har ikke tastet et korrekt tal ind.");
+
+            }
+        }
     }
     // Vi har to forskellige scannere. Én til Int som eksempelvis bruges til at nagivere rundt i menuen.
     // Og én til String som bl.a. bruges til afhentningstidspunkt. 

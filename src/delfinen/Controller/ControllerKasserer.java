@@ -1,12 +1,8 @@
 package delfinen.Controller;
 
 import delfinen.Model.Ledelsen.LedelsenKasser;
-import delfinen.Model.Medlemmer.MedlemMedlemstype;
 import delfinen.View.MainMenuView;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *

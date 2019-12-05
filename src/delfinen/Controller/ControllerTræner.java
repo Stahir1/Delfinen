@@ -1,9 +1,8 @@
 package delfinen.Controller;
 
-import delfinen.Model.Ledelsen.LedelsenKasser;
+
 import delfinen.Model.Ledelsen.LedelsenTræner;
 import delfinen.View.MainMenuView;
-import java.sql.SQLException;
 
 /**
  *

@@ -6,7 +6,6 @@
 package delfinen.Model.Ledelsen;
 
 import delfinen.Controller.Controller;
-import delfinen.Model.Medlemmer.MedlemMedlemstype;
 import delfinen.Util.DBConnector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,8 +17,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *

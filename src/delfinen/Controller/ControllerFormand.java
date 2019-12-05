@@ -3,9 +3,8 @@ package delfinen.Controller;
 import delfinen.Model.Ledelsen.LedelsenFormand;
 import delfinen.Model.Medlemmer.MedlemMedlemstype;
 import delfinen.View.MainMenuView;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+
 
 /**
  *
